@@ -1,30 +1,28 @@
-CFLAGS=-std=c99 
+lextest: driver.o lex.yy.o errormsg.o util.o
+	gcc -g -o lextest driver.o lex.yy.o errormsg.o util.o
 
-a.out: main.o myimpl.o prog1.o slp.o util.o
-	gcc $(CFLAGS) $^
+driver.o: driver.c tokens.h errormsg.h util.h
+	gcc -g -c driver.c
 
-myimpl.o: myimpl.c slp.h util.h prog1.h
-	gcc $(CFLAGS) -c $<
+errormsg.o: errormsg.c errormsg.h util.h
+	gcc -g -c errormsg.c
 
-main.o: main.c slp.h util.h prog1.h
-	gcc $(CFLAGS) -c $<
+lex.yy.o: lex.yy.c tokens.h errormsg.h util.h
+	gcc -g -c lex.yy.c
 
-prog1.o: prog1.c slp.h util.h
-	gcc $(CFLAGS) -c $<
-
-slp.o: slp.c slp.h util.h
-	gcc $(CFLAGS) -c $<
+lex.yy.c: tiger.lex
+	lex tiger.lex
 
 util.o: util.c util.h
-	gcc $(CFLAGS) -c $<
+	gcc -g -c util.c
+
+clean: 
+	rm -f lextest util.o driver.o lex.yy.o lex.yy.c errormsg.o
 
 handin:
-	@tar czf lab1_xxx.tar.gz myimpl.c
-	@echo "Please rename lab1_xxx.tar.gz to lab1_<your student id>.tar.gz"
-	@echo "For example, lab1_5140379000.tar.gz."
+	@tar -czf xxx.tar.gz tiger.lex 
+	@echo "Please rename xxx.tar.gz to <your student id>.tar.gz."
+	@echo "For example, 5140379000.tar.gz."
 
 grade:
 	./gradeMe.sh
-	
-clean: 
-	rm -f a.out *.o

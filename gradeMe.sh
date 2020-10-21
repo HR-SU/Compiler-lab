@@ -1,38 +1,35 @@
 #!/bin/bash
+BIN=lextest
+REFOUTDIR=refs
+TESTCASEDIR=./testcases
 
-function doReap(){
-	rm -f _tmp.txt .tmp.txt	
-}
-
-doReap
+rm -f _tmp.txt .tmp.txt	
 make clean >& /dev/null
 make > /dev/null
 if [[ $? != 0 ]]; then
-	echo "[-_-]: Compile Error"		
-	echo "SCORE: 0"
-	exit 1
-fi
+	echo "[-_-]$ite: Compile Error"		
+	echo "TOTAL SCORE: 0"
+	exit 123
+fi	
 
-test_num=$(( ($RANDOM % 2) ))
+for tcase in `ls $TESTCASEDIR`
+do		
+	if [ ${tcase##*.} = "tig" ]; then
+		tfileName=${tcase##*/}
 
-if [[ $test_num == 0 ]]; then
-	REFOUTPUT=./ref-0.txt
-else
-	REFOUTPUT=./ref-1.txt
-fi
+		./$BIN $TESTCASEDIR/$tfileName >& _tmp.txt
+		diff $DIFFOPTION _tmp.txt $REFOUTDIR/${tfileName%.*}.out >& .tmp.txt
+		if [ -s .tmp.txt ]; then
+			cat .tmp.txt
+			echo "[*_*]$ite: Output Mismatch [$tfileName]"				
+			rm -f _tmp.txt .tmp.txt	
+			echo "TOTAL SCORE: 0"
+			exit 234
+		fi
+	fi	
+done
 
-./a.out $test_num >& _tmp.txt
-diff -w  _tmp.txt $REFOUTPUT >& .tmp.txt
-if [ -s .tmp.txt ]; then
-	echo "[*_*]: Output Mismatch"
-	cat .tmp.txt
-	doReap
-	echo "SCORE: 0"
-	exit 0
-fi
-
-doReap
-echo "[^_^]: Pass"
-echo "SCORE: 100"
-
+rm -f _tmp.txt .tmp.txt	
+echo "[^_^]$ite: Pass"
+echo "TOTAL SCORE: 100"
 
