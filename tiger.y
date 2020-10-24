@@ -43,18 +43,26 @@ void yyerror(char *s)
 	A_ty ty;
 }
 
-%token <sval> ID 257 STRING 258
-%token <ival> INT 259
+%token <sval> ID STRING
+%token <ival> INT
 
 %token 
-  COMMA 260 COLON 261 SEMICOLON 262 LPAREN 263 RPAREN 264 LBRACK 265 RBRACK 266 
-  LBRACE 267 RBRACE 268 DOT 269 
-  PLUS 270 MINUS 271 TIMES 272 DIVIDE 273 EQ 274 NEQ 275 LT 276 LE 277 GT 278 GE 279
-  AND 280 OR 281 ASSIGN 282
-  ARRAY 283 IF 284 THEN 285 ELSE 286 WHILE 287 FOR 288 TO 289 DO 290 LET 291 IN 292 END 293 OF 294 
-  BREAK 295 NIL 296
-  FUNCTION 297 VAR 298 TYPE 299 
+  COMMA COLON SEMICOLON LPAREN RPAREN LBRACK RBRACK 
+  LBRACE RBRACE DOT
+  PLUS MINUS TIMES DIVIDE EQ NEQ LT LE GT GE
+  AND OR ASSIGN
+  ARRAY IF THEN ELSE WHILE FOR TO DO LET IN END OF 
+  BREAK NIL
+  FUNCTION VAR TYPE 
 
+//%left LBRACK
+%left SINDEC
+%left TYPE FUNCTION
+%left LVALUE
+%left LBRACK
+%left DO THEN OF
+%left ELSE
+%left ASSIGN
 %left OR
 %left AND
 %nonassoc EQ NEQ LT GT LE GE
@@ -62,7 +70,7 @@ void yyerror(char *s)
 %left TIMES DIVIDE
 %left UMINUS
 
-%type <exp> exp program voidexp seqexp
+%type <exp> exp program seqexp
 %type <var> lvalue
 %type <expList> args exps
 %type <ty> ty
@@ -144,7 +152,7 @@ ty: ID {$$=A_NameTy(EM_tokPos,S_Symbol($1));}
  
 tydec: TYPE ID EQ ty {$$=A_Namety(S_Symbol($2),$4);}
 
-tydecs: tydec {$$=A_NametyList($1,NULL);}
+tydecs: tydec %prec SINDEC {$$=A_NametyList($1,NULL);}
       | tydec tydecs {$$=A_NametyList($1,$2);}
 
 vardec: VAR ID ASSIGN exp {$$=A_VarDec(EM_tokPos,S_Symbol($2),NULL,$4);}
@@ -155,7 +163,7 @@ fundec: FUNCTION ID LPAREN RPAREN EQ exp {$$=A_Fundec(EM_tokPos,S_Symbol($2),NUL
       | FUNCTION ID LPAREN tyfields RPAREN EQ exp {$$=A_Fundec(EM_tokPos,S_Symbol($2),$4,NULL,$7);}
       | FUNCTION ID LPAREN tyfields RPAREN COLON ID EQ exp {$$=A_Fundec(EM_tokPos,S_Symbol($2),$4,S_Symbol($7),$9);}
 	
-fundecs: fundec {$$=A_FundecList($1,NULL);}
+fundecs: fundec %prec SINDEC {$$=A_FundecList($1,NULL);}
        | fundec fundecs {$$=A_FundecList($1,$2);}
 
 dec: tydecs {$$=A_TypeDec(EM_tokPos,$1);}
@@ -165,7 +173,7 @@ dec: tydecs {$$=A_TypeDec(EM_tokPos,$1);}
 decs: dec {$$=A_DecList($1,NULL);}
     | dec decs {$$=A_DecList($1,$2);}
 
-lvalue: ID {$$=A_SimpleVar(EM_tokPos,S_Symbol($1));}
+lvalue: ID %prec LVALUE {$$=A_SimpleVar(EM_tokPos,S_Symbol($1));}
       | lvalue DOT ID {$$=A_FieldVar(EM_tokPos,$1,S_Symbol($3));}
 	  | ID LBRACK exp RBRACK {$$=A_SubscriptVar(EM_tokPos,A_SimpleVar(EM_tokPos,S_Symbol($1)),$3);}
       | lvalue LBRACK exp RBRACK {$$=A_SubscriptVar(EM_tokPos,$1,$3);}
