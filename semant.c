@@ -41,9 +41,13 @@ struct expty transVar(S_table venv, S_table tenv, A_var v)
 			if(var && var->kind == E_varEntry) {
 				return expTy(NULL, var->u.var.ty);
 			}
+            if(var && var->kind == E_loopEntry) {
+                return expTy(NULL, var->u.loop.ty);
+            }
 			else {
 				EM_error(v->pos, "undefined variable %s", S_name(v->u.simple));
 			}
+            return expTy(NULL, Ty_Nil());
 		}
 		case A_fieldVar: {
 			struct expty var = transVar(venv, tenv, v->u.field.var);
@@ -211,6 +215,12 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 		}
 		case A_assignExp: {
 			struct expty var = transVar(venv, tenv, a->u.assign.var);
+			if(a->u.assign.var->kind == A_simpleVar) {
+				E_enventry v = S_look(venv, a->u.assign.var->u.simple);
+				if(v->kind == E_loopEntry) {
+					EM_error(a->u.assign.var->pos, "loop variable can't be assigned");
+				}
+			}
 			struct expty exp = transExp(venv, tenv, a->u.assign.exp);
 			if(var.ty != exp.ty) {
 				EM_error(a->pos, "assign type don't match");
@@ -224,9 +234,13 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 			}
 			struct expty then = transExp(venv, tenv, a->u.iff.then);
 			struct expty elsee = transExp(venv, tenv, a->u.iff.elsee);
+			if(elsee.ty->kind == Ty_void && then.ty->kind != Ty_void) {
+				EM_error(a->u.iff.then->pos, "if-then exp's body must produce no value");
+				return expTy(NULL, Ty_Void());
+			}
 			if(then.ty->kind != elsee.ty->kind) {
-				EM_error(a->u.iff.then->pos, "then clause and else clause\
-				should have the same type");
+				printf("%d", elsee.ty->kind);
+				EM_error(a->u.iff.then->pos, "then clause and else clause should have the same type");
 			}
 			return expTy(NULL, then.ty);
 		}
@@ -237,23 +251,26 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 			}
 			struct expty body = transExp(venv, tenv, a->u.whilee.body);
 			if(body.ty->kind != Ty_nil) {
-				EM_error(a->u.whilee.body->pos, "nil required");
+				EM_error(a->u.whilee.body->pos, "while body must produce no value");
 			}
 			return expTy(NULL, Ty_Nil());
 		}
 		case A_forExp: {
+            S_beginScope(venv);
+            S_enter(venv, a->u.forr.var, E_LoopEntry(Ty_Int()));
 			struct expty lo = transExp(venv, tenv, a->u.forr.lo);
 			if(lo.ty->kind != Ty_int) {
-				EM_error(a->u.forr.lo->pos, "integer required");
+				EM_error(a->u.forr.lo->pos, "for exp's range type is not integer");
 			}
 			struct expty hi = transExp(venv, tenv, a->u.forr.hi);
 			if(hi.ty->kind != Ty_int) {
-				EM_error(a->u.forr.hi->pos, "integer required");
+				EM_error(a->u.forr.hi->pos, "for exp's range type is not integer");
 			}
 			struct expty body = transExp(venv, tenv, a->u.forr.body);
 			if(body.ty->kind != Ty_nil) {
-				EM_error(a->u.forr.body->pos, "nil required");
+				EM_error(a->u.forr.body->pos, "for body must produce no value");
 			}
+            S_endScope(venv);
 			return expTy(NULL, Ty_Nil());
 		}
 		case A_breakExp: {

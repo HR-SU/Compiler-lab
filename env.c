@@ -22,6 +22,15 @@ E_enventry E_FunEntry(Ty_tyList formals, Ty_ty result)
 	return e;
 }
 
+E_enventry E_LoopEntry(Ty_ty ty)
+{
+	E_enventry e = checked_malloc(sizeof(*e));
+	e->kind = E_loopEntry;
+	e->u.var.ty = ty;
+	return e;
+}
+
+
 S_table E_base_tenv(void)
 {
 	S_table tenv = S_empty();
@@ -47,5 +56,5 @@ S_table E_base_venv(void)
 	S_enter(venv, S_Symbol("exit"), E_FunEntry(tylist2, NULL));
 	Ty_tyList tylist3 = Ty_TyList(Ty_String(), Ty_TyList(Ty_Int(), tylist2));
 	S_enter(venv, S_Symbol("substring"), E_FunEntry(tylist3, Ty_String()));
-	return NULL;
+	return venv;
 }
