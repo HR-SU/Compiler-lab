@@ -31,6 +31,8 @@ struct expty expTy(Tr_exp exp, Ty_ty ty)
 	return e;
 }
 
+Ty_tyList maketylist(S_table tenv, A_fieldList flist);
+
 struct expty transVar(S_table venv, S_table tenv, A_var v)
 {
 	switch(v->kind) {
@@ -105,7 +107,7 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 					}
 					A_exp arg = args->head;
 					struct expty argty = transExp(venv, tenv, arg);
-					if(argty.ty != formal) {
+					if(argty.ty->kind != formal->head->kind) {
 						EM_error(arg->pos, "args type don't match");
 					}
 					args = args->tail;
@@ -224,7 +226,7 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 			struct expty elsee = transExp(venv, tenv, a->u.iff.elsee);
 			if(then.ty->kind != elsee.ty->kind) {
 				EM_error(a->u.iff.then->pos, "then clause and else clause\
-				\should have the same type");
+				should have the same type");
 			}
 			return expTy(NULL, then.ty);
 		}
@@ -278,7 +280,7 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 					EM_error(a->u.array.size->pos, "integer required");
 				}
 				struct expty init = transExp(venv, tenv, a->u.array.init);
-				if(init.ty->kind != arrayType->u.array) {
+				if(init.ty->kind != arrayType->u.array->kind) {
 					EM_error(a->u.array.init->pos, "array init type don't match");
 				}
 				return expTy(NULL, Ty_Array(arrayType->u.array));
@@ -369,7 +371,12 @@ Ty_ty transTy (S_table tenv, A_ty a)
 			return Ty_Array(type);
 		}
 		case A_recordTy: {
-			Ty_tyList fields = maketylist(tenv, a->u.record);
+			Ty_tyList tys = maketylist(tenv, a->u.record);
+			Ty_fieldList fields = NULL;
+			A_fieldList afields = a->u.record;
+			for(; tys; tys = tys->tail, afields = afields->tail) {
+				fields = Ty_FieldList(Ty_Field(afields->head->name, tys->head), fields);
+			}
 			return Ty_Record(fields);
 		}
 	}
