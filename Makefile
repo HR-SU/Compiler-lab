@@ -39,6 +39,6 @@ symbol.o: symbol.c symbol.h
 	gcc -g -c symbol.c
 
 handin:
-	tar -czf id.name.tar.gz  absyn.[ch] errormsg.[ch] makefile gradeMe.sh parse.[ch] prabsyn.[ch] refs-4 symbol.[ch] table.[ch] testcases tiger.lex tiger.y util.[ch] env.[ch] semant.[ch] *.h *.c 
+	tar -czf id.name.tar.gz  absyn.[ch] errormsg.[ch] Makefile gradeMe.sh parse.[ch] prabsyn.[ch] refs-4 symbol.[ch] table.[ch] testcases tiger.lex tiger.y util.[ch] env.[ch] semant.[ch] *.h *.c 
 clean: 
 	rm -f a.out parse.o prabsyn.o y.tab.o lex.yy.o errormsg.o util.o table.o absyn.o symbol.o semant.o types.o env.o y.tab.c y.tab.h lex.yy.c y.output *~
