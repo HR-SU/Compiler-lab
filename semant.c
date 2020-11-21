@@ -32,8 +32,8 @@ struct expty expTy(Tr_exp exp, Ty_ty ty)
 }
 
 Ty_tyList maketylist(S_table tenv, A_fieldList flist);
-
 Ty_ty actual_ty(Ty_ty ty);
+bool istypematch(Ty_ty ty1, Ty_ty ty2);
 
 struct expty transVar(S_table venv, S_table tenv, A_var v)
 {
@@ -63,7 +63,7 @@ struct expty transVar(S_table venv, S_table tenv, A_var v)
 				return expTy(NULL, Ty_Void());
 			}
 			else {
-				EM_error(v->pos, "variable type is not a record");
+				EM_error(v->pos, "not a record type");
 				return expTy(NULL, Ty_Void());
 			}
 		}
@@ -77,7 +77,7 @@ struct expty transVar(S_table venv, S_table tenv, A_var v)
 				return expTy(NULL, actual_ty(var.ty->u.array));
 			}
 			else {
-				EM_error(v->pos, "variable type is not an array");
+				EM_error(v->pos, "array type required");
 				return expTy(NULL, Ty_Void());
 			}
 		}
@@ -105,16 +105,20 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 			if(func && func->kind == E_funEntry) {
 				A_expList args = a->u.call.args;
 				for(Ty_tyList formal = func->u.fun.formals; formal; formal = formal->tail) {
+					if(formal->head == NULL) break;
 					if(args == NULL) {
 						EM_error(a->pos, "args number don't match");
 						return expTy(NULL, actual_ty(func->u.fun.result));
 					}
 					A_exp arg = args->head;
 					struct expty argty = transExp(venv, tenv, arg);
-					if(argty.ty->kind != formal->head->kind) {
-						EM_error(arg->pos, "args type don't match");
+					if(!istypematch(argty.ty, formal->head)) {
+						EM_error(arg->pos, "para type mismatch");
 					}
 					args = args->tail;
+				}
+                if(args != NULL) {
+					EM_error(args->head->pos, "too many params in function %s", S_name(a->u.call.func));
 				}
 				return expTy(NULL, actual_ty(func->u.fun.result));
 			}
@@ -157,16 +161,16 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 				case A_eqOp:
 				case A_neqOp: {
 					if(left.ty->kind != Ty_int && left.ty->kind != Ty_string &&
-					left.ty->kind != Ty_record && left.ty->kind != Ty_array) {
-						EM_error(a->u.op.left->pos, "integer or string or\
-						\record or array required");
+					left.ty->kind != Ty_record && left.ty->kind != Ty_array &&
+					left.ty->kind != Ty_nil) {
+						EM_error(a->u.op.left->pos, "integer or string or record or array required");
 					}
 					if(right.ty->kind != Ty_int&& right.ty->kind != Ty_string &&
-					right.ty->kind != Ty_record && right.ty->kind != Ty_array) {
-						EM_error(a->u.op.right->pos, "integer or string or\
-						\record or array required");
+					right.ty->kind != Ty_record && right.ty->kind != Ty_array &&
+					right.ty->kind != Ty_nil) {
+						EM_error(a->u.op.right->pos, "integer or string or record or array required");
 					}
-					if(left.ty->kind != right.ty->kind) {
+					if(!istypematch(left.ty, right.ty)) {
 						EM_error(a->u.op.right->pos, "same type required");
 					}
 					return expTy(NULL, Ty_Int());
@@ -179,6 +183,7 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 		}
 		case A_recordExp: {
 			Ty_ty recordType = S_look(tenv, a->u.record.typ);
+            if(recordType) recordType = actual_ty(recordType);
 			if(recordType && recordType->kind == Ty_record) {
 				for(A_efieldList fields = a->u.record.fields; fields; 
 				fields = fields->tail) {
@@ -188,30 +193,32 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 						if(strcmp(name, S_name(f->head->name)) == 0) {
 							found = TRUE;
 							struct expty exp = transExp(venv, tenv, fields->head->exp);
-							if(exp.ty->kind != actual_ty(f->head->ty)->kind) {
+							if(!istypematch(exp.ty, f->head->ty)) {
 								EM_error(fields->head->exp->pos, "field type don't match");
 							}
-							break;
+                            break;
 						}
 					}
 					if(!found) {
 						EM_error(fields->head->exp->pos, "undefined field name");
 					}
 				}
-				return expTy(NULL, Ty_Record(actual_ty(recordType->u.record)));
+				return expTy(NULL, recordType);
 			}
 			else {
-				EM_error(a->pos, "undefined record type");
+				EM_error(a->pos, "undefined type %s", S_name(a->u.record.typ));
 				return expTy(NULL, Ty_Nil());
 			}
 		}
 		case A_seqExp: {
 			for(A_expList expList = a->u.seq; expList; expList = expList->tail) {
+				if(expList == NULL) return expTy(NULL, Ty_Void());
 				struct expty exp = transExp(venv, tenv, expList->head);
 				if(expList->tail == NULL) {
 					return expTy(NULL, exp.ty);
 				}
 			}
+			return expTy(NULL, Ty_Void());
 		}
 		case A_assignExp: {
 			struct expty var = transVar(venv, tenv, a->u.assign.var);
@@ -222,8 +229,8 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 				}
 			}
 			struct expty exp = transExp(venv, tenv, a->u.assign.exp);
-			if(var.ty != exp.ty) {
-				EM_error(a->pos, "assign type don't match");
+			if(!istypematch(var.ty, exp.ty)) {
+				EM_error(a->pos, "unmatched assign exp");
 			}
 			return expTy(NULL, Ty_Void());
 		}
@@ -233,14 +240,15 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 				EM_error(a->u.iff.test->pos, "integer required");
 			}
 			struct expty then = transExp(venv, tenv, a->u.iff.then);
-			struct expty elsee = transExp(venv, tenv, a->u.iff.elsee);
-			if(elsee.ty->kind == Ty_nil && then.ty->kind != Ty_void) {
+			struct expty elsee;
+			if(a->u.iff.elsee == NULL) elsee = expTy(NULL, Ty_Void());
+			else elsee = transExp(venv, tenv, a->u.iff.elsee);
+			if(elsee.ty->kind == Ty_void && then.ty->kind != Ty_void) {
 				EM_error(a->u.iff.then->pos, "if-then exp's body must produce no value");
 				return expTy(NULL, Ty_Void());
 			}
-			if(actual_ty(then.ty)->kind != actual_ty(elsee.ty)->kind) {
-				printf("%d", elsee.ty->kind);
-				EM_error(a->u.iff.then->pos, "then clause and else clause should have the same type");
+			if(!istypematch(then.ty, elsee.ty)) {
+				EM_error(a->u.iff.elsee->pos, "then exp and else exp type mismatch");
 			}
 			return expTy(NULL, actual_ty(then.ty));
 		}
@@ -290,17 +298,17 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a)
 			return exp;
 		}
 		case A_arrayExp: {
-			Ty_ty arrayType = S_look(tenv, a->u.array.typ);
+			Ty_ty arrayType = actual_ty(S_look(tenv, a->u.array.typ));
 			if(arrayType && arrayType->kind == Ty_array) {
 				struct expty size = transExp(venv, tenv, a->u.array.size);
 				if(size.ty->kind != Ty_int) {
 					EM_error(a->u.array.size->pos, "integer required");
 				}
 				struct expty init = transExp(venv, tenv, a->u.array.init);
-				if(init.ty->kind != actual_ty(arrayType->u.array)->kind) {
-					EM_error(a->u.array.init->pos, "array init type don't match");
+				if(!istypematch(init.ty, arrayType->u.array)) {
+					EM_error(a->u.array.init->pos, "type mismatch");
 				}
-				return expTy(NULL, Ty_Array(actual_ty(arrayType->u.array)));
+				return expTy(NULL, arrayType);
 			}
 			else {
 				EM_error(a->pos, "undefined aray type");
@@ -320,18 +328,27 @@ void transDec(S_table venv, S_table tenv, A_dec d)
 				if(ty->kind == Ty_nil) {
 					EM_error(d->pos, "cannot declare a var with type nil");
 				}
-				if(init.ty->kind != ty->kind) {
-					EM_error(d->pos, "declare type don't match");
+				if(!istypematch(init.ty, ty)) {
+					EM_error(d->pos, "type mismatch");
 				}
 				S_enter(venv, d->u.var.var, E_VarEntry(ty));
 			}
 			else {
+				if(init.ty->kind == Ty_nil) {
+					EM_error(d->pos, "init should not be nil without type specified");
+				}
 				S_enter(venv, d->u.var.var, E_VarEntry(init.ty));
 			}
 			break;
 		}
 		case A_typeDec: {
 			for(A_nametyList tylist = d->u.type; tylist; tylist = tylist->tail) {
+				for(A_nametyList check = tylist->tail; check; check = check->tail) {
+					if(strcmp(S_name(check->head->name), S_name(tylist->head->name)) == 0) {
+						EM_error(tylist->head->ty->pos, "two types have the same name");
+						break;
+					}
+				}
 				S_enter(tenv, tylist->head->name, Ty_Name(tylist->head->name, NULL));
 			}
 			for(A_nametyList tylist = d->u.type; tylist; tylist = tylist->tail) {
@@ -347,12 +364,13 @@ void transDec(S_table venv, S_table tenv, A_dec d)
 			for(A_nametyList tylist = d->u.type; tylist; tylist = tylist->tail) {
 				Ty_ty t = S_look(tenv, tylist->head->name);
 				if(t->kind == Ty_name) {
-					Ty_ty check = t->u.name.ty;
+					Ty_ty check = t->u.name.ty, tmp;
 					while(check->kind == Ty_name && check->u.name.sym != t->u.name.sym) {
 						check = check->u.name.ty;
 					}
 					if(check->kind == Ty_name) {
 						EM_error(d->pos, "illegal type cycle");
+						break;
 					}
 				}
 			}
@@ -361,13 +379,19 @@ void transDec(S_table venv, S_table tenv, A_dec d)
 		case A_functionDec: {
 			for(A_fundecList funList = d->u.function; funList; 
 			funList = funList->tail) {
+				for(A_fundecList check = funList->tail; check; check = check->tail) {
+					if(strcmp(S_name(check->head->name), S_name(funList->head->name)) == 0) {
+						EM_error(funList->head->pos, "two functions have the same name");
+						break;
+					}
+				}
 				A_fundec f = funList->head;
 				Ty_ty resultTy = NULL;
 				if(f->result == NULL) {
 					resultTy = Ty_Void();
 				}
 				else {
-					resultTy = S_look(tenv, f->result);
+					resultTy = actual_ty(S_look(tenv, f->result));
 					if(resultTy == NULL) {
 						EM_error(f->pos, "undefined result type");
 					}
@@ -393,12 +417,14 @@ void transDec(S_table venv, S_table tenv, A_dec d)
 					}
 				}
 				struct expty body = transExp(venv, tenv, f->body);
-				Ty_ty resultTy = NULL;
-				if(f->result == NULL) {
-					resultTy = Ty_Void();
+				if(f->result == NULL && body.ty->kind != Ty_void) {
+					EM_error(f->body->pos, "procedure returns value");
 				}
-				if(actual_ty(body.ty)->kind != actual_ty(resultTy)->kind) {
-					EM_error(f->body->pos, "return type don't match");
+				else if(f->result){
+					Ty_ty resultTy = actual_ty(S_look(tenv, f->result));
+					if(!istypematch(body.ty, resultTy)) {
+						EM_error(f->body->pos, "return type don't match");
+					}
 				}
 				S_endScope(venv);
 			}
@@ -438,23 +464,37 @@ Ty_ty transTy (S_table tenv, A_ty a)
 }
 
 Ty_tyList maketylist(S_table tenv, A_fieldList flist) {
-	Ty_tyList tylist = NULL;
-	for(A_fieldList p = flist; p; p = p->tail) {
-		Ty_ty ty = S_look(tenv, p->head->typ);
-		if(ty == NULL) {
-			EM_error(p->head->pos, "undefined param type");
-			ty = Ty_Nil();
-		}
-		tylist = Ty_TyList(ty, tylist);
+	if(flist == NULL) {
+		return NULL;
 	}
-	return tylist;
+    Ty_tyList tlist = maketylist(tenv, flist->tail);
+	Ty_ty ty = S_look(tenv, flist->head->typ);
+	if(ty == NULL) {
+		EM_error(flist->head->pos, "undefined type %s", S_name(flist->head->typ));
+		ty = Ty_Void();
+	}
+	return Ty_TyList(ty, tlist);
 }
 
 Ty_ty actual_ty(Ty_ty ty) {
+	if(ty == NULL) return Ty_Void();
 	while(ty->kind == Ty_name) {
 		ty = ty->u.name.ty;
 	}
 	return ty;
+}
+
+bool istypematch(Ty_ty _ty1, Ty_ty _ty2) {
+	Ty_ty ty1 = actual_ty(_ty1);
+	Ty_ty ty2 = actual_ty(_ty2);
+	if(ty1->kind == ty2->kind) {
+		if(ty1->kind == Ty_record) return ty1 == ty2;
+		if(ty1->kind == Ty_array) return ty1 == ty2;
+		return TRUE;
+	}
+	else if(ty1->kind == Ty_nil && ty2->kind == Ty_record) return TRUE;
+	else if(ty1->kind == Ty_record && ty2->kind == Ty_nil) return TRUE;
+	return FALSE;
 }
 
 void SEM_transProg(A_exp exp)
