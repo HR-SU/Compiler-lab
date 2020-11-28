@@ -5,18 +5,7 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
 ABSYN_H	absyn.h	2;"	d
-AND	y.tab.c	/^    AND = 281,$/;"	e	enum:yytokentype	file:
-AND	y.tab.c	189;"	d	file:
-AND	y.tab.h	/^    AND = 281,$/;"	e	enum:yytokentype
-AND	y.tab.h	118;"	d
-ARRAY	y.tab.c	/^    ARRAY = 284,$/;"	e	enum:yytokentype	file:
-ARRAY	y.tab.c	192;"	d	file:
-ARRAY	y.tab.h	/^    ARRAY = 284,$/;"	e	enum:yytokentype
-ARRAY	y.tab.h	121;"	d
-ASSIGN	y.tab.c	/^    ASSIGN = 283,$/;"	e	enum:yytokentype	file:
-ASSIGN	y.tab.c	191;"	d	file:
-ASSIGN	y.tab.h	/^    ASSIGN = 283,$/;"	e	enum:yytokentype
-ASSIGN	y.tab.h	120;"	d
+ARGSIZE	x86frame.c	13;"	d	file:
 A_ArrayExp	absyn.c	/^A_exp A_ArrayExp(A_pos pos, S_symbol typ, A_exp size, A_exp init)$/;"	f
 A_ArrayTy	absyn.c	/^A_ty A_ArrayTy(A_pos pos, S_symbol array)$/;"	f
 A_AssignExp	absyn.c	/^A_exp A_AssignExp(A_pos pos, A_var var, A_exp exp)$/;"	f
@@ -52,10 +41,10 @@ A_VarDec	absyn.c	/^A_dec A_VarDec(A_pos pos, S_symbol var, S_symbol typ, A_exp i
 A_VarExp	absyn.c	/^A_exp A_VarExp(A_pos pos, A_var var)$/;"	f
 A_WhileExp	absyn.c	/^A_exp A_WhileExp(A_pos pos, A_exp test, A_exp body)$/;"	f
 A_arrayExp	absyn.h	/^	       A_whileExp, A_forExp, A_breakExp, A_letExp, A_arrayExp} kind;$/;"	e	enum:A_exp_::__anon6
-A_arrayTy	absyn.h	/^	enum {A_nameTy, A_recordTy, A_arrayTy} kind;$/;"	e	enum:A_ty_::__anon20
+A_arrayTy	absyn.h	/^struct A_ty_ {enum {A_nameTy, A_recordTy, A_arrayTy} kind;$/;"	e	enum:A_ty_::__anon20
 A_assignExp	absyn.h	/^	       A_opExp, A_recordExp, A_seqExp, A_assignExp, A_ifExp,$/;"	e	enum:A_exp_::__anon6
 A_breakExp	absyn.h	/^	       A_whileExp, A_forExp, A_breakExp, A_letExp, A_arrayExp} kind;$/;"	e	enum:A_exp_::__anon6
-A_callExp	absyn.h	/^	enum {A_varExp, A_nilExp, A_intExp, A_stringExp, A_callExp,$/;"	e	enum:A_exp_::__anon6
+A_callExp	absyn.h	/^      {enum {A_varExp, A_nilExp, A_intExp, A_stringExp, A_callExp,$/;"	e	enum:A_exp_::__anon6
 A_dec	absyn.h	/^typedef struct A_dec_ *A_dec;$/;"	t	typeref:struct:A_dec_
 A_decList	absyn.h	/^typedef struct A_decList_ *A_decList;$/;"	t	typeref:struct:A_decList_
 A_decList_	absyn.h	/^struct A_decList_ {A_dec head; A_decList tail;};$/;"	s
@@ -73,10 +62,10 @@ A_exp_	absyn.h	/^struct A_exp_$/;"	s
 A_field	absyn.h	/^typedef struct A_field_ *A_field;$/;"	t	typeref:struct:A_field_
 A_fieldList	absyn.h	/^typedef struct A_fieldList_ *A_fieldList;$/;"	t	typeref:struct:A_fieldList_
 A_fieldList_	absyn.h	/^struct A_fieldList_ {A_field head; A_fieldList tail;};$/;"	s
-A_fieldVar	absyn.h	/^	enum {A_simpleVar, A_fieldVar, A_subscriptVar} kind;$/;"	e	enum:A_var_::__anon2
+A_fieldVar	absyn.h	/^       {enum {A_simpleVar, A_fieldVar, A_subscriptVar} kind;$/;"	e	enum:A_var_::__anon2
 A_field_	absyn.h	/^struct A_field_ {S_symbol name, typ; A_pos pos; bool escape;};$/;"	s
 A_forExp	absyn.h	/^	       A_whileExp, A_forExp, A_breakExp, A_letExp, A_arrayExp} kind;$/;"	e	enum:A_exp_::__anon6
-A_functionDec	absyn.h	/^	enum {A_functionDec, A_varDec, A_typeDec} kind;$/;"	e	enum:A_dec_::__anon17
+A_functionDec	absyn.h	/^    {enum {A_functionDec, A_varDec, A_typeDec} kind;$/;"	e	enum:A_dec_::__anon17
 A_fundec	absyn.h	/^typedef struct A_fundec_ *A_fundec;$/;"	t	typeref:struct:A_fundec_
 A_fundecList	absyn.h	/^typedef struct A_fundecList_ *A_fundecList;$/;"	t	typeref:struct:A_fundecList_
 A_fundecList_	absyn.h	/^struct A_fundecList_ {A_fundec head; A_fundecList tail;};$/;"	s
@@ -84,210 +73,99 @@ A_fundec_	absyn.h	/^struct A_fundec_ {A_pos pos;$/;"	s
 A_geOp	absyn.h	/^	     A_eqOp, A_neqOp, A_ltOp, A_leOp, A_gtOp, A_geOp} A_oper;$/;"	e	enum:__anon1
 A_gtOp	absyn.h	/^	     A_eqOp, A_neqOp, A_ltOp, A_leOp, A_gtOp, A_geOp} A_oper;$/;"	e	enum:__anon1
 A_ifExp	absyn.h	/^	       A_opExp, A_recordExp, A_seqExp, A_assignExp, A_ifExp,$/;"	e	enum:A_exp_::__anon6
-A_intExp	absyn.h	/^	enum {A_varExp, A_nilExp, A_intExp, A_stringExp, A_callExp,$/;"	e	enum:A_exp_::__anon6
+A_intExp	absyn.h	/^      {enum {A_varExp, A_nilExp, A_intExp, A_stringExp, A_callExp,$/;"	e	enum:A_exp_::__anon6
 A_leOp	absyn.h	/^	     A_eqOp, A_neqOp, A_ltOp, A_leOp, A_gtOp, A_geOp} A_oper;$/;"	e	enum:__anon1
 A_letExp	absyn.h	/^	       A_whileExp, A_forExp, A_breakExp, A_letExp, A_arrayExp} kind;$/;"	e	enum:A_exp_::__anon6
 A_ltOp	absyn.h	/^	     A_eqOp, A_neqOp, A_ltOp, A_leOp, A_gtOp, A_geOp} A_oper;$/;"	e	enum:__anon1
 A_minusOp	absyn.h	/^typedef enum {A_plusOp, A_minusOp, A_timesOp, A_divideOp,$/;"	e	enum:__anon1
-A_nameTy	absyn.h	/^	enum {A_nameTy, A_recordTy, A_arrayTy} kind;$/;"	e	enum:A_ty_::__anon20
+A_nameTy	absyn.h	/^struct A_ty_ {enum {A_nameTy, A_recordTy, A_arrayTy} kind;$/;"	e	enum:A_ty_::__anon20
 A_namety	absyn.h	/^typedef struct A_namety_ *A_namety;$/;"	t	typeref:struct:A_namety_
 A_nametyList	absyn.h	/^typedef struct A_nametyList_ *A_nametyList;$/;"	t	typeref:struct:A_nametyList_
 A_nametyList_	absyn.h	/^struct A_nametyList_ {A_namety head; A_nametyList tail;};$/;"	s
 A_namety_	absyn.h	/^struct A_namety_ {S_symbol name; A_ty ty;};$/;"	s
 A_neqOp	absyn.h	/^	     A_eqOp, A_neqOp, A_ltOp, A_leOp, A_gtOp, A_geOp} A_oper;$/;"	e	enum:__anon1
-A_nilExp	absyn.h	/^	enum {A_varExp, A_nilExp, A_intExp, A_stringExp, A_callExp,$/;"	e	enum:A_exp_::__anon6
+A_nilExp	absyn.h	/^      {enum {A_varExp, A_nilExp, A_intExp, A_stringExp, A_callExp,$/;"	e	enum:A_exp_::__anon6
 A_opExp	absyn.h	/^	       A_opExp, A_recordExp, A_seqExp, A_assignExp, A_ifExp,$/;"	e	enum:A_exp_::__anon6
 A_oper	absyn.h	/^	     A_eqOp, A_neqOp, A_ltOp, A_leOp, A_gtOp, A_geOp} A_oper;$/;"	t	typeref:enum:__anon1
 A_plusOp	absyn.h	/^typedef enum {A_plusOp, A_minusOp, A_timesOp, A_divideOp,$/;"	e	enum:__anon1
 A_pos	absyn.h	/^typedef int A_pos;$/;"	t
 A_recordExp	absyn.h	/^	       A_opExp, A_recordExp, A_seqExp, A_assignExp, A_ifExp,$/;"	e	enum:A_exp_::__anon6
-A_recordTy	absyn.h	/^	enum {A_nameTy, A_recordTy, A_arrayTy} kind;$/;"	e	enum:A_ty_::__anon20
+A_recordTy	absyn.h	/^struct A_ty_ {enum {A_nameTy, A_recordTy, A_arrayTy} kind;$/;"	e	enum:A_ty_::__anon20
 A_seqExp	absyn.h	/^	       A_opExp, A_recordExp, A_seqExp, A_assignExp, A_ifExp,$/;"	e	enum:A_exp_::__anon6
-A_simpleVar	absyn.h	/^	enum {A_simpleVar, A_fieldVar, A_subscriptVar} kind;$/;"	e	enum:A_var_::__anon2
-A_stringExp	absyn.h	/^	enum {A_varExp, A_nilExp, A_intExp, A_stringExp, A_callExp,$/;"	e	enum:A_exp_::__anon6
-A_subscriptVar	absyn.h	/^	enum {A_simpleVar, A_fieldVar, A_subscriptVar} kind;$/;"	e	enum:A_var_::__anon2
+A_simpleVar	absyn.h	/^       {enum {A_simpleVar, A_fieldVar, A_subscriptVar} kind;$/;"	e	enum:A_var_::__anon2
+A_stringExp	absyn.h	/^      {enum {A_varExp, A_nilExp, A_intExp, A_stringExp, A_callExp,$/;"	e	enum:A_exp_::__anon6
+A_subscriptVar	absyn.h	/^       {enum {A_simpleVar, A_fieldVar, A_subscriptVar} kind;$/;"	e	enum:A_var_::__anon2
 A_timesOp	absyn.h	/^typedef enum {A_plusOp, A_minusOp, A_timesOp, A_divideOp,$/;"	e	enum:__anon1
 A_ty	absyn.h	/^typedef struct A_ty_ *A_ty;$/;"	t	typeref:struct:A_ty_
-A_ty_	absyn.h	/^struct A_ty_ $/;"	s
-A_typeDec	absyn.h	/^	enum {A_functionDec, A_varDec, A_typeDec} kind;$/;"	e	enum:A_dec_::__anon17
+A_ty_	absyn.h	/^struct A_ty_ {enum {A_nameTy, A_recordTy, A_arrayTy} kind;$/;"	s
+A_typeDec	absyn.h	/^    {enum {A_functionDec, A_varDec, A_typeDec} kind;$/;"	e	enum:A_dec_::__anon17
 A_var	absyn.h	/^typedef struct A_var_ *A_var;$/;"	t	typeref:struct:A_var_
-A_varDec	absyn.h	/^	enum {A_functionDec, A_varDec, A_typeDec} kind;$/;"	e	enum:A_dec_::__anon17
-A_varExp	absyn.h	/^	enum {A_varExp, A_nilExp, A_intExp, A_stringExp, A_callExp,$/;"	e	enum:A_exp_::__anon6
+A_varDec	absyn.h	/^    {enum {A_functionDec, A_varDec, A_typeDec} kind;$/;"	e	enum:A_dec_::__anon17
+A_varExp	absyn.h	/^      {enum {A_varExp, A_nilExp, A_intExp, A_stringExp, A_callExp,$/;"	e	enum:A_exp_::__anon6
 A_var_	absyn.h	/^struct A_var_$/;"	s
 A_whileExp	absyn.h	/^	       A_whileExp, A_forExp, A_breakExp, A_letExp, A_arrayExp} kind;$/;"	e	enum:A_exp_::__anon6
-BEGIN	lex.yy.c	125;"	d	file:
-BREAK	y.tab.c	/^    BREAK = 296,$/;"	e	enum:yytokentype	file:
-BREAK	y.tab.c	204;"	d	file:
-BREAK	y.tab.h	/^    BREAK = 296,$/;"	e	enum:yytokentype
-BREAK	y.tab.h	133;"	d
+BINOP	tree.h	/^	      union {struct {T_binOp op; T_exp left, right;} BINOP;$/;"	m	union:T_exp_::__anon34	typeref:struct:T_exp_::__anon34::__anon35
 Binder	table.c	/^static binder Binder(void *key, void *value, binder next, void *prevtop)$/;"	f	file:
-COLON	y.tab.c	/^    COLON = 262,$/;"	e	enum:yytokentype	file:
-COLON	y.tab.c	170;"	d	file:
-COLON	y.tab.h	/^    COLON = 262,$/;"	e	enum:yytokentype
-COLON	y.tab.h	99;"	d
-COMMA	y.tab.c	/^    COMMA = 261,$/;"	e	enum:yytokentype	file:
-COMMA	y.tab.c	169;"	d	file:
-COMMA	y.tab.h	/^    COMMA = 261,$/;"	e	enum:yytokentype
-COMMA	y.tab.h	98;"	d
-DIVIDE	y.tab.c	/^    DIVIDE = 274,$/;"	e	enum:yytokentype	file:
-DIVIDE	y.tab.c	182;"	d	file:
-DIVIDE	y.tab.h	/^    DIVIDE = 274,$/;"	e	enum:yytokentype
-DIVIDE	y.tab.h	111;"	d
-DO	y.tab.c	/^    DO = 291,$/;"	e	enum:yytokentype	file:
-DO	y.tab.c	199;"	d	file:
-DO	y.tab.h	/^    DO = 291,$/;"	e	enum:yytokentype
-DO	y.tab.h	128;"	d
-DOT	y.tab.c	/^    DOT = 270,$/;"	e	enum:yytokentype	file:
-DOT	y.tab.c	178;"	d	file:
-DOT	y.tab.h	/^    DOT = 270,$/;"	e	enum:yytokentype
-DOT	y.tab.h	107;"	d
-ECHO	lex.yy.c	706;"	d	file:
-ELSE	y.tab.c	/^    ELSE = 287,$/;"	e	enum:yytokentype	file:
-ELSE	y.tab.c	195;"	d	file:
-ELSE	y.tab.h	/^    ELSE = 287,$/;"	e	enum:yytokentype
-ELSE	y.tab.h	124;"	d
+CALL	tree.h	/^		     struct {T_exp fun; T_expList args;} CALL;$/;"	m	union:T_exp_::__anon34	typeref:struct:T_exp_::__anon34::__anon37
+CJUMP	tree.h	/^			      Temp_label true, false;} CJUMP;$/;"	m	union:T_stm_::__anon28	typeref:struct:T_stm_::__anon28::__anon31
+CONST	tree.h	/^		     int CONST;$/;"	m	union:T_exp_::__anon34
+Cx	translate.c	/^struct Cx $/;"	s	file:
 EM_error	errormsg.c	/^void EM_error(int pos, char *message,...)$/;"	f
 EM_newline	errormsg.c	/^void EM_newline(void)$/;"	f
 EM_reset	errormsg.c	/^void EM_reset(string fname)$/;"	f
 EM_tokPos	errormsg.c	/^int EM_tokPos=0;$/;"	v
-END	y.tab.c	/^    END = 294,$/;"	e	enum:yytokentype	file:
-END	y.tab.c	202;"	d	file:
-END	y.tab.h	/^    END = 294,$/;"	e	enum:yytokentype
-END	y.tab.h	131;"	d
-EOB_ACT_CONTINUE_SCAN	lex.yy.c	173;"	d	file:
-EOB_ACT_END_OF_FILE	lex.yy.c	174;"	d	file:
-EOB_ACT_LAST_MATCH	lex.yy.c	175;"	d	file:
-EQ	y.tab.c	/^    EQ = 275,$/;"	e	enum:yytokentype	file:
-EQ	y.tab.c	183;"	d	file:
-EQ	y.tab.h	/^    EQ = 275,$/;"	e	enum:yytokentype
-EQ	y.tab.h	112;"	d
 ERROR_MSG_H	errormsg.h	2;"	d
-EXIT_SUCCESS	y.tab.c	385;"	d	file:
-EXIT_SUCCESS	y.tab.c	413;"	d	file:
-E_FunEntry	env.c	/^E_enventry E_FunEntry(Ty_tyList formals, Ty_ty result)$/;"	f
-E_ROVarEntry	env.c	/^E_enventry E_ROVarEntry(Ty_ty ty)$/;"	f
-E_VarEntry	env.c	/^E_enventry E_VarEntry(Ty_ty ty)$/;"	f
+ESEQ	tree.h	/^		     struct {T_stm stm; T_exp exp;} ESEQ;$/;"	m	union:T_exp_::__anon34	typeref:struct:T_exp_::__anon34::__anon36
+EXP	tree.h	/^		      T_exp EXP;$/;"	m	union:T_stm_::__anon28
+E_FunEntry	env.c	/^E_enventry E_FunEntry(Tr_level level, Temp_label label, Ty_tyList formals, Ty_ty result)$/;"	f
+E_ROVarEntry	env.c	/^E_enventry E_ROVarEntry(Tr_access access, Ty_ty ty)$/;"	f
+E_VarEntry	env.c	/^E_enventry E_VarEntry(Tr_access access, Ty_ty ty)$/;"	f
 E_base_tenv	env.c	/^S_table E_base_tenv(void)$/;"	f
 E_base_venv	env.c	/^S_table E_base_venv(void)$/;"	f
 E_enventry	env.h	/^typedef struct E_enventry_ *E_enventry;$/;"	t	typeref:struct:E_enventry_
 E_enventry_	env.h	/^struct E_enventry_ {$/;"	s
-E_funEntry	env.h	/^	enum {E_varEntry, E_funEntry} kind;$/;"	e	enum:E_enventry_::__anon25
-E_varEntry	env.h	/^	enum {E_varEntry, E_funEntry} kind;$/;"	e	enum:E_enventry_::__anon25
+E_funEntry	env.h	/^	enum {E_varEntry, E_funEntry} kind;$/;"	e	enum:E_enventry_::__anon40
+E_varEntry	env.h	/^	enum {E_varEntry, E_funEntry} kind;$/;"	e	enum:E_enventry_::__anon40
 FALSE	util.h	9;"	d
-FLEXINT_H	lex.yy.c	29;"	d	file:
-FLEX_BETA	lex.yy.c	13;"	d	file:
-FLEX_SCANNER	lex.yy.c	8;"	d	file:
-FOR	y.tab.c	/^    FOR = 289,$/;"	e	enum:yytokentype	file:
-FOR	y.tab.c	197;"	d	file:
-FOR	y.tab.h	/^    FOR = 289,$/;"	e	enum:yytokentype
-FOR	y.tab.h	126;"	d
-FUNCTION	y.tab.c	/^    FUNCTION = 298,$/;"	e	enum:yytokentype	file:
-FUNCTION	y.tab.c	206;"	d	file:
-FUNCTION	y.tab.h	/^    FUNCTION = 298,$/;"	e	enum:yytokentype
-FUNCTION	y.tab.h	135;"	d
-GE	y.tab.c	/^    GE = 280,$/;"	e	enum:yytokentype	file:
-GE	y.tab.c	188;"	d	file:
-GE	y.tab.h	/^    GE = 280,$/;"	e	enum:yytokentype
-GE	y.tab.h	117;"	d
-GT	y.tab.c	/^    GT = 279,$/;"	e	enum:yytokentype	file:
-GT	y.tab.c	187;"	d	file:
-GT	y.tab.h	/^    GT = 279,$/;"	e	enum:yytokentype
-GT	y.tab.h	116;"	d
-ID	y.tab.c	/^    ID = 258,$/;"	e	enum:yytokentype	file:
-ID	y.tab.c	166;"	d	file:
-ID	y.tab.h	/^    ID = 258,$/;"	e	enum:yytokentype
-ID	y.tab.h	95;"	d
-IF	y.tab.c	/^    IF = 285,$/;"	e	enum:yytokentype	file:
-IF	y.tab.c	193;"	d	file:
-IF	y.tab.h	/^    IF = 285,$/;"	e	enum:yytokentype
-IF	y.tab.h	122;"	d
-IN	y.tab.c	/^    IN = 293,$/;"	e	enum:yytokentype	file:
-IN	y.tab.c	201;"	d	file:
-IN	y.tab.h	/^    IN = 293,$/;"	e	enum:yytokentype
-IN	y.tab.h	130;"	d
-INITIAL	lex.yy.c	610;"	d	file:
-INT	y.tab.c	/^    INT = 260,$/;"	e	enum:yytokentype	file:
-INT	y.tab.c	168;"	d	file:
-INT	y.tab.h	/^    INT = 260,$/;"	e	enum:yytokentype
-INT	y.tab.h	97;"	d
-INT16_MAX	lex.yy.c	71;"	d	file:
-INT16_MIN	lex.yy.c	62;"	d	file:
-INT32_MAX	lex.yy.c	74;"	d	file:
-INT32_MIN	lex.yy.c	65;"	d	file:
-INT8_MAX	lex.yy.c	68;"	d	file:
-INT8_MIN	lex.yy.c	59;"	d	file:
+FRAME_H	frame.h	5;"	d
+F_Exp	x86frame.c	/^T_exp F_Exp(F_access acc, T_exp framePtr)$/;"	f
+F_FP	x86frame.c	/^Temp_temp F_FP()$/;"	f
+F_FragList	x86frame.c	/^F_fragList F_FragList(F_frag head, F_fragList tail) {$/;"	f
+F_ProcFrag	x86frame.c	/^F_frag F_ProcFrag(T_stm body, F_frame frame) {$/;"	f
+F_RV	x86frame.c	/^Temp_temp F_RV()$/;"	f
+F_StringFrag	x86frame.c	/^F_frag F_StringFrag(Temp_label label, string str) {$/;"	f
+F_access	frame.h	/^typedef struct F_access_ *F_access;$/;"	t	typeref:struct:F_access_
+F_accessList	frame.h	/^typedef struct F_accessList_ *F_accessList;$/;"	t	typeref:struct:F_accessList_
+F_accessList_	frame.h	/^struct F_accessList_ {F_access head; F_accessList tail;};$/;"	s
+F_access_	x86frame.c	/^struct F_access_ {$/;"	s	file:
+F_allocLocal	x86frame.c	/^F_access F_allocLocal(F_frame f, bool escape)$/;"	f
+F_externalCall	x86frame.c	/^T_exp F_externalCall(string s, T_expList args)$/;"	f
+F_formals	x86frame.c	/^F_accessList F_formals(F_frame f)$/;"	f
+F_frag	frame.h	/^typedef struct F_frag_ *F_frag;$/;"	t	typeref:struct:F_frag_
+F_fragList	frame.h	/^typedef struct F_fragList_ *F_fragList;$/;"	t	typeref:struct:F_fragList_
+F_fragList_	frame.h	/^struct F_fragList_ $/;"	s
+F_frag_	frame.h	/^struct F_frag_ {enum {F_stringFrag, F_procFrag} kind;$/;"	s
+F_frame	frame.h	/^typedef struct F_frame_ *F_frame;$/;"	t	typeref:struct:F_frame_
+F_frame_	x86frame.c	/^struct F_frame_ {$/;"	s	file:
+F_name	x86frame.c	/^Temp_label F_name(F_frame f)$/;"	f
+F_newFrame	x86frame.c	/^F_frame F_newFrame(Temp_label name, U_boolList formals)$/;"	f
+F_procFrag	frame.h	/^struct F_frag_ {enum {F_stringFrag, F_procFrag} kind;$/;"	e	enum:F_frag_::__anon46
+F_staticLink	x86frame.c	/^F_access F_staticLink(F_frame f)$/;"	f
+F_stringFrag	frame.h	/^struct F_frag_ {enum {F_stringFrag, F_procFrag} kind;$/;"	e	enum:F_frag_::__anon46
+F_wordSize	translate.c	/^const int F_wordSize = 8; \/\/treat int as long for simplicity$/;"	v
+InFrame	x86frame.c	/^static F_access InFrame(int offset)$/;"	f	file:
+InReg	x86frame.c	/^static F_access InReg(Temp_temp reg)$/;"	f	file:
 IntList	errormsg.c	/^typedef struct intList {int i; struct intList *rest;} *IntList;$/;"	t	typeref:struct:intList	file:
-LBRACE	y.tab.c	/^    LBRACE = 268,$/;"	e	enum:yytokentype	file:
-LBRACE	y.tab.c	176;"	d	file:
-LBRACE	y.tab.h	/^    LBRACE = 268,$/;"	e	enum:yytokentype
-LBRACE	y.tab.h	105;"	d
-LBRACK	y.tab.c	/^    LBRACK = 266,$/;"	e	enum:yytokentype	file:
-LBRACK	y.tab.c	174;"	d	file:
-LBRACK	y.tab.h	/^    LBRACK = 266,$/;"	e	enum:yytokentype
-LBRACK	y.tab.h	103;"	d
-LE	y.tab.c	/^    LE = 278,$/;"	e	enum:yytokentype	file:
-LE	y.tab.c	186;"	d	file:
-LE	y.tab.h	/^    LE = 278,$/;"	e	enum:yytokentype
-LE	y.tab.h	115;"	d
-LET	y.tab.c	/^    LET = 292,$/;"	e	enum:yytokentype	file:
-LET	y.tab.c	200;"	d	file:
-LET	y.tab.h	/^    LET = 292,$/;"	e	enum:yytokentype
-LET	y.tab.h	129;"	d
-LPAREN	y.tab.c	/^    LPAREN = 264,$/;"	e	enum:yytokentype	file:
-LPAREN	y.tab.c	172;"	d	file:
-LPAREN	y.tab.h	/^    LPAREN = 264,$/;"	e	enum:yytokentype
-LPAREN	y.tab.h	101;"	d
-LT	y.tab.c	/^    LT = 277,$/;"	e	enum:yytokentype	file:
-LT	y.tab.c	185;"	d	file:
-LT	y.tab.h	/^    LT = 277,$/;"	e	enum:yytokentype
-LT	y.tab.h	114;"	d
-MINUS	y.tab.c	/^    MINUS = 272,$/;"	e	enum:yytokentype	file:
-MINUS	y.tab.c	180;"	d	file:
-MINUS	y.tab.h	/^    MINUS = 272,$/;"	e	enum:yytokentype
-MINUS	y.tab.h	109;"	d
-NEQ	y.tab.c	/^    NEQ = 276,$/;"	e	enum:yytokentype	file:
-NEQ	y.tab.c	184;"	d	file:
-NEQ	y.tab.h	/^    NEQ = 276,$/;"	e	enum:yytokentype
-NEQ	y.tab.h	113;"	d
-NIL	y.tab.c	/^    NIL = 297,$/;"	e	enum:yytokentype	file:
-NIL	y.tab.c	205;"	d	file:
-NIL	y.tab.h	/^    NIL = 297,$/;"	e	enum:yytokentype
-NIL	y.tab.h	134;"	d
-OF	y.tab.c	/^    OF = 295,$/;"	e	enum:yytokentype	file:
-OF	y.tab.c	203;"	d	file:
-OF	y.tab.h	/^    OF = 295,$/;"	e	enum:yytokentype
-OF	y.tab.h	132;"	d
-OR	y.tab.c	/^    OR = 282,$/;"	e	enum:yytokentype	file:
-OR	y.tab.c	190;"	d	file:
-OR	y.tab.h	/^    OR = 282,$/;"	e	enum:yytokentype
-OR	y.tab.h	119;"	d
-PLUS	y.tab.c	/^    PLUS = 271,$/;"	e	enum:yytokentype	file:
-PLUS	y.tab.c	179;"	d	file:
-PLUS	y.tab.h	/^    PLUS = 271,$/;"	e	enum:yytokentype
-PLUS	y.tab.h	108;"	d
-RBRACE	y.tab.c	/^    RBRACE = 269,$/;"	e	enum:yytokentype	file:
-RBRACE	y.tab.c	177;"	d	file:
-RBRACE	y.tab.h	/^    RBRACE = 269,$/;"	e	enum:yytokentype
-RBRACE	y.tab.h	106;"	d
-RBRACK	y.tab.c	/^    RBRACK = 267,$/;"	e	enum:yytokentype	file:
-RBRACK	y.tab.c	175;"	d	file:
-RBRACK	y.tab.h	/^    RBRACK = 267,$/;"	e	enum:yytokentype
-RBRACK	y.tab.h	104;"	d
-REJECT	lex.yy.c	524;"	d	file:
-RPAREN	y.tab.c	/^    RPAREN = 265,$/;"	e	enum:yytokentype	file:
-RPAREN	y.tab.c	173;"	d	file:
-RPAREN	y.tab.h	/^    RPAREN = 265,$/;"	e	enum:yytokentype
-RPAREN	y.tab.h	102;"	d
-SEMICOLON	y.tab.c	/^    SEMICOLON = 263,$/;"	e	enum:yytokentype	file:
-SEMICOLON	y.tab.c	171;"	d	file:
-SEMICOLON	y.tab.h	/^    SEMICOLON = 263,$/;"	e	enum:yytokentype
-SEMICOLON	y.tab.h	100;"	d
-SEM_transProg	semant.c	/^void SEM_transProg(A_exp exp){$/;"	f
+JUMP	tree.h	/^		      struct {T_exp exp; Temp_labelList jumps;} JUMP;$/;"	m	union:T_stm_::__anon28	typeref:struct:T_stm_::__anon28::__anon30
+LABEL	tree.h	/^		      Temp_label LABEL;$/;"	m	union:T_stm_::__anon28
+MEM	tree.h	/^		     T_exp MEM;$/;"	m	union:T_exp_::__anon34
+MOVE	tree.h	/^		      struct {T_exp dst, src;} MOVE;$/;"	m	union:T_stm_::__anon28	typeref:struct:T_stm_::__anon28::__anon32
+NAME	tree.h	/^		     Temp_label NAME;$/;"	m	union:T_exp_::__anon34
+PRINT_TREE_H	printtree.h	2;"	d
+PatchList	translate.c	/^static patchList PatchList(Temp_label *head, patchList tail)$/;"	f	file:
+SEM_transProg	semant.c	/^F_fragList SEM_transProg(A_exp exp){$/;"	f
+SEQ	tree.h	/^	       union {struct {T_stm left, right;} SEQ;$/;"	m	union:T_stm_::__anon28	typeref:struct:T_stm_::__anon28::__anon29
 SIZE	symbol.c	16;"	d	file:
-STRING	y.tab.c	/^    STRING = 259,$/;"	e	enum:yytokentype	file:
-STRING	y.tab.c	167;"	d	file:
-STRING	y.tab.h	/^    STRING = 259,$/;"	e	enum:yytokentype
-STRING	y.tab.h	96;"	d
 SYMBOL_H	symbol.h	2;"	d
 S_Symbol	symbol.c	/^S_symbol S_Symbol(string name)$/;"	f
 S_beginScope	symbol.c	/^void S_beginScope(S_table t)$/;"	f
@@ -310,25 +188,132 @@ TAB_look	table.c	/^void *TAB_look(TAB_table t, void *key)$/;"	f
 TAB_pop	table.c	/^void *TAB_pop(TAB_table t) {$/;"	f
 TAB_table	table.h	/^typedef struct TAB_table_ *TAB_table;$/;"	t	typeref:struct:TAB_table_
 TAB_table_	table.c	/^struct TAB_table_ {$/;"	s	file:
-THEN	y.tab.c	/^    THEN = 286,$/;"	e	enum:yytokentype	file:
-THEN	y.tab.c	194;"	d	file:
-THEN	y.tab.h	/^    THEN = 286,$/;"	e	enum:yytokentype
-THEN	y.tab.h	123;"	d
-TIMES	y.tab.c	/^    TIMES = 273,$/;"	e	enum:yytokentype	file:
-TIMES	y.tab.c	181;"	d	file:
-TIMES	y.tab.h	/^    TIMES = 273,$/;"	e	enum:yytokentype
-TIMES	y.tab.h	110;"	d
-TO	y.tab.c	/^    TO = 290,$/;"	e	enum:yytokentype	file:
-TO	y.tab.c	198;"	d	file:
-TO	y.tab.h	/^    TO = 290,$/;"	e	enum:yytokentype
-TO	y.tab.h	127;"	d
+TEMP	tree.h	/^		     Temp_temp TEMP;$/;"	m	union:T_exp_::__anon34
+TEMP_H	temp.h	7;"	d
+TRANSLATE_H	translate.h	2;"	d
+TREE_H	tree.h	6;"	d
 TRUE	util.h	8;"	d
-TYPE	y.tab.c	/^    TYPE = 300,$/;"	e	enum:yytokentype	file:
-TYPE	y.tab.c	208;"	d	file:
-TYPE	y.tab.h	/^    TYPE = 300,$/;"	e	enum:yytokentype
-TYPE	y.tab.h	137;"	d
 TYPES_H	types.h	2;"	d
-Tr_exp	semant.c	/^typedef void* Tr_exp;$/;"	t	file:
+T_BINOP	tree.h	/^struct T_exp_ {enum {T_BINOP, T_MEM, T_TEMP, T_ESEQ, T_NAME,$/;"	e	enum:T_exp_::__anon33
+T_Binop	tree.c	/^T_exp T_Binop(T_binOp op, T_exp left, T_exp right)$/;"	f
+T_CALL	tree.h	/^		      T_CONST, T_CALL} kind;$/;"	e	enum:T_exp_::__anon33
+T_CJUMP	tree.h	/^struct T_stm_ {enum {T_SEQ, T_LABEL, T_JUMP, T_CJUMP, T_MOVE,$/;"	e	enum:T_stm_::__anon27
+T_CONST	tree.h	/^		      T_CONST, T_CALL} kind;$/;"	e	enum:T_exp_::__anon33
+T_Call	tree.c	/^T_exp T_Call(T_exp fun, T_expList args)$/;"	f
+T_Cjump	tree.c	/^T_stm T_Cjump(T_relOp op, T_exp left, T_exp right, $/;"	f
+T_Const	tree.c	/^T_exp T_Const(int consti)$/;"	f
+T_ESEQ	tree.h	/^struct T_exp_ {enum {T_BINOP, T_MEM, T_TEMP, T_ESEQ, T_NAME,$/;"	e	enum:T_exp_::__anon33
+T_EXP	tree.h	/^		       T_EXP} kind;$/;"	e	enum:T_stm_::__anon27
+T_Eseq	tree.c	/^T_exp T_Eseq(T_stm stm, T_exp exp)$/;"	f
+T_Exp	tree.c	/^T_stm T_Exp(T_exp exp)$/;"	f
+T_ExpList	tree.c	/^T_expList T_ExpList(T_exp head, T_expList tail)$/;"	f
+T_JUMP	tree.h	/^struct T_stm_ {enum {T_SEQ, T_LABEL, T_JUMP, T_CJUMP, T_MOVE,$/;"	e	enum:T_stm_::__anon27
+T_Jump	tree.c	/^T_stm T_Jump(T_exp exp, Temp_labelList labels)$/;"	f
+T_LABEL	tree.h	/^struct T_stm_ {enum {T_SEQ, T_LABEL, T_JUMP, T_CJUMP, T_MOVE,$/;"	e	enum:T_stm_::__anon27
+T_Label	tree.c	/^T_stm T_Label(Temp_label label)$/;"	f
+T_MEM	tree.h	/^struct T_exp_ {enum {T_BINOP, T_MEM, T_TEMP, T_ESEQ, T_NAME,$/;"	e	enum:T_exp_::__anon33
+T_MOVE	tree.h	/^struct T_stm_ {enum {T_SEQ, T_LABEL, T_JUMP, T_CJUMP, T_MOVE,$/;"	e	enum:T_stm_::__anon27
+T_Mem	tree.c	/^T_exp T_Mem(T_exp exp)$/;"	f
+T_Move	tree.c	/^T_stm T_Move(T_exp dst, T_exp src)$/;"	f
+T_NAME	tree.h	/^struct T_exp_ {enum {T_BINOP, T_MEM, T_TEMP, T_ESEQ, T_NAME,$/;"	e	enum:T_exp_::__anon33
+T_Name	tree.c	/^T_exp T_Name(Temp_label name)$/;"	f
+T_SEQ	tree.h	/^struct T_stm_ {enum {T_SEQ, T_LABEL, T_JUMP, T_CJUMP, T_MOVE,$/;"	e	enum:T_stm_::__anon27
+T_Seq	tree.c	/^T_stm T_Seq(T_stm left, T_stm right)$/;"	f
+T_StmList	tree.c	/^T_stmList T_StmList(T_stm head, T_stmList tail)$/;"	f
+T_TEMP	tree.h	/^struct T_exp_ {enum {T_BINOP, T_MEM, T_TEMP, T_ESEQ, T_NAME,$/;"	e	enum:T_exp_::__anon33
+T_Temp	tree.c	/^T_exp T_Temp(Temp_temp temp)$/;"	f
+T_and	tree.h	/^	      T_and, T_or, T_lshift, T_rshift, T_arshift, T_xor} T_binOp ;$/;"	e	enum:__anon25
+T_arshift	tree.h	/^	      T_and, T_or, T_lshift, T_rshift, T_arshift, T_xor} T_binOp ;$/;"	e	enum:__anon25
+T_binOp	tree.h	/^	      T_and, T_or, T_lshift, T_rshift, T_arshift, T_xor} T_binOp ;$/;"	t	typeref:enum:__anon25
+T_commute	tree.c	/^T_relOp T_commute(T_relOp r)$/;"	f
+T_div	tree.h	/^typedef enum {T_plus, T_minus, T_mul, T_div,$/;"	e	enum:__anon25
+T_eq	tree.h	/^typedef enum  {T_eq, T_ne, T_lt, T_gt, T_le, T_ge,$/;"	e	enum:__anon26
+T_exp	tree.h	/^typedef struct T_exp_ *T_exp;$/;"	t	typeref:struct:T_exp_
+T_expList	tree.h	/^typedef struct T_expList_ *T_expList;$/;"	t	typeref:struct:T_expList_
+T_expList_	tree.h	/^struct T_expList_ {T_exp head; T_expList tail;};$/;"	s
+T_exp_	tree.h	/^struct T_exp_ {enum {T_BINOP, T_MEM, T_TEMP, T_ESEQ, T_NAME,$/;"	s
+T_ge	tree.h	/^typedef enum  {T_eq, T_ne, T_lt, T_gt, T_le, T_ge,$/;"	e	enum:__anon26
+T_gt	tree.h	/^typedef enum  {T_eq, T_ne, T_lt, T_gt, T_le, T_ge,$/;"	e	enum:__anon26
+T_le	tree.h	/^typedef enum  {T_eq, T_ne, T_lt, T_gt, T_le, T_ge,$/;"	e	enum:__anon26
+T_lshift	tree.h	/^	      T_and, T_or, T_lshift, T_rshift, T_arshift, T_xor} T_binOp ;$/;"	e	enum:__anon25
+T_lt	tree.h	/^typedef enum  {T_eq, T_ne, T_lt, T_gt, T_le, T_ge,$/;"	e	enum:__anon26
+T_minus	tree.h	/^typedef enum {T_plus, T_minus, T_mul, T_div,$/;"	e	enum:__anon25
+T_mul	tree.h	/^typedef enum {T_plus, T_minus, T_mul, T_div,$/;"	e	enum:__anon25
+T_ne	tree.h	/^typedef enum  {T_eq, T_ne, T_lt, T_gt, T_le, T_ge,$/;"	e	enum:__anon26
+T_notRel	tree.c	/^T_relOp T_notRel(T_relOp r)$/;"	f
+T_or	tree.h	/^	      T_and, T_or, T_lshift, T_rshift, T_arshift, T_xor} T_binOp ;$/;"	e	enum:__anon25
+T_plus	tree.h	/^typedef enum {T_plus, T_minus, T_mul, T_div,$/;"	e	enum:__anon25
+T_relOp	tree.h	/^		T_ult, T_ule, T_ugt, T_uge} T_relOp;$/;"	t	typeref:enum:__anon26
+T_rshift	tree.h	/^	      T_and, T_or, T_lshift, T_rshift, T_arshift, T_xor} T_binOp ;$/;"	e	enum:__anon25
+T_stm	tree.h	/^typedef struct T_stm_ *T_stm;$/;"	t	typeref:struct:T_stm_
+T_stmList	tree.h	/^typedef struct T_stmList_ *T_stmList;$/;"	t	typeref:struct:T_stmList_
+T_stmList_	tree.h	/^struct T_stmList_ {T_stm head; T_stmList tail;};$/;"	s
+T_stm_	tree.h	/^struct T_stm_ {enum {T_SEQ, T_LABEL, T_JUMP, T_CJUMP, T_MOVE,$/;"	s
+T_uge	tree.h	/^		T_ult, T_ule, T_ugt, T_uge} T_relOp;$/;"	e	enum:__anon26
+T_ugt	tree.h	/^		T_ult, T_ule, T_ugt, T_uge} T_relOp;$/;"	e	enum:__anon26
+T_ule	tree.h	/^		T_ult, T_ule, T_ugt, T_uge} T_relOp;$/;"	e	enum:__anon26
+T_ult	tree.h	/^		T_ult, T_ule, T_ugt, T_uge} T_relOp;$/;"	e	enum:__anon26
+T_xor	tree.h	/^	      T_and, T_or, T_lshift, T_rshift, T_arshift, T_xor} T_binOp ;$/;"	e	enum:__anon25
+Temp_LabelList	temp.c	/^Temp_labelList Temp_LabelList(Temp_label h, Temp_labelList t)$/;"	f
+Temp_TempList	temp.c	/^Temp_tempList Temp_TempList(Temp_temp h, Temp_tempList t) $/;"	f
+Temp_dumpMap	temp.c	/^void Temp_dumpMap(FILE *out, Temp_map m) {$/;"	f
+Temp_empty	temp.c	/^Temp_map Temp_empty(void) {$/;"	f
+Temp_enter	temp.c	/^void Temp_enter(Temp_map m, Temp_temp t, string s) {$/;"	f
+Temp_label	temp.h	/^typedef S_symbol Temp_label;$/;"	t
+Temp_labelList	temp.h	/^typedef struct Temp_labelList_ *Temp_labelList;$/;"	t	typeref:struct:Temp_labelList_
+Temp_labelList_	temp.h	/^struct Temp_labelList_ { Temp_label head; Temp_labelList tail;};$/;"	s
+Temp_labelstring	temp.c	/^string Temp_labelstring(Temp_label s)$/;"	f
+Temp_layerMap	temp.c	/^Temp_map Temp_layerMap(Temp_map over, Temp_map under) {$/;"	f
+Temp_look	temp.c	/^string Temp_look(Temp_map m, Temp_temp t) {$/;"	f
+Temp_map	temp.h	/^typedef struct Temp_map_ *Temp_map;$/;"	t	typeref:struct:Temp_map_
+Temp_map_	temp.c	/^struct Temp_map_ {TAB_table tab; Temp_map under;};$/;"	s	file:
+Temp_name	temp.c	/^Temp_map Temp_name(void) {$/;"	f
+Temp_namedlabel	temp.c	/^Temp_label Temp_namedlabel(string s)$/;"	f
+Temp_newlabel	temp.c	/^Temp_label Temp_newlabel(void)$/;"	f
+Temp_newtemp	temp.c	/^Temp_temp Temp_newtemp(void)$/;"	f
+Temp_temp	temp.h	/^typedef struct Temp_temp_ *Temp_temp;$/;"	t	typeref:struct:Temp_temp_
+Temp_tempList	temp.h	/^typedef struct Temp_tempList_ *Temp_tempList;$/;"	t	typeref:struct:Temp_tempList_
+Temp_tempList_	temp.h	/^struct Temp_tempList_ { Temp_temp head; Temp_tempList tail;};$/;"	s
+Temp_temp_	temp.c	/^struct Temp_temp_ {int num;};$/;"	s	file:
+Tr_Cx	translate.c	/^static Tr_exp Tr_Cx(patchList trues, patchList falses, T_stm stm)$/;"	f	file:
+Tr_Ex	translate.c	/^static Tr_exp Tr_Ex(T_exp ex)$/;"	f	file:
+Tr_Nx	translate.c	/^static Tr_exp Tr_Nx(T_stm nx)$/;"	f	file:
+Tr_access	translate.h	/^typedef struct Tr_access_ *Tr_access;$/;"	t	typeref:struct:Tr_access_
+Tr_accessList	translate.h	/^typedef struct Tr_accessList_ *Tr_accessList;$/;"	t	typeref:struct:Tr_accessList_
+Tr_accessList_	translate.c	/^struct Tr_accessList_ {$/;"	s	file:
+Tr_access_	translate.c	/^struct Tr_access_ {$/;"	s	file:
+Tr_addArg	translate.c	/^Tr_exp Tr_addArg(Tr_exp exp, Tr_exp arg)$/;"	f
+Tr_addField	translate.c	/^Tr_exp Tr_addField(Tr_exp e, Tr_exp field, int idx)$/;"	f
+Tr_allocLocal	translate.c	/^Tr_access Tr_allocLocal(Tr_level level, bool escape)$/;"	f
+Tr_arrayExp	translate.c	/^Tr_exp Tr_arrayExp(Tr_exp cnt, Tr_exp value)$/;"	f
+Tr_assignExp	translate.c	/^Tr_exp Tr_assignExp(Tr_exp var, Tr_exp e)$/;"	f
+Tr_callExp	translate.c	/^Tr_exp Tr_callExp(Temp_label funLabel, Tr_level funLevel, Tr_level curLevel)$/;"	f
+Tr_cmpExp	translate.c	/^Tr_exp Tr_cmpExp(A_oper oper, Tr_exp left, Tr_exp right)$/;"	f
+Tr_cx	translate.c	/^	enum {Tr_ex, Tr_nx, Tr_cx} kind;$/;"	e	enum:Tr_exp_::__anon44	file:
+Tr_ex	translate.c	/^	enum {Tr_ex, Tr_nx, Tr_cx} kind;$/;"	e	enum:Tr_exp_::__anon44	file:
+Tr_exp	translate.h	/^typedef struct Tr_exp_ *Tr_exp;$/;"	t	typeref:struct:Tr_exp_
+Tr_exp_	translate.c	/^struct Tr_exp_ {$/;"	s	file:
+Tr_fieldVar	translate.c	/^Tr_exp Tr_fieldVar(Tr_exp v, int offset)$/;"	f
+Tr_forExp	translate.c	/^Tr_exp Tr_forExp(Tr_exp idx, Tr_exp lo, Tr_exp hi, Tr_exp body, Temp_label bTarget)$/;"	f
+Tr_formals	translate.c	/^Tr_accessList Tr_formals(Tr_level level)$/;"	f
+Tr_getResult	translate.c	/^F_fragList Tr_getResult()                                                   $/;"	f
+Tr_ifExp	translate.c	/^Tr_exp Tr_ifExp(Tr_exp e1, Tr_exp e2, Tr_exp e3, int isvoid)$/;"	f
+Tr_intExp	translate.c	/^Tr_exp Tr_intExp(int i)$/;"	f
+Tr_level	translate.h	/^typedef struct Tr_level_ *Tr_level;$/;"	t	typeref:struct:Tr_level_
+Tr_level_	translate.c	/^struct Tr_level_ {$/;"	s	file:
+Tr_linkExp	translate.c	/^Tr_exp Tr_linkExp(Tr_exp a, Tr_exp b)$/;"	f
+Tr_newLevel	translate.c	/^Tr_level Tr_newLevel(Tr_level parent, Temp_label name, U_boolList formals)$/;"	f
+Tr_nilExp	translate.c	/^Tr_exp Tr_nilExp(void)$/;"	f
+Tr_nx	translate.c	/^	enum {Tr_ex, Tr_nx, Tr_cx} kind;$/;"	e	enum:Tr_exp_::__anon44	file:
+Tr_opExp	translate.c	/^Tr_exp Tr_opExp(A_oper op, Tr_exp left, Tr_exp right)$/;"	f
+Tr_outermost	translate.c	/^Tr_level Tr_outermost()$/;"	f
+Tr_procEntryExit	translate.c	/^void Tr_procEntryExit(Tr_level level, Tr_exp body, Tr_accessList formals)   $/;"	f
+Tr_recordExp	translate.c	/^Tr_exp Tr_recordExp(int cnt)$/;"	f
+Tr_simpleVar	translate.c	/^Tr_exp Tr_simpleVar(Tr_access a, Tr_level l)$/;"	f
+Tr_stringExp	translate.c	/^Tr_exp Tr_stringExp(string s)$/;"	f
+Tr_subVar	translate.c	/^Tr_exp Tr_subVar(Tr_exp v, Tr_exp idx)$/;"	f
+Tr_varDec	translate.c	/^Tr_exp Tr_varDec(Tr_access a, Tr_level l, Tr_exp e)$/;"	f
+Tr_whileExp	translate.c	/^Tr_exp Tr_whileExp(Tr_exp cond, Tr_exp body, Temp_label bTarget)$/;"	f
 TyList_print	types.c	/^void TyList_print(Ty_tyList list)$/;"	f
 Ty_Array	types.c	/^Ty_ty Ty_Array(Ty_ty ty)$/;"	f
 Ty_Field	types.c	/^Ty_field Ty_Field(S_symbol name, Ty_ty ty)$/;"	f
@@ -340,271 +325,88 @@ Ty_Record	types.c	/^Ty_ty Ty_Record(Ty_fieldList fields)$/;"	f
 Ty_String	types.c	/^Ty_ty Ty_String(void) {return &tystring;}$/;"	f
 Ty_TyList	types.c	/^Ty_tyList Ty_TyList(Ty_ty head, Ty_tyList tail)$/;"	f
 Ty_Void	types.c	/^Ty_ty Ty_Void(void) {return &tyvoid;}$/;"	f
-Ty_array	types.h	/^	enum {Ty_record, Ty_nil, Ty_int, Ty_string, Ty_array,$/;"	e	enum:Ty_ty_::__anon22
+Ty_array	types.h	/^struct Ty_ty_ {enum {Ty_record, Ty_nil, Ty_int, Ty_string, Ty_array,$/;"	e	enum:Ty_ty_::__anon22
 Ty_field	types.h	/^typedef struct Ty_field_ *Ty_field;$/;"	t	typeref:struct:Ty_field_
 Ty_fieldList	types.h	/^typedef struct Ty_fieldList_ *Ty_fieldList;$/;"	t	typeref:struct:Ty_fieldList_
 Ty_fieldList_	types.h	/^struct Ty_fieldList_ {Ty_field head; Ty_fieldList tail;};$/;"	s
 Ty_field_	types.h	/^struct Ty_field_ {S_symbol name; Ty_ty ty;};$/;"	s
-Ty_int	types.h	/^	enum {Ty_record, Ty_nil, Ty_int, Ty_string, Ty_array,$/;"	e	enum:Ty_ty_::__anon22
-Ty_name	types.h	/^		  Ty_name, Ty_void} kind;$/;"	e	enum:Ty_ty_::__anon22
-Ty_nil	types.h	/^	enum {Ty_record, Ty_nil, Ty_int, Ty_string, Ty_array,$/;"	e	enum:Ty_ty_::__anon22
+Ty_int	types.h	/^struct Ty_ty_ {enum {Ty_record, Ty_nil, Ty_int, Ty_string, Ty_array,$/;"	e	enum:Ty_ty_::__anon22
+Ty_name	types.h	/^		       Ty_name, Ty_void} kind;$/;"	e	enum:Ty_ty_::__anon22
+Ty_nil	types.h	/^struct Ty_ty_ {enum {Ty_record, Ty_nil, Ty_int, Ty_string, Ty_array,$/;"	e	enum:Ty_ty_::__anon22
 Ty_print	types.c	/^void Ty_print(Ty_ty t)$/;"	f
-Ty_record	types.h	/^	enum {Ty_record, Ty_nil, Ty_int, Ty_string, Ty_array,$/;"	e	enum:Ty_ty_::__anon22
-Ty_string	types.h	/^	enum {Ty_record, Ty_nil, Ty_int, Ty_string, Ty_array,$/;"	e	enum:Ty_ty_::__anon22
+Ty_record	types.h	/^struct Ty_ty_ {enum {Ty_record, Ty_nil, Ty_int, Ty_string, Ty_array,$/;"	e	enum:Ty_ty_::__anon22
+Ty_string	types.h	/^struct Ty_ty_ {enum {Ty_record, Ty_nil, Ty_int, Ty_string, Ty_array,$/;"	e	enum:Ty_ty_::__anon22
 Ty_ty	types.h	/^typedef struct Ty_ty_ *Ty_ty;$/;"	t	typeref:struct:Ty_ty_
 Ty_tyList	types.h	/^typedef struct Ty_tyList_ *Ty_tyList;$/;"	t	typeref:struct:Ty_tyList_
 Ty_tyList_	types.h	/^struct Ty_tyList_ {Ty_ty head; Ty_tyList tail;};$/;"	s
-Ty_ty_	types.h	/^struct Ty_ty_ $/;"	s
-Ty_void	types.h	/^		  Ty_name, Ty_void} kind;$/;"	e	enum:Ty_ty_::__anon22
-UINT16_MAX	lex.yy.c	80;"	d	file:
-UINT32_MAX	lex.yy.c	83;"	d	file:
-UINT8_MAX	lex.yy.c	77;"	d	file:
-UMINUS	y.tab.c	/^    UMINUS = 301$/;"	e	enum:yytokentype	file:
-UMINUS	y.tab.c	209;"	d	file:
-UMINUS	y.tab.h	/^    UMINUS = 301$/;"	e	enum:yytokentype
-UMINUS	y.tab.h	138;"	d
+Ty_ty_	types.h	/^struct Ty_ty_ {enum {Ty_record, Ty_nil, Ty_int, Ty_string, Ty_array,$/;"	s
+Ty_void	types.h	/^		       Ty_name, Ty_void} kind;$/;"	e	enum:Ty_ty_::__anon22
 UTIL_H	util.h	2;"	d
 U_BoolList	util.c	/^U_boolList U_BoolList(bool head, U_boolList tail)$/;"	f
 U_boolList	util.h	/^typedef struct U_boolList_ *U_boolList;$/;"	t	typeref:struct:U_boolList_
 U_boolList_	util.h	/^struct U_boolList_ {bool head; U_boolList tail;};$/;"	s
-VAR	y.tab.c	/^    VAR = 299,$/;"	e	enum:yytokentype	file:
-VAR	y.tab.c	207;"	d	file:
-VAR	y.tab.h	/^    VAR = 299,$/;"	e	enum:yytokentype
-VAR	y.tab.h	136;"	d
-WHILE	y.tab.c	/^    WHILE = 288,$/;"	e	enum:yytokentype	file:
-WHILE	y.tab.c	196;"	d	file:
-WHILE	y.tab.h	/^    WHILE = 288,$/;"	e	enum:yytokentype
-WHILE	y.tab.h	125;"	d
-YYABORT	y.tab.c	782;"	d	file:
-YYACCEPT	y.tab.c	781;"	d	file:
-YYBACKUP	y.tab.c	788;"	d	file:
-YYBISON	y.tab.c	44;"	d	file:
-YYBISON_VERSION	y.tab.c	47;"	d	file:
-YYCASE_	y.tab.c	1129;"	d	file:
-YYCASE_	y.tab.c	1139;"	d	file:
-YYCOPY	y.tab.c	477;"	d	file:
-YYCOPY	y.tab.c	480;"	d	file:
-YYCOPY_NEEDED	y.tab.c	452;"	d	file:
-YYDEBUG	y.tab.c	108;"	d	file:
-YYDEBUG	y.tab.h	37;"	d
-YYDPRINTF	y.tab.c	819;"	d	file:
-YYDPRINTF	y.tab.c	934;"	d	file:
-YYEMPTY	y.tab.c	778;"	d	file:
-YYEOF	y.tab.c	779;"	d	file:
-YYERRCODE	y.tab.c	807;"	d	file:
-YYERROR	y.tab.c	783;"	d	file:
-YYERROR_VERBOSE	y.tab.c	96;"	d	file:
-YYERROR_VERBOSE	y.tab.c	97;"	d	file:
-YYERROR_VERBOSE	y.tab.c	99;"	d	file:
-YYFINAL	y.tab.c	493;"	d	file:
-YYFPRINTF	y.tab.c	816;"	d	file:
-YYFREE	y.tab.c	423;"	d	file:
-YYINITDEPTH	y.tab.c	943;"	d	file:
-YYLAST	y.tab.c	495;"	d	file:
-YYMALLOC	y.tab.c	417;"	d	file:
-YYMAXDEPTH	y.tab.c	954;"	d	file:
-YYMAXUTOK	y.tab.c	509;"	d	file:
-YYNNTS	y.tab.c	500;"	d	file:
-YYNRULES	y.tab.c	502;"	d	file:
-YYNSTATES	y.tab.c	504;"	d	file:
-YYNTOKENS	y.tab.c	498;"	d	file:
-YYPACT_NINF	y.tab.c	595;"	d	file:
-YYPOPSTACK	y.tab.c	1254;"	d	file:
-YYPULL	y.tab.c	59;"	d	file:
-YYPURE	y.tab.c	53;"	d	file:
-YYPUSH	y.tab.c	56;"	d	file:
-YYRECOVERING	y.tab.c	786;"	d	file:
-YYSIZE_MAXIMUM	y.tab.c	296;"	d	file:
-YYSIZE_T	y.tab.c	285;"	d	file:
-YYSIZE_T	y.tab.c	287;"	d	file:
-YYSIZE_T	y.tab.c	290;"	d	file:
-YYSIZE_T	y.tab.c	292;"	d	file:
-YYSKELETON_NAME	y.tab.c	50;"	d	file:
-YYSTACK_ALLOC	y.tab.c	371;"	d	file:
-YYSTACK_ALLOC	y.tab.c	375;"	d	file:
-YYSTACK_ALLOC	y.tab.c	380;"	d	file:
-YYSTACK_ALLOC	y.tab.c	403;"	d	file:
-YYSTACK_ALLOC_MAXIMUM	y.tab.c	400;"	d	file:
-YYSTACK_ALLOC_MAXIMUM	y.tab.c	406;"	d	file:
-YYSTACK_BYTES	y.tab.c	448;"	d	file:
-YYSTACK_FREE	y.tab.c	394;"	d	file:
-YYSTACK_FREE	y.tab.c	404;"	d	file:
-YYSTACK_GAP_MAXIMUM	y.tab.c	444;"	d	file:
-YYSTACK_RELOCATE	y.tab.c	459;"	d	file:
-YYSTATE	lex.yy.c	132;"	d	file:
-YYSTYPE	y.tab.c	/^typedef union YYSTYPE YYSTYPE;$/;"	t	typeref:union:YYSTYPE	file:
-YYSTYPE	y.tab.c	/^union YYSTYPE$/;"	u	file:
-YYSTYPE	y.tab.h	/^typedef union YYSTYPE YYSTYPE;$/;"	t	typeref:union:YYSTYPE
-YYSTYPE	y.tab.h	/^union YYSTYPE$/;"	u
-YYSTYPE_IS_DECLARED	y.tab.c	241;"	d	file:
-YYSTYPE_IS_DECLARED	y.tab.h	170;"	d
-YYSTYPE_IS_TRIVIAL	y.tab.c	240;"	d	file:
-YYSTYPE_IS_TRIVIAL	y.tab.h	169;"	d
-YYTABLES_NAME	lex.yy.c	2129;"	d	file:
-YYTABLE_NINF	y.tab.c	600;"	d	file:
-YYTERROR	y.tab.c	806;"	d	file:
-YYTOKENTYPE	y.tab.c	116;"	d	file:
-YYTOKENTYPE	y.tab.h	45;"	d
-YYTRANSLATE	y.tab.c	511;"	d	file:
-YYUNDEFTOK	y.tab.c	508;"	d	file:
-YYUSE	y.tab.c	339;"	d	file:
-YYUSE	y.tab.c	341;"	d	file:
-YY_	y.tab.c	302;"	d	file:
-YY_	y.tab.c	306;"	d	file:
-YY_ATTRIBUTE	y.tab.c	314;"	d	file:
-YY_ATTRIBUTE	y.tab.c	316;"	d	file:
-YY_ATTRIBUTE_PURE	y.tab.c	321;"	d	file:
-YY_ATTRIBUTE_UNUSED	y.tab.c	325;"	d	file:
-YY_AT_BOL	lex.yy.c	340;"	d	file:
-YY_BREAK	lex.yy.c	785;"	d	file:
-YY_BUFFER_EOF_PENDING	lex.yy.c	256;"	d	file:
-YY_BUFFER_NEW	lex.yy.c	244;"	d	file:
-YY_BUFFER_NORMAL	lex.yy.c	245;"	d	file:
-YY_BUFFER_STATE	lex.yy.c	/^typedef struct yy_buffer_state *YY_BUFFER_STATE;$/;"	t	typeref:struct:yy_buffer_state	file:
-YY_BUF_SIZE	lex.yy.c	149;"	d	file:
-YY_BUF_SIZE	lex.yy.c	151;"	d	file:
-YY_CHAR	lex.yy.c	/^typedef unsigned char YY_CHAR;$/;"	t	file:
-YY_CURRENT_BUFFER	lex.yy.c	272;"	d	file:
-YY_CURRENT_BUFFER_LVALUE	lex.yy.c	279;"	d	file:
-YY_DECL	lex.yy.c	773;"	d	file:
-YY_DECL_IS_OURS	lex.yy.c	769;"	d	file:
-YY_DO_BEFORE_ACTION	lex.yy.c	369;"	d	file:
-YY_END_OF_BUFFER	lex.yy.c	377;"	d	file:
-YY_END_OF_BUFFER_CHAR	lex.yy.c	140;"	d	file:
-YY_EXIT_FAILURE	lex.yy.c	1925;"	d	file:
-YY_EXTRA_TYPE	lex.yy.c	621;"	d	file:
-YY_FATAL_ERROR	lex.yy.c	760;"	d	file:
-YY_FLEX_MAJOR_VERSION	lex.yy.c	9;"	d	file:
-YY_FLEX_MINOR_VERSION	lex.yy.c	10;"	d	file:
-YY_FLEX_SUBMINOR_VERSION	lex.yy.c	11;"	d	file:
-YY_FLUSH_BUFFER	lex.yy.c	308;"	d	file:
-YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN	y.tab.c	346;"	d	file:
-YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN	y.tab.c	356;"	d	file:
-YY_IGNORE_MAYBE_UNINITIALIZED_END	y.tab.c	350;"	d	file:
-YY_IGNORE_MAYBE_UNINITIALIZED_END	y.tab.c	357;"	d	file:
-YY_INITIAL_VALUE	y.tab.c	353;"	d	file:
-YY_INITIAL_VALUE	y.tab.c	360;"	d	file:
-YY_INPUT	lex.yy.c	713;"	d	file:
-YY_INT_ALIGNED	lex.yy.c	4;"	d	file:
-YY_LESS_LINENO	lex.yy.c	177;"	d	file:
-YY_LINENO_REWIND_TO	lex.yy.c	178;"	d	file:
-YY_LOCATION_PRINT	y.tab.c	827;"	d	file:
-YY_MORE_ADJ	lex.yy.c	526;"	d	file:
-YY_NEW_FILE	lex.yy.c	138;"	d	file:
-YY_NULL	lex.yy.c	112;"	d	file:
-YY_NULLPTR	y.tab.c	88;"	d	file:
-YY_NULLPTR	y.tab.c	90;"	d	file:
-YY_NUM_RULES	lex.yy.c	376;"	d	file:
-YY_READ_BUF_SIZE	lex.yy.c	695;"	d	file:
-YY_READ_BUF_SIZE	lex.yy.c	697;"	d	file:
-YY_REDUCE_PRINT	y.tab.c	924;"	d	file:
-YY_REDUCE_PRINT	y.tab.c	937;"	d	file:
-YY_RESTORE_YY_MORE_OFFSET	lex.yy.c	527;"	d	file:
-YY_RULE_SETUP	lex.yy.c	788;"	d	file:
-YY_SC_TO_UI	lex.yy.c	119;"	d	file:
-YY_STACK_PRINT	y.tab.c	893;"	d	file:
-YY_STACK_PRINT	y.tab.c	936;"	d	file:
-YY_START	lex.yy.c	131;"	d	file:
-YY_START_STACK_INCR	lex.yy.c	755;"	d	file:
-YY_STATE_BUF_SIZE	lex.yy.c	157;"	d	file:
-YY_STATE_EOF	lex.yy.c	135;"	d	file:
-YY_STRUCT_YY_BUFFER_STATE	lex.yy.c	197;"	d	file:
-YY_SYMBOL_PRINT	y.tab.c	831;"	d	file:
-YY_SYMBOL_PRINT	y.tab.c	935;"	d	file:
-YY_TYPEDEF_YY_BUFFER_STATE	lex.yy.c	160;"	d	file:
-YY_TYPEDEF_YY_SIZE_T	lex.yy.c	165;"	d	file:
-YY_USER_ACTION	lex.yy.c	780;"	d	file:
-YY_USE_CONST	lex.yy.c	100;"	d	file:
-YY_USE_CONST	lex.yy.c	93;"	d	file:
-YY_YY_Y_TAB_H_INCLUDED	y.tab.c	105;"	d	file:
-YY_YY_Y_TAB_H_INCLUDED	y.tab.h	34;"	d
 _HELPER_H_	helper.h	2;"	d
-_Noreturn	y.tab.c	331;"	d	file:
-_Noreturn	y.tab.c	333;"	d	file:
 __ENV_H_	env.h	4;"	d
 __SEMANT_H_	semant.h	2;"	d
-__STDC_LIMIT_MACROS	lex.yy.c	39;"	d	file:
-absyn_root	y.tab.c	/^A_exp absyn_root;$/;"	v
+access	env.h	/^		struct {Tr_access access; Ty_ty ty;} var;$/;"	m	struct:E_enventry_::__anon41::__anon42
+access	translate.c	/^	F_access access;$/;"	m	struct:Tr_access_	file:
 actual_ty	semant.c	/^Ty_ty actual_ty(Ty_ty ty)$/;"	f
-adjust	lex.yy.c	/^void adjust(void)$/;"	f
-alloca	y.tab.c	378;"	d	file:
 anyErrors	errormsg.c	/^bool anyErrors= FALSE;$/;"	v
-args	absyn.h	/^		struct {S_symbol func; A_expList args;} call;$/;"	m	struct:A_exp_::__anon7::__anon8
-args	tiger.y	/^args: exp {$$=A_ExpList($1, NULL);}$/;"	l
-array	absyn.h	/^		S_symbol array;$/;"	m	union:A_ty_::__anon21
-array	absyn.h	/^		struct {S_symbol typ; A_exp size, init;} array;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon16
-array	types.h	/^		Ty_ty array;$/;"	m	union:Ty_ty_::__anon23
-assign	absyn.h	/^		struct {A_var var; A_exp exp;} assign;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon11
+args	absyn.h	/^	      struct {S_symbol func; A_expList args;} call;$/;"	m	struct:A_exp_::__anon7::__anon8
+args	tree.h	/^		     struct {T_exp fun; T_expList args;} CALL;$/;"	m	struct:T_exp_::__anon34::__anon37
+array	absyn.h	/^		     S_symbol array;$/;"	m	union:A_ty_::__anon21
+array	absyn.h	/^	      struct {S_symbol typ; A_exp size, init;} array;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon16
+array	types.h	/^		      Ty_ty array;$/;"	m	union:Ty_ty_::__anon23
+assign	absyn.h	/^	      struct {A_var var; A_exp exp;} assign;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon11
+bin_oper	printtree.c	/^static char bin_oper[][12] = {$/;"	v	file:
 binder	table.c	/^typedef struct binder_ *binder;$/;"	t	typeref:struct:binder_	file:
 binder_	table.c	/^struct binder_ {void *key; void *value; binder next; void *prevtop;};$/;"	s	file:
 body	absyn.h	/^		 S_symbol result; A_exp body;};$/;"	m	struct:A_fundec_
-body	absyn.h	/^		struct {A_decList decs; A_exp body;} let;$/;"	m	struct:A_exp_::__anon7::__anon15
-body	absyn.h	/^		struct {A_exp test, body;} whilee;$/;"	m	struct:A_exp_::__anon7::__anon13
-body	absyn.h	/^		struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	struct:A_exp_::__anon7::__anon14
+body	absyn.h	/^	      struct {A_decList decs; A_exp body;} let;$/;"	m	struct:A_exp_::__anon7::__anon15
+body	absyn.h	/^	      struct {A_exp test, body;} whilee;$/;"	m	struct:A_exp_::__anon7::__anon13
+body	absyn.h	/^	      struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	struct:A_exp_::__anon7::__anon14
+body	frame.h	/^				struct {T_stm body; F_frame frame;} proc;$/;"	m	struct:F_frag_::__anon47::__anon49
 bool	util.h	/^typedef char bool;$/;"	t
-call	absyn.h	/^		struct {S_symbol func; A_expList args;} call;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon8
-charPos	lex.yy.c	/^int charPos=1;$/;"	v
+call	absyn.h	/^	      struct {S_symbol func; A_expList args;} call;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon8
+check_same_func	semant.c	/^int check_same_func(A_fundecList list)$/;"	f
 checked_malloc	util.c	/^void *checked_malloc(int len)$/;"	f
 cmp_array_type	semant.c	/^int cmp_array_type(struct expty a, struct expty b)$/;"	f
-dec	tiger.y	/^dec: tydecs  {$$=A_TypeDec(EM_tokPos, $1);}$/;"	l
-dec	y.tab.c	/^	A_dec dec;$/;"	m	union:YYSTYPE	file:
-dec	y.tab.h	/^	A_dec dec;$/;"	m	union:YYSTYPE
-decList	y.tab.c	/^	A_decList decList;$/;"	m	union:YYSTYPE	file:
-decList	y.tab.h	/^	A_decList decList;$/;"	m	union:YYSTYPE
-decs	absyn.h	/^		struct {A_decList decs; A_exp body;} let;$/;"	m	struct:A_exp_::__anon7::__anon15
-decs	tiger.y	/^decs: dec {$$=A_DecList($1, NULL);}$/;"	l
-efield	y.tab.c	/^	A_efield efield;$/;"	m	union:YYSTYPE	file:
-efield	y.tab.h	/^	A_efield efield;$/;"	m	union:YYSTYPE
-efieldList	y.tab.c	/^	A_efieldList efieldList;$/;"	m	union:YYSTYPE	file:
-efieldList	y.tab.h	/^	A_efieldList efieldList;$/;"	m	union:YYSTYPE
-elsee	absyn.h	/^		struct {A_exp test, then, elsee;} iff; \/* elsee is optional *\/$/;"	m	struct:A_exp_::__anon7::__anon12
-escape	absyn.h	/^		struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	struct:A_exp_::__anon7::__anon14
-escape	absyn.h	/^		struct {S_symbol var; S_symbol typ; A_exp init; bool escape;} var;$/;"	m	struct:A_dec_::__anon18::__anon19
+cx	translate.c	/^	union {T_exp ex; T_stm nx; struct Cx cx; } u;$/;"	m	union:Tr_exp_::__anon45	typeref:struct:Tr_exp_::__anon45::Cx	file:
+decs	absyn.h	/^	      struct {A_decList decs; A_exp body;} let;$/;"	m	struct:A_exp_::__anon7::__anon15
+doPatch	translate.c	/^void doPatch(patchList tList, Temp_label label)$/;"	f
+dst	tree.h	/^		      struct {T_exp dst, src;} MOVE;$/;"	m	struct:T_stm_::__anon28::__anon32
+elsee	absyn.h	/^	      struct {A_exp test, then, elsee;} iff; \/* elsee is optional *\/$/;"	m	struct:A_exp_::__anon7::__anon12
+escape	absyn.h	/^	      struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	struct:A_exp_::__anon7::__anon14
+escape	absyn.h	/^	    struct {S_symbol var; S_symbol typ; A_exp init; bool escape;} var;$/;"	m	struct:A_dec_::__anon18::__anon19
 escape	absyn.h	/^struct A_field_ {S_symbol name, typ; A_pos pos; bool escape;};$/;"	m	struct:A_field_
-exp	absyn.h	/^		struct {A_var var; A_exp exp;} assign;$/;"	m	struct:A_exp_::__anon7::__anon11
-exp	absyn.h	/^	    struct {A_var var; A_exp exp;} subscript;$/;"	m	struct:A_var_::__anon3::__anon5
+ex	translate.c	/^	union {T_exp ex; T_stm nx; struct Cx cx; } u;$/;"	m	union:Tr_exp_::__anon45	file:
+exp	absyn.h	/^		       A_exp exp;} subscript;$/;"	m	struct:A_var_::__anon3::__anon5
+exp	absyn.h	/^	      struct {A_var var; A_exp exp;} assign;$/;"	m	struct:A_exp_::__anon7::__anon11
 exp	absyn.h	/^struct A_efield_ {S_symbol name; A_exp exp;};$/;"	m	struct:A_efield_
 exp	semant.c	/^	Tr_exp exp; $/;"	m	struct:expty	file:
-exp	tiger.y	/^exp: lvalue {$$=A_VarExp(EM_tokPos, $1);}$/;"	l
-exp	y.tab.c	/^	A_exp exp;$/;"	m	union:YYSTYPE	file:
-exp	y.tab.h	/^	A_exp exp;$/;"	m	union:YYSTYPE
-expList	y.tab.c	/^	A_expList expList;$/;"	m	union:YYSTYPE	file:
-expList	y.tab.h	/^	A_expList expList;$/;"	m	union:YYSTYPE
+exp	tree.h	/^		      struct {T_exp exp; Temp_labelList jumps;} JUMP;$/;"	m	struct:T_stm_::__anon28::__anon30
+exp	tree.h	/^		     struct {T_stm stm; T_exp exp;} ESEQ;$/;"	m	struct:T_exp_::__anon34::__anon36
 expTy	semant.c	/^struct expty expTy(Tr_exp exp, Ty_ty ty)$/;"	f
-exps	tiger.y	/^exps:       {$$=NULL;}$/;"	l
 expty	semant.c	/^struct expty $/;"	s	file:
-field	absyn.h	/^		struct {A_var var; S_symbol sym;} field;$/;"	m	union:A_var_::__anon3	typeref:struct:A_var_::__anon3::__anon4
-field	y.tab.c	/^	A_field field;$/;"	m	union:YYSTYPE	file:
-field	y.tab.h	/^	A_field field;$/;"	m	union:YYSTYPE
-fieldList	y.tab.c	/^	A_fieldList fieldList;$/;"	m	union:YYSTYPE	file:
-fieldList	y.tab.h	/^	A_fieldList fieldList;$/;"	m	union:YYSTYPE
-fields	absyn.h	/^		struct {S_symbol typ; A_efieldList fields;} record;$/;"	m	struct:A_exp_::__anon7::__anon10
+false	tree.h	/^			      Temp_label true, false;} CJUMP;$/;"	m	struct:T_stm_::__anon28::__anon31
+falses	translate.c	/^	patchList falses; $/;"	m	struct:Cx	file:
+field	absyn.h	/^		       S_symbol sym;} field;$/;"	m	union:A_var_::__anon3	typeref:struct:A_var_::__anon3::__anon4
+fields	absyn.h	/^	      struct {S_symbol typ; A_efieldList fields;} record;$/;"	m	struct:A_exp_::__anon7::__anon10
 fileName	errormsg.c	/^static string fileName = "";$/;"	v	file:
-flex_int16_t	lex.yy.c	/^typedef int16_t flex_int16_t;$/;"	t	file:
-flex_int16_t	lex.yy.c	/^typedef short int flex_int16_t;$/;"	t	file:
-flex_int32_t	lex.yy.c	/^typedef int flex_int32_t;$/;"	t	file:
-flex_int32_t	lex.yy.c	/^typedef int32_t flex_int32_t;$/;"	t	file:
-flex_int8_t	lex.yy.c	/^typedef int8_t flex_int8_t;$/;"	t	file:
-flex_int8_t	lex.yy.c	/^typedef signed char flex_int8_t;$/;"	t	file:
-flex_uint16_t	lex.yy.c	/^typedef uint16_t flex_uint16_t;$/;"	t	file:
-flex_uint16_t	lex.yy.c	/^typedef unsigned short int flex_uint16_t;$/;"	t	file:
-flex_uint32_t	lex.yy.c	/^typedef uint32_t flex_uint32_t;$/;"	t	file:
-flex_uint32_t	lex.yy.c	/^typedef unsigned int flex_uint32_t;$/;"	t	file:
-flex_uint8_t	lex.yy.c	/^typedef uint8_t flex_uint8_t;$/;"	t	file:
-flex_uint8_t	lex.yy.c	/^typedef unsigned char flex_uint8_t; $/;"	t	file:
-formals	env.h	/^		struct {Ty_tyList formals; Ty_ty result;} fun;$/;"	m	struct:E_enventry_::__anon26::__anon28
-forr	absyn.h	/^		struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon14
-fun	env.h	/^		struct {Ty_tyList formals; Ty_ty result;} fun;$/;"	m	union:E_enventry_::__anon26	typeref:struct:E_enventry_::__anon26::__anon28
-func	absyn.h	/^		struct {S_symbol func; A_expList args;} call;$/;"	m	struct:A_exp_::__anon7::__anon8
-function	absyn.h	/^		A_fundecList function;$/;"	m	union:A_dec_::__anon18
-fundec	tiger.y	/^fundec: FUNCTION ID LPAREN tyfields RPAREN EQ exp $/;"	l
-fundec	y.tab.c	/^	A_fundec fundec;$/;"	m	union:YYSTYPE	file:
-fundec	y.tab.h	/^	A_fundec fundec;$/;"	m	union:YYSTYPE
-fundecList	y.tab.c	/^	A_fundecList fundecList;$/;"	m	union:YYSTYPE	file:
-fundecList	y.tab.h	/^	A_fundecList fundecList;$/;"	m	union:YYSTYPE
-fundecs	tiger.y	/^fundecs: fundec {$$=A_FundecList($1, NULL);}$/;"	l
+find_root	semant.c	/^void *find_root(S_table tab, S_symbol name)$/;"	f
+formals	env.h	/^		struct {Tr_level level; Temp_label label; Ty_tyList formals; Ty_ty result;} fun;$/;"	m	struct:E_enventry_::__anon41::__anon43
+formals	x86frame.c	/^	F_accessList formals; \/\/arguments$/;"	m	struct:F_frame_	file:
+forr	absyn.h	/^	      struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon14
+frame	frame.h	/^				struct {T_stm body; F_frame frame;} proc;$/;"	m	struct:F_frag_::__anon47::__anon49
+frame	translate.c	/^	F_frame frame;$/;"	m	struct:Tr_level_	file:
+framePtr	x86frame.c	/^static Temp_temp framePtr = NULL;$/;"	v	file:
+frameSize	x86frame.c	/^	int frameSize;$/;"	m	struct:F_frame_	file:
+fun	env.h	/^		struct {Tr_level level; Temp_label label; Ty_tyList formals; Ty_ty result;} fun;$/;"	m	union:E_enventry_::__anon41	typeref:struct:E_enventry_::__anon41::__anon43
+fun	tree.h	/^		     struct {T_exp fun; T_expList args;} CALL;$/;"	m	struct:T_exp_::__anon34::__anon37
+func	absyn.h	/^	      struct {S_symbol func; A_expList args;} call;$/;"	m	struct:A_exp_::__anon7::__anon8
+function	absyn.h	/^     union {A_fundecList function;$/;"	m	union:A_dec_::__anon18
 get_array	helper.h	63;"	d
-get_array_kind	helper.h	81;"	d
+get_array_kind	helper.h	80;"	d
 get_array_type	helper.h	62;"	d
 get_arrayexp_init	helper.h	50;"	d
 get_arrayexp_size	helper.h	49;"	d
@@ -614,14 +416,16 @@ get_assexp_var	helper.h	29;"	d
 get_callexp_args	helper.h	19;"	d
 get_callexp_func	helper.h	18;"	d
 get_expty_kind	helper.h	61;"	d
-get_fieldvar_sym	helper.h	71;"	d
-get_fieldvar_var	helper.h	70;"	d
+get_fieldvar_sym	helper.h	70;"	d
+get_fieldvar_var	helper.h	69;"	d
 get_forexp_body	helper.h	45;"	d
 get_forexp_hi	helper.h	44;"	d
 get_forexp_lo	helper.h	43;"	d
 get_forexp_var	helper.h	42;"	d
-get_func_res	helper.h	86;"	d
-get_func_tylist	helper.h	87;"	d
+get_func_label	helper.h	90;"	d
+get_func_level	helper.h	91;"	d
+get_func_res	helper.h	85;"	d
+get_func_tylist	helper.h	86;"	d
 get_funcdec_list	helper.h	58;"	d
 get_ifexp_else	helper.h	35;"	d
 get_ifexp_test	helper.h	33;"	d
@@ -633,25 +437,25 @@ get_opexp_leftpos	helper.h	9;"	d
 get_opexp_oper	helper.h	7;"	d
 get_opexp_right	helper.h	10;"	d
 get_opexp_rightpos	helper.h	11;"	d
-get_readonly	helper.h	65;"	d
 get_record_fieldlist	helper.h	64;"	d
 get_recordexp_fields	helper.h	23;"	d
 get_recordexp_typ	helper.h	22;"	d
 get_seqexp_seq	helper.h	26;"	d
-get_simplevar_sym	helper.h	69;"	d
-get_subvar_exp	helper.h	73;"	d
-get_subvar_var	helper.h	72;"	d
-get_ty_array	helper.h	78;"	d
-get_ty_name	helper.h	76;"	d
-get_ty_record	helper.h	77;"	d
+get_simplevar_sym	helper.h	68;"	d
+get_subvar_exp	helper.h	72;"	d
+get_subvar_var	helper.h	71;"	d
+get_ty_array	helper.h	77;"	d
+get_ty_name	helper.h	75;"	d
+get_ty_record	helper.h	76;"	d
 get_typedec_list	helper.h	57;"	d
+get_var_access	helper.h	89;"	d
 get_vardec_init	helper.h	53;"	d
 get_vardec_typ	helper.h	55;"	d
 get_vardec_var	helper.h	54;"	d
-get_varentry_type	helper.h	84;"	d
+get_varentry_type	helper.h	83;"	d
 get_whileexp_body	helper.h	39;"	d
 get_whileexp_test	helper.h	38;"	d
-getstr	lex.yy.c	/^char *getstr(const char *str)$/;"	f
+has_cycle	semant.c	/^int has_cycle(A_nametyList list)$/;"	f
 hash	symbol.c	/^static unsigned int hash(char *s0)$/;"	f	file:
 hashtable	symbol.c	/^static S_symbol hashtable[SIZE];$/;"	v	file:
 head	absyn.h	/^struct A_decList_ {A_dec head; A_decList tail;};$/;"	m	struct:A_decList_
@@ -660,64 +464,93 @@ head	absyn.h	/^struct A_expList_ {A_exp head; A_expList tail;};$/;"	m	struct:A_e
 head	absyn.h	/^struct A_fieldList_ {A_field head; A_fieldList tail;};$/;"	m	struct:A_fieldList_
 head	absyn.h	/^struct A_fundecList_ {A_fundec head; A_fundecList tail;};$/;"	m	struct:A_fundecList_
 head	absyn.h	/^struct A_nametyList_ {A_namety head; A_nametyList tail;};$/;"	m	struct:A_nametyList_
+head	frame.h	/^	F_frag head; $/;"	m	struct:F_fragList_
+head	frame.h	/^struct F_accessList_ {F_access head; F_accessList tail;};$/;"	m	struct:F_accessList_
+head	temp.h	/^struct Temp_labelList_ { Temp_label head; Temp_labelList tail;};$/;"	m	struct:Temp_labelList_
+head	temp.h	/^struct Temp_tempList_ { Temp_temp head; Temp_tempList tail;};$/;"	m	struct:Temp_tempList_
+head	translate.c	/^	Temp_label *head; $/;"	m	struct:patchList_	file:
+head	translate.c	/^	Tr_access head;$/;"	m	struct:Tr_accessList_	file:
+head	tree.h	/^struct T_expList_ {T_exp head; T_expList tail;};$/;"	m	struct:T_expList_
+head	tree.h	/^struct T_stmList_ {T_stm head; T_stmList tail;};$/;"	m	struct:T_stmList_
 head	types.h	/^struct Ty_fieldList_ {Ty_field head; Ty_fieldList tail;};$/;"	m	struct:Ty_fieldList_
 head	types.h	/^struct Ty_tyList_ {Ty_ty head; Ty_tyList tail;};$/;"	m	struct:Ty_tyList_
 head	util.h	/^struct U_boolList_ {bool head; U_boolList tail;};$/;"	m	struct:U_boolList_
-hi	absyn.h	/^		struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	struct:A_exp_::__anon7::__anon14
+hi	absyn.h	/^	      struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	struct:A_exp_::__anon7::__anon14
 i	errormsg.c	/^typedef struct intList {int i; struct intList *rest;} *IntList;$/;"	m	struct:intList	file:
-iff	absyn.h	/^		struct {A_exp test, then, elsee;} iff; \/* elsee is optional *\/$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon12
+iff	absyn.h	/^	      struct {A_exp test, then, elsee;} iff; \/* elsee is optional *\/$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon12
+inFrame	x86frame.c	/^	enum {inFrame, inReg} kind;$/;"	e	enum:F_access_::__anon38	file:
+inReg	x86frame.c	/^	enum {inFrame, inReg} kind;$/;"	e	enum:F_access_::__anon38	file:
 indent	prabsyn.c	/^static void indent(FILE *out, int d) {$/;"	f	file:
-init	absyn.h	/^		struct {S_symbol typ; A_exp size, init;} array;$/;"	m	struct:A_exp_::__anon7::__anon16
-init	absyn.h	/^		struct {S_symbol var; S_symbol typ; A_exp init; bool escape;} var;$/;"	m	struct:A_dec_::__anon18::__anon19
+indent	printtree.c	/^static void indent(FILE *out, int d) {$/;"	f	file:
+init	absyn.h	/^	      struct {S_symbol typ; A_exp size, init;} array;$/;"	m	struct:A_exp_::__anon7::__anon16
+init	absyn.h	/^	    struct {S_symbol var; S_symbol typ; A_exp init; bool escape;} var;$/;"	m	struct:A_dec_::__anon18::__anon19
 intList	errormsg.c	/^static IntList intList(int i, IntList rest) $/;"	f	file:
 intList	errormsg.c	/^typedef struct intList {int i; struct intList *rest;} *IntList;$/;"	s	file:
-intt	absyn.h	/^		int intt;$/;"	m	union:A_exp_::__anon7
-ival	y.tab.c	/^	int ival;$/;"	m	union:YYSTYPE	file:
-ival	y.tab.h	/^	int ival;$/;"	m	union:YYSTYPE
+intt	absyn.h	/^	      int intt;$/;"	m	union:A_exp_::__anon7
+joinPatch	translate.c	/^patchList joinPatch(patchList first, patchList second)$/;"	f
+jumps	tree.h	/^		      struct {T_exp exp; Temp_labelList jumps;} JUMP;$/;"	m	struct:T_stm_::__anon28::__anon30
 key	table.c	/^struct binder_ {void *key; void *value; binder next; void *prevtop;};$/;"	m	struct:binder_	file:
 kind	absyn.h	/^	       A_whileExp, A_forExp, A_breakExp, A_letExp, A_arrayExp} kind;$/;"	m	struct:A_exp_	typeref:enum:A_exp_::__anon6
-kind	absyn.h	/^	enum {A_functionDec, A_varDec, A_typeDec} kind;$/;"	m	struct:A_dec_	typeref:enum:A_dec_::__anon17
-kind	absyn.h	/^	enum {A_nameTy, A_recordTy, A_arrayTy} kind;$/;"	m	struct:A_ty_	typeref:enum:A_ty_::__anon20
-kind	absyn.h	/^	enum {A_simpleVar, A_fieldVar, A_subscriptVar} kind;$/;"	m	struct:A_var_	typeref:enum:A_var_::__anon2
-kind	env.h	/^	enum {E_varEntry, E_funEntry} kind;$/;"	m	struct:E_enventry_	typeref:enum:E_enventry_::__anon25
-kind	types.h	/^		  Ty_name, Ty_void} kind;$/;"	m	struct:Ty_ty_	typeref:enum:Ty_ty_::__anon22
-left	absyn.h	/^		struct {A_oper oper; A_exp left; A_exp right;} op;$/;"	m	struct:A_exp_::__anon7::__anon9
-let	absyn.h	/^		struct {A_decList decs; A_exp body;} let;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon15
+kind	absyn.h	/^       {enum {A_simpleVar, A_fieldVar, A_subscriptVar} kind;$/;"	m	struct:A_var_	typeref:enum:A_var_::__anon2
+kind	absyn.h	/^    {enum {A_functionDec, A_varDec, A_typeDec} kind;$/;"	m	struct:A_dec_	typeref:enum:A_dec_::__anon17
+kind	absyn.h	/^struct A_ty_ {enum {A_nameTy, A_recordTy, A_arrayTy} kind;$/;"	m	struct:A_ty_	typeref:enum:A_ty_::__anon20
+kind	env.h	/^	enum {E_varEntry, E_funEntry} kind;$/;"	m	struct:E_enventry_	typeref:enum:E_enventry_::__anon40
+kind	frame.h	/^struct F_frag_ {enum {F_stringFrag, F_procFrag} kind;$/;"	m	struct:F_frag_	typeref:enum:F_frag_::__anon46
+kind	translate.c	/^	enum {Tr_ex, Tr_nx, Tr_cx} kind;$/;"	m	struct:Tr_exp_	typeref:enum:Tr_exp_::__anon44	file:
+kind	tree.h	/^		       T_EXP} kind;$/;"	m	struct:T_stm_	typeref:enum:T_stm_::__anon27
+kind	tree.h	/^		      T_CONST, T_CALL} kind;$/;"	m	struct:T_exp_	typeref:enum:T_exp_::__anon33
+kind	types.h	/^		       Ty_name, Ty_void} kind;$/;"	m	struct:Ty_ty_	typeref:enum:Ty_ty_::__anon22
+kind	x86frame.c	/^	enum {inFrame, inReg} kind;$/;"	m	struct:F_access_	typeref:enum:F_access_::__anon38	file:
+label	env.h	/^		struct {Tr_level level; Temp_label label; Ty_tyList formals; Ty_ty result;} fun;$/;"	m	struct:E_enventry_::__anon41::__anon43
+label	frame.h	/^				struct {Temp_label label; string str;} stringg;$/;"	m	struct:F_frag_::__anon47::__anon48
+labels	temp.c	/^static int labels = 0;$/;"	v	file:
+left	absyn.h	/^	      struct {A_oper oper; A_exp left; A_exp right;} op;$/;"	m	struct:A_exp_::__anon7::__anon9
+left	tree.h	/^		      struct {T_relOp op; T_exp left, right;$/;"	m	struct:T_stm_::__anon28::__anon31
+left	tree.h	/^	       union {struct {T_stm left, right;} SEQ;$/;"	m	struct:T_stm_::__anon28::__anon29
+left	tree.h	/^	      union {struct {T_binOp op; T_exp left, right;} BINOP;$/;"	m	struct:T_exp_::__anon34::__anon35
+let	absyn.h	/^	      struct {A_decList decs; A_exp body;} let;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon15
+level	env.h	/^		struct {Tr_level level; Temp_label label; Ty_tyList formals; Ty_ty result;} fun;$/;"	m	struct:E_enventry_::__anon41::__anon43
+level	translate.c	/^	Tr_level level;$/;"	m	struct:Tr_access_	file:
 lineNum	errormsg.c	/^static int lineNum = 1;$/;"	v	file:
 linePos	errormsg.c	/^static IntList linePos=NULL;$/;"	v	file:
-lo	absyn.h	/^		struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	struct:A_exp_::__anon7::__anon14
-lvalue	tiger.y	/^lvalue: ID {$$=A_SimpleVar(EM_tokPos, S_Symbol($1));}$/;"	l
+lo	absyn.h	/^	      struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	struct:A_exp_::__anon7::__anon14
+localVars	x86frame.c	/^	F_accessList localVars; \/\/TODO: is this necessary?$/;"	m	struct:F_frame_	file:
 main	parse.c	/^int main(int argc, char **argv){$/;"	f
 makeFormalTyList	semant.c	/^Ty_tyList makeFormalTyList(S_table tenv, A_fieldList params)$/;"	f
 marksym	symbol.c	/^static struct S_symbol_ marksym = {"<mark>",0};$/;"	v	typeref:struct:S_symbol_	file:
 mksymbol	symbol.c	/^static S_symbol mksymbol(string name, S_symbol next)$/;"	f	file:
-name	absyn.h	/^		S_symbol name;$/;"	m	union:A_ty_::__anon21
+name	absyn.h	/^	      union {S_symbol name;$/;"	m	union:A_ty_::__anon21
 name	absyn.h	/^                 S_symbol name; A_fieldList params; $/;"	m	struct:A_fundec_
 name	absyn.h	/^struct A_efield_ {S_symbol name; A_exp exp;};$/;"	m	struct:A_efield_
 name	absyn.h	/^struct A_field_ {S_symbol name, typ; A_pos pos; bool escape;};$/;"	m	struct:A_field_
 name	absyn.h	/^struct A_namety_ {S_symbol name; A_ty ty;};$/;"	m	struct:A_namety_
 name	symbol.c	/^struct S_symbol_ {string name; S_symbol next;};$/;"	m	struct:S_symbol_	file:
-name	types.h	/^		struct {S_symbol sym; Ty_ty ty;} name;$/;"	m	union:Ty_ty_::__anon23	typeref:struct:Ty_ty_::__anon23::__anon24
+name	types.h	/^		      struct {S_symbol sym; Ty_ty ty;} name;$/;"	m	union:Ty_ty_::__anon23	typeref:struct:Ty_ty_::__anon23::__anon24
 name	types.h	/^struct Ty_field_ {S_symbol name; Ty_ty ty;};$/;"	m	struct:Ty_field_
-namety	y.tab.c	/^	A_namety namety;$/;"	m	union:YYSTYPE	file:
-namety	y.tab.h	/^	A_namety namety;$/;"	m	union:YYSTYPE
-nametyList	y.tab.c	/^	A_nametyList nametyList;$/;"	m	union:YYSTYPE	file:
-nametyList	y.tab.h	/^	A_nametyList nametyList;$/;"	m	union:YYSTYPE
+name	x86frame.c	/^	Temp_label name; \/\/func label$/;"	m	struct:F_frame_	file:
+newMap	temp.c	/^Temp_map newMap(TAB_table tab, Temp_map under) {$/;"	f
 next	symbol.c	/^struct S_symbol_ {string name; S_symbol next;};$/;"	m	struct:S_symbol_	file:
 next	table.c	/^struct binder_ {void *key; void *value; binder next; void *prevtop;};$/;"	m	struct:binder_	file:
-nonexp	tiger.y	/^nonexp: lvalue ASSIGN exp {$$=A_AssignExp(EM_tokPos, $1, $3);}$/;"	l
-op	absyn.h	/^		struct {A_oper oper; A_exp left; A_exp right;} op;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon9
-oper	absyn.h	/^		struct {A_oper oper; A_exp left; A_exp right;} op;$/;"	m	struct:A_exp_::__anon7::__anon9
+num	temp.c	/^struct Temp_temp_ {int num;};$/;"	m	struct:Temp_temp_	file:
+nx	translate.c	/^	union {T_exp ex; T_stm nx; struct Cx cx; } u;$/;"	m	union:Tr_exp_::__anon45	file:
+offset	x86frame.c	/^		int offset; \/\/inFrame$/;"	m	union:F_access_::__anon39	file:
+op	absyn.h	/^	      struct {A_oper oper; A_exp left; A_exp right;} op;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon9
+op	tree.h	/^		      struct {T_relOp op; T_exp left, right;$/;"	m	struct:T_stm_::__anon28::__anon31
+op	tree.h	/^	      union {struct {T_binOp op; T_exp left, right;} BINOP;$/;"	m	struct:T_exp_::__anon34::__anon35
+oper	absyn.h	/^	      struct {A_oper oper; A_exp left; A_exp right;} op;$/;"	m	struct:A_exp_::__anon7::__anon9
+outermostLevel	translate.c	/^static Tr_level outermostLevel = NULL;$/;"	v	file:
+outfile	temp.c	/^static FILE *outfile;$/;"	v	file:
 params	absyn.h	/^                 S_symbol name; A_fieldList params; $/;"	m	struct:A_fundec_
+parent	translate.c	/^	Tr_level parent;$/;"	m	struct:Tr_level_	file:
 parse	parse.c	/^A_exp parse(string fname) $/;"	f
-pos	absyn.h	/^	A_pos pos;$/;"	m	struct:A_dec_
-pos	absyn.h	/^	A_pos pos;$/;"	m	struct:A_ty_
-pos	absyn.h	/^    A_pos pos;$/;"	m	struct:A_exp_
-pos	absyn.h	/^    A_pos pos;$/;"	m	struct:A_var_
+patchList	translate.c	/^typedef struct patchList_ *patchList;$/;"	t	typeref:struct:patchList_	file:
+patchList_	translate.c	/^struct patchList_ $/;"	s	file:
+pos	absyn.h	/^	      A_pos pos;$/;"	m	struct:A_ty_
+pos	absyn.h	/^        A_pos pos;$/;"	m	struct:A_var_
+pos	absyn.h	/^       A_pos pos;$/;"	m	struct:A_exp_
+pos	absyn.h	/^     A_pos pos;$/;"	m	struct:A_dec_
 pos	absyn.h	/^struct A_field_ {S_symbol name, typ; A_pos pos; bool escape;};$/;"	m	struct:A_field_
 pos	absyn.h	/^struct A_fundec_ {A_pos pos;$/;"	m	struct:A_fundec_
-pos	y.tab.c	/^	int pos;$/;"	m	union:YYSTYPE	file:
-pos	y.tab.h	/^	int pos;$/;"	m	union:YYSTYPE
 pr_dec	prabsyn.c	/^static void pr_dec(FILE *out, A_dec v, int d) {$/;"	f	file:
 pr_decList	prabsyn.c	/^static void pr_decList(FILE *out, A_decList v, int d) {$/;"	f	file:
 pr_efield	prabsyn.c	/^static void pr_efield(FILE *out, A_efield v, int d) {$/;"	f	file:
@@ -731,35 +564,48 @@ pr_fundecList	prabsyn.c	/^static void pr_fundecList(FILE *out, A_fundecList v, i
 pr_namety	prabsyn.c	/^static void pr_namety(FILE *out, A_namety v, int d) {$/;"	f	file:
 pr_nametyList	prabsyn.c	/^static void pr_nametyList(FILE *out, A_nametyList v, int d) {$/;"	f	file:
 pr_oper	prabsyn.c	/^static void pr_oper(FILE *out, A_oper d) {$/;"	f	file:
+pr_stm	printtree.c	/^static void pr_stm(FILE *out, T_stm stm, int d)$/;"	f	file:
+pr_tree_exp	printtree.c	/^static void pr_tree_exp(FILE *out, T_exp exp, int d)$/;"	f	file:
 pr_ty	prabsyn.c	/^static void pr_ty(FILE *out, A_ty v, int d) {$/;"	f	file:
 pr_var	prabsyn.c	/^static void pr_var(FILE *out, A_var v, int d) {$/;"	f	file:
 prevtop	table.c	/^struct binder_ {void *key; void *value; binder next; void *prevtop;};$/;"	m	struct:binder_	file:
-program	tiger.y	/^program: exp  {absyn_root=$1;}$/;"	l
-readonly	types.h	/^		int readonly; \/\/ Ty_int: loop varible$/;"	m	union:Ty_ty_::__anon23
-record	absyn.h	/^		A_fieldList record;$/;"	m	union:A_ty_::__anon21
-record	absyn.h	/^		struct {S_symbol typ; A_efieldList fields;} record;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon10
-record	types.h	/^		Ty_fieldList record;$/;"	m	union:Ty_ty_::__anon23
-recorditem	tiger.y	/^recorditem: ID EQ exp {$$=A_Efield(S_Symbol($1), $3);}$/;"	l
-recorditems	tiger.y	/^recorditems: recorditem {$$=A_EfieldList($1, NULL);}$/;"	l
+printStmList	printtree.c	/^void printStmList (FILE *out, T_stmList stmList) $/;"	f
+proc	frame.h	/^				struct {T_stm body; F_frame frame;} proc;$/;"	m	union:F_frag_::__anon47	typeref:struct:F_frag_::__anon47::__anon49
+procList	translate.c	/^static F_fragList procList = NULL;$/;"	v	file:
+readonly	env.h	/^	int readonly; \/\/for loop var$/;"	m	struct:E_enventry_
+record	absyn.h	/^		     A_fieldList record;$/;"	m	union:A_ty_::__anon21
+record	absyn.h	/^	      struct {S_symbol typ; A_efieldList fields;} record;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon10
+record	types.h	/^	       union {Ty_fieldList record;$/;"	m	union:Ty_ty_::__anon23
+reg	x86frame.c	/^		Temp_temp reg; \/\/inReg$/;"	m	union:F_access_::__anon39	file:
+rel_oper	printtree.c	/^static char rel_oper[][12] = {$/;"	v	file:
 rest	errormsg.c	/^typedef struct intList {int i; struct intList *rest;} *IntList;$/;"	m	struct:intList	typeref:struct:intList::intList	file:
 result	absyn.h	/^		 S_symbol result; A_exp body;};$/;"	m	struct:A_fundec_
-result	env.h	/^		struct {Ty_tyList formals; Ty_ty result;} fun;$/;"	m	struct:E_enventry_::__anon26::__anon28
-right	absyn.h	/^		struct {A_oper oper; A_exp left; A_exp right;} op;$/;"	m	struct:A_exp_::__anon7::__anon9
-seq	absyn.h	/^		A_expList seq;$/;"	m	union:A_exp_::__anon7
-seqexp	tiger.y	/^seqexp:    LPAREN exps RPAREN      {$$=A_SeqExp(EM_tokPos,$2);} $/;"	l
-short	y.tab.c	256;"	d	file:
-simple	absyn.h	/^		S_symbol simple;$/;"	m	union:A_var_::__anon3
-size	absyn.h	/^		struct {S_symbol typ; A_exp size, init;} array;$/;"	m	struct:A_exp_::__anon7::__anon16
+result	env.h	/^		struct {Tr_level level; Temp_label label; Ty_tyList formals; Ty_ty result;} fun;$/;"	m	struct:E_enventry_::__anon41::__anon43
+right	absyn.h	/^	      struct {A_oper oper; A_exp left; A_exp right;} op;$/;"	m	struct:A_exp_::__anon7::__anon9
+right	tree.h	/^		      struct {T_relOp op; T_exp left, right;$/;"	m	struct:T_stm_::__anon28::__anon31
+right	tree.h	/^	       union {struct {T_stm left, right;} SEQ;$/;"	m	struct:T_stm_::__anon28::__anon29
+right	tree.h	/^	      union {struct {T_binOp op; T_exp left, right;} BINOP;$/;"	m	struct:T_exp_::__anon34::__anon35
+rv	x86frame.c	/^static Temp_temp rv = NULL;$/;"	v	file:
+seq	absyn.h	/^	      A_expList seq;$/;"	m	union:A_exp_::__anon7
+showit	temp.c	/^void showit(Temp_temp t, string r) {$/;"	f
+simple	absyn.h	/^	union {S_symbol simple;$/;"	m	union:A_var_::__anon3
+size	absyn.h	/^	      struct {S_symbol typ; A_exp size, init;} array;$/;"	m	struct:A_exp_::__anon7::__anon16
+src	tree.h	/^		      struct {T_exp dst, src;} MOVE;$/;"	m	struct:T_stm_::__anon28::__anon32
+stm	translate.c	/^	T_stm stm;$/;"	m	struct:Cx	file:
+stm	tree.h	/^		     struct {T_stm stm; T_exp exp;} ESEQ;$/;"	m	struct:T_exp_::__anon34::__anon36
+str	frame.h	/^				struct {Temp_label label; string str;} stringg;$/;"	m	struct:F_frag_::__anon47::__anon48
 str_oper	prabsyn.c	/^static char str_oper[][12] = {$/;"	v	file:
 str_ty	types.c	/^static char str_ty[][12] = {$/;"	v	file:
 streq	symbol.c	/^static int streq(string a, string b)$/;"	f	file:
 string	util.h	/^typedef char *string;$/;"	t
-stringg	absyn.h	/^		string stringg;$/;"	m	union:A_exp_::__anon7
-subscript	absyn.h	/^	    struct {A_var var; A_exp exp;} subscript;$/;"	m	union:A_var_::__anon3	typeref:struct:A_var_::__anon3::__anon5
-sval	y.tab.c	/^	string sval;$/;"	m	union:YYSTYPE	file:
-sval	y.tab.h	/^	string sval;$/;"	m	union:YYSTYPE
-sym	absyn.h	/^		struct {A_var var; S_symbol sym;} field;$/;"	m	struct:A_var_::__anon3::__anon4
-sym	types.h	/^		struct {S_symbol sym; Ty_ty ty;} name;$/;"	m	struct:Ty_ty_::__anon23::__anon24
+stringList	translate.c	/^static F_fragList stringList = NULL;$/;"	v	file:
+stringg	absyn.h	/^	      string stringg;$/;"	m	union:A_exp_::__anon7
+stringg	frame.h	/^				struct {Temp_label label; string str;} stringg;$/;"	m	union:F_frag_::__anon47	typeref:struct:F_frag_::__anon47::__anon48
+stub	x86frame.c	/^	void *stub; \/\/ view change instructions$/;"	m	struct:F_frame_	file:
+subscript	absyn.h	/^		       A_exp exp;} subscript;$/;"	m	union:A_var_::__anon3	typeref:struct:A_var_::__anon3::__anon5
+sym	absyn.h	/^		       S_symbol sym;} field;$/;"	m	struct:A_var_::__anon3::__anon4
+sym	types.h	/^		      struct {S_symbol sym; Ty_ty ty;} name;$/;"	m	struct:Ty_ty_::__anon23::__anon24
+tab	temp.c	/^struct Temp_map_ {TAB_table tab; Temp_map under;};$/;"	m	struct:Temp_map_	file:
 table	table.c	/^  binder table[TABSIZE];$/;"	m	struct:TAB_table_	file:
 tail	absyn.h	/^struct A_decList_ {A_dec head; A_decList tail;};$/;"	m	struct:A_decList_
 tail	absyn.h	/^struct A_efieldList_ {A_efield head; A_efieldList tail;};$/;"	m	struct:A_efieldList_
@@ -767,193 +613,64 @@ tail	absyn.h	/^struct A_expList_ {A_exp head; A_expList tail;};$/;"	m	struct:A_e
 tail	absyn.h	/^struct A_fieldList_ {A_field head; A_fieldList tail;};$/;"	m	struct:A_fieldList_
 tail	absyn.h	/^struct A_fundecList_ {A_fundec head; A_fundecList tail;};$/;"	m	struct:A_fundecList_
 tail	absyn.h	/^struct A_nametyList_ {A_namety head; A_nametyList tail;};$/;"	m	struct:A_nametyList_
+tail	frame.h	/^	F_fragList tail;$/;"	m	struct:F_fragList_
+tail	frame.h	/^struct F_accessList_ {F_access head; F_accessList tail;};$/;"	m	struct:F_accessList_
+tail	temp.h	/^struct Temp_labelList_ { Temp_label head; Temp_labelList tail;};$/;"	m	struct:Temp_labelList_
+tail	temp.h	/^struct Temp_tempList_ { Temp_temp head; Temp_tempList tail;};$/;"	m	struct:Temp_tempList_
+tail	translate.c	/^	Tr_accessList tail;	$/;"	m	struct:Tr_accessList_	file:
+tail	translate.c	/^	patchList tail;$/;"	m	struct:patchList_	file:
+tail	tree.h	/^struct T_expList_ {T_exp head; T_expList tail;};$/;"	m	struct:T_expList_
+tail	tree.h	/^struct T_stmList_ {T_stm head; T_stmList tail;};$/;"	m	struct:T_stmList_
 tail	types.h	/^struct Ty_fieldList_ {Ty_field head; Ty_fieldList tail;};$/;"	m	struct:Ty_fieldList_
 tail	types.h	/^struct Ty_tyList_ {Ty_ty head; Ty_tyList tail;};$/;"	m	struct:Ty_tyList_
 tail	util.h	/^struct U_boolList_ {bool head; U_boolList tail;};$/;"	m	struct:U_boolList_
-test	absyn.h	/^		struct {A_exp test, body;} whilee;$/;"	m	struct:A_exp_::__anon7::__anon13
-test	absyn.h	/^		struct {A_exp test, then, elsee;} iff; \/* elsee is optional *\/$/;"	m	struct:A_exp_::__anon7::__anon12
-then	absyn.h	/^		struct {A_exp test, then, elsee;} iff; \/* elsee is optional *\/$/;"	m	struct:A_exp_::__anon7::__anon12
+temps	temp.c	/^static int temps = 100;$/;"	v	file:
+test	absyn.h	/^	      struct {A_exp test, body;} whilee;$/;"	m	struct:A_exp_::__anon7::__anon13
+test	absyn.h	/^	      struct {A_exp test, then, elsee;} iff; \/* elsee is optional *\/$/;"	m	struct:A_exp_::__anon7::__anon12
+then	absyn.h	/^	      struct {A_exp test, then, elsee;} iff; \/* elsee is optional *\/$/;"	m	struct:A_exp_::__anon7::__anon12
 top	table.c	/^  void *top;$/;"	m	struct:TAB_table_	file:
-transDec	semant.c	/^void transDec(S_table venv, S_table tenv, A_dec d)$/;"	f
-transExp	semant.c	/^struct expty transExp(S_table venv, S_table tenv, A_exp a)$/;"	f
+transDec	semant.c	/^Tr_exp transDec(S_table venv, S_table tenv, A_dec d, Tr_level level, Temp_label bTarget)$/;"	f
+transExp	semant.c	/^struct expty transExp(S_table venv, S_table tenv, A_exp a, Tr_level level, Temp_label bTarget)$/;"	f
 transTy	semant.c	/^Ty_ty transTy(S_table tenv, A_ty a)$/;"	f
-transVar	semant.c	/^struct expty transVar(S_table venv, S_table tenv, A_var v)$/;"	f
+transVar	semant.c	/^struct expty transVar(S_table venv, S_table tenv, A_var v, Tr_level level, Temp_label bTarget)$/;"	f
+true	tree.h	/^			      Temp_label true, false;} CJUMP;$/;"	m	struct:T_stm_::__anon28::__anon31
+trues	translate.c	/^	patchList trues; $/;"	m	struct:Cx	file:
 ty	absyn.h	/^struct A_namety_ {S_symbol name; A_ty ty;};$/;"	m	struct:A_namety_
-ty	env.h	/^		struct {Ty_ty ty;} var;$/;"	m	struct:E_enventry_::__anon26::__anon27
+ty	env.h	/^		struct {Tr_access access; Ty_ty ty;} var;$/;"	m	struct:E_enventry_::__anon41::__anon42
 ty	semant.c	/^	Ty_ty ty;$/;"	m	struct:expty	file:
-ty	tiger.y	/^ty: ID {$$=A_NameTy(EM_tokPos, S_Symbol($1));}$/;"	l
-ty	types.h	/^		struct {S_symbol sym; Ty_ty ty;} name;$/;"	m	struct:Ty_ty_::__anon23::__anon24
+ty	types.h	/^		      struct {S_symbol sym; Ty_ty ty;} name;$/;"	m	struct:Ty_ty_::__anon23::__anon24
 ty	types.h	/^struct Ty_field_ {S_symbol name; Ty_ty ty;};$/;"	m	struct:Ty_field_
-ty	y.tab.c	/^	A_ty ty;$/;"	m	union:YYSTYPE	file:
-ty	y.tab.h	/^	A_ty ty;$/;"	m	union:YYSTYPE
-tydec	tiger.y	/^tydec: TYPE ID EQ ty {$$=A_Namety(S_Symbol($2), $4);}$/;"	l
-tydecs	tiger.y	/^tydecs: tydec {$$=A_NametyList($1, NULL);}$/;"	l
-tyfield	tiger.y	/^tyfield: ID COLON ID {$$=A_Field(EM_tokPos, S_Symbol($1), S_Symbol($3));}$/;"	l
-tyfields	tiger.y	/^tyfields: tyfield {$$=A_FieldList($1, NULL);}$/;"	l
 tyint	types.c	/^static struct Ty_ty_ tyint = {Ty_int};$/;"	v	typeref:struct:Ty_ty_	file:
 tynil	types.c	/^static struct Ty_ty_ tynil = {Ty_nil};$/;"	v	typeref:struct:Ty_ty_	file:
-typ	absyn.h	/^		struct {S_symbol typ; A_efieldList fields;} record;$/;"	m	struct:A_exp_::__anon7::__anon10
-typ	absyn.h	/^		struct {S_symbol typ; A_exp size, init;} array;$/;"	m	struct:A_exp_::__anon7::__anon16
-typ	absyn.h	/^		struct {S_symbol var; S_symbol typ; A_exp init; bool escape;} var;$/;"	m	struct:A_dec_::__anon18::__anon19
+typ	absyn.h	/^	      struct {S_symbol typ; A_efieldList fields;} record;$/;"	m	struct:A_exp_::__anon7::__anon10
+typ	absyn.h	/^	      struct {S_symbol typ; A_exp size, init;} array;$/;"	m	struct:A_exp_::__anon7::__anon16
+typ	absyn.h	/^	    struct {S_symbol var; S_symbol typ; A_exp init; bool escape;} var;$/;"	m	struct:A_dec_::__anon18::__anon19
 typ	absyn.h	/^struct A_field_ {S_symbol name, typ; A_pos pos; bool escape;};$/;"	m	struct:A_field_
-type	absyn.h	/^		A_nametyList type;$/;"	m	union:A_dec_::__anon18
+type	absyn.h	/^	    A_nametyList type;$/;"	m	union:A_dec_::__anon18
 tystring	types.c	/^static struct Ty_ty_ tystring = {Ty_string};$/;"	v	typeref:struct:Ty_ty_	file:
 tyvoid	types.c	/^static struct Ty_ty_ tyvoid = {Ty_void};$/;"	v	typeref:struct:Ty_ty_	file:
-u	absyn.h	/^	} u;$/;"	m	struct:A_dec_	typeref:union:A_dec_::__anon18
-u	absyn.h	/^	} u;$/;"	m	struct:A_exp_	typeref:union:A_exp_::__anon7
-u	absyn.h	/^	} u;$/;"	m	struct:A_ty_	typeref:union:A_ty_::__anon21
-u	absyn.h	/^	} u;$/;"	m	struct:A_var_	typeref:union:A_var_::__anon3
-u	env.h	/^	} u;$/;"	m	struct:E_enventry_	typeref:union:E_enventry_::__anon26
-u	types.h	/^	} u;$/;"	m	struct:Ty_ty_	typeref:union:Ty_ty_::__anon23
-unput	lex.yy.c	194;"	d	file:
+u	absyn.h	/^		   } u;$/;"	m	struct:A_ty_	typeref:union:A_ty_::__anon21
+u	absyn.h	/^	     } u;$/;"	m	struct:A_var_	typeref:union:A_var_::__anon3
+u	absyn.h	/^	    } u;$/;"	m	struct:A_exp_	typeref:union:A_exp_::__anon7
+u	absyn.h	/^	  } u;$/;"	m	struct:A_dec_	typeref:union:A_dec_::__anon18
+u	env.h	/^	} u;$/;"	m	struct:E_enventry_	typeref:union:E_enventry_::__anon41
+u	frame.h	/^			} u;$/;"	m	struct:F_frag_	typeref:union:F_frag_::__anon47
+u	translate.c	/^	union {T_exp ex; T_stm nx; struct Cx cx; } u;$/;"	m	struct:Tr_exp_	typeref:union:Tr_exp_::__anon45	file:
+u	tree.h	/^		    } u;$/;"	m	struct:T_stm_	typeref:union:T_stm_::__anon28
+u	tree.h	/^		   } u;$/;"	m	struct:T_exp_	typeref:union:T_exp_::__anon34
+u	types.h	/^		    } u;$/;"	m	struct:Ty_ty_	typeref:union:Ty_ty_::__anon23
+u	x86frame.c	/^	} u;$/;"	m	struct:F_access_	typeref:union:F_access_::__anon39	file:
+unCx	translate.c	/^static struct Cx unCx(Tr_exp exp)$/;"	f	file:
+unEx	translate.c	/^static T_exp unEx(Tr_exp e)$/;"	f	file:
+unNx	translate.c	/^static T_stm unNx(Tr_exp exp)$/;"	f	file:
+under	temp.c	/^struct Temp_map_ {TAB_table tab; Temp_map under;};$/;"	m	struct:Temp_map_	file:
 value	table.c	/^struct binder_ {void *key; void *value; binder next; void *prevtop;};$/;"	m	struct:binder_	file:
-var	absyn.h	/^		A_var var;$/;"	m	union:A_exp_::__anon7
-var	absyn.h	/^		struct {A_var var; A_exp exp;} assign;$/;"	m	struct:A_exp_::__anon7::__anon11
-var	absyn.h	/^		struct {A_var var; S_symbol sym;} field;$/;"	m	struct:A_var_::__anon3::__anon4
-var	absyn.h	/^		struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	struct:A_exp_::__anon7::__anon14
-var	absyn.h	/^		struct {S_symbol var; S_symbol typ; A_exp init; bool escape;} var;$/;"	m	struct:A_dec_::__anon18::__anon19
-var	absyn.h	/^		struct {S_symbol var; S_symbol typ; A_exp init; bool escape;} var;$/;"	m	union:A_dec_::__anon18	typeref:struct:A_dec_::__anon18::__anon19
-var	absyn.h	/^	    struct {A_var var; A_exp exp;} subscript;$/;"	m	struct:A_var_::__anon3::__anon5
-var	env.h	/^		struct {Ty_ty ty;} var;$/;"	m	union:E_enventry_::__anon26	typeref:struct:E_enventry_::__anon26::__anon27
-var	y.tab.c	/^	A_var var;$/;"	m	union:YYSTYPE	file:
-var	y.tab.h	/^	A_var var;$/;"	m	union:YYSTYPE
-vardec	tiger.y	/^vardec: VAR ID ASSIGN exp {$$=A_VarDec(EM_tokPos, S_Symbol($2), NULL, $4);}$/;"	l
-whilee	absyn.h	/^		struct {A_exp test, body;} whilee;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon13
-yy_accept	lex.yy.c	/^static yyconst flex_int16_t yy_accept[98] =$/;"	v	file:
-yy_at_bol	lex.yy.c	/^	int yy_at_bol;$/;"	m	struct:yy_buffer_state	file:
-yy_base	lex.yy.c	/^static yyconst flex_uint16_t yy_base[101] =$/;"	v	file:
-yy_bs_column	lex.yy.c	/^    int yy_bs_column; \/**< The column count. *\/$/;"	m	struct:yy_buffer_state	file:
-yy_bs_lineno	lex.yy.c	/^    int yy_bs_lineno; \/**< The line count. *\/$/;"	m	struct:yy_buffer_state	file:
-yy_buf_pos	lex.yy.c	/^	char *yy_buf_pos;		\/* current position in input buffer *\/$/;"	m	struct:yy_buffer_state	file:
-yy_buf_size	lex.yy.c	/^	yy_size_t yy_buf_size;$/;"	m	struct:yy_buffer_state	file:
-yy_buffer_stack	lex.yy.c	/^static YY_BUFFER_STATE * yy_buffer_stack = 0; \/**< Stack as an array. *\/$/;"	v	file:
-yy_buffer_stack_max	lex.yy.c	/^static size_t yy_buffer_stack_max = 0; \/**< capacity of stack. *\/$/;"	v	file:
-yy_buffer_stack_top	lex.yy.c	/^static size_t yy_buffer_stack_top = 0; \/**< index of top of stack. *\/$/;"	v	file:
-yy_buffer_state	lex.yy.c	/^struct yy_buffer_state$/;"	s	file:
-yy_buffer_status	lex.yy.c	/^	int yy_buffer_status;$/;"	m	struct:yy_buffer_state	file:
-yy_c_buf_p	lex.yy.c	/^static char *yy_c_buf_p = (char *) 0;$/;"	v	file:
-yy_ch_buf	lex.yy.c	/^	char *yy_ch_buf;		\/* input buffer *\/$/;"	m	struct:yy_buffer_state	file:
-yy_chk	lex.yy.c	/^static yyconst flex_int16_t yy_chk[162] =$/;"	v	file:
-yy_create_buffer	lex.yy.c	/^    YY_BUFFER_STATE yy_create_buffer  (FILE * file, int  size )$/;"	f
-yy_def	lex.yy.c	/^static yyconst flex_int16_t yy_def[101] =$/;"	v	file:
-yy_delete_buffer	lex.yy.c	/^    void yy_delete_buffer (YY_BUFFER_STATE  b )$/;"	f
-yy_did_buffer_switch_on_eof	lex.yy.c	/^static int yy_did_buffer_switch_on_eof;$/;"	v	file:
-yy_ec	lex.yy.c	/^static yyconst YY_CHAR yy_ec[256] =$/;"	v	file:
-yy_fatal_error	lex.yy.c	/^static void yy_fatal_error (yyconst char* msg )$/;"	f	file:
-yy_fill_buffer	lex.yy.c	/^	int yy_fill_buffer;$/;"	m	struct:yy_buffer_state	file:
-yy_flex_debug	lex.yy.c	/^int yy_flex_debug = 0;$/;"	v
-yy_flex_strlen	lex.yy.c	/^static int yy_flex_strlen (yyconst char * s )$/;"	f	file:
-yy_flex_strncpy	lex.yy.c	/^static void yy_flex_strncpy (char* s1, yyconst char * s2, int n )$/;"	f	file:
-yy_flush_buffer	lex.yy.c	/^    void yy_flush_buffer (YY_BUFFER_STATE  b )$/;"	f
-yy_get_next_buffer	lex.yy.c	/^static int yy_get_next_buffer (void)$/;"	f	file:
-yy_get_previous_state	lex.yy.c	/^    static yy_state_type yy_get_previous_state (void)$/;"	f	file:
-yy_hold_char	lex.yy.c	/^static char yy_hold_char;$/;"	v	file:
-yy_init	lex.yy.c	/^static int yy_init = 0;		\/* whether we need to initialize *\/$/;"	v	file:
-yy_init_buffer	lex.yy.c	/^    static void yy_init_buffer  (YY_BUFFER_STATE  b, FILE * file )$/;"	f	file:
-yy_init_globals	lex.yy.c	/^static int yy_init_globals (void)$/;"	f	file:
-yy_input_file	lex.yy.c	/^	FILE *yy_input_file;$/;"	m	struct:yy_buffer_state	file:
-yy_is_interactive	lex.yy.c	/^	int yy_is_interactive;$/;"	m	struct:yy_buffer_state	file:
-yy_is_our_buffer	lex.yy.c	/^	int yy_is_our_buffer;$/;"	m	struct:yy_buffer_state	file:
-yy_last_accepting_cpos	lex.yy.c	/^static char *yy_last_accepting_cpos;$/;"	v	file:
-yy_last_accepting_state	lex.yy.c	/^static yy_state_type yy_last_accepting_state;$/;"	v	file:
-yy_load_buffer_state	lex.yy.c	/^static void yy_load_buffer_state  (void)$/;"	f	file:
-yy_meta	lex.yy.c	/^static yyconst YY_CHAR yy_meta[48] =$/;"	v	file:
-yy_n_chars	lex.yy.c	/^	int yy_n_chars;$/;"	m	struct:yy_buffer_state	file:
-yy_n_chars	lex.yy.c	/^static int yy_n_chars;		\/* number of characters read into yy_ch_buf *\/$/;"	v	file:
-yy_new_buffer	lex.yy.c	318;"	d	file:
-yy_nxt	lex.yy.c	/^	flex_int32_t yy_nxt;$/;"	m	struct:yy_trans_info	file:
-yy_nxt	lex.yy.c	/^static yyconst flex_uint16_t yy_nxt[162] =$/;"	v	file:
-yy_reduce_print	y.tab.c	/^yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)$/;"	f	file:
-yy_scan_buffer	lex.yy.c	/^YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )$/;"	f
-yy_scan_bytes	lex.yy.c	/^YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len )$/;"	f
-yy_scan_string	lex.yy.c	/^YY_BUFFER_STATE yy_scan_string (yyconst char * yystr )$/;"	f
-yy_set_bol	lex.yy.c	330;"	d	file:
-yy_set_interactive	lex.yy.c	320;"	d	file:
-yy_size_t	lex.yy.c	/^typedef size_t yy_size_t;$/;"	t	file:
-yy_stack_print	y.tab.c	/^yy_stack_print (yytype_int16 *yybottom, yytype_int16 *yytop)$/;"	f	file:
-yy_start	lex.yy.c	/^static int yy_start = 0;	\/* start state number *\/$/;"	v	file:
-yy_state_type	lex.yy.c	/^typedef int yy_state_type;$/;"	t	file:
-yy_switch_to_buffer	lex.yy.c	/^    void yy_switch_to_buffer  (YY_BUFFER_STATE  new_buffer )$/;"	f
-yy_symbol_print	y.tab.c	/^yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)$/;"	f	file:
-yy_symbol_value_print	y.tab.c	/^yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)$/;"	f	file:
-yy_trans_info	lex.yy.c	/^struct yy_trans_info$/;"	s	file:
-yy_try_NUL_trans	lex.yy.c	/^    static yy_state_type yy_try_NUL_trans  (yy_state_type yy_current_state )$/;"	f	file:
-yy_verify	lex.yy.c	/^	flex_int32_t yy_verify;$/;"	m	struct:yy_trans_info	file:
-yyalloc	lex.yy.c	/^void *yyalloc (yy_size_t  size )$/;"	f
-yyalloc	y.tab.c	/^union yyalloc$/;"	u	file:
-yychar	y.tab.c	/^int yychar;$/;"	v
-yycheck	y.tab.c	/^static const yytype_int16 yycheck[] =$/;"	v	file:
-yyclearin	y.tab.c	777;"	d	file:
-yyconst	lex.yy.c	106;"	d	file:
-yyconst	lex.yy.c	108;"	d	file:
-yydebug	y.tab.c	/^int yydebug;$/;"	v
-yydefact	y.tab.c	/^static const yytype_uint8 yydefact[] =$/;"	v	file:
-yydefgoto	y.tab.c	/^static const yytype_int8 yydefgoto[] =$/;"	v	file:
-yydestruct	y.tab.c	/^yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep)$/;"	f	file:
-yyensure_buffer_stack	lex.yy.c	/^static void yyensure_buffer_stack (void)$/;"	f	file:
-yyerrok	y.tab.c	776;"	d	file:
-yyerror	y.tab.c	/^void yyerror(char *s)$/;"	f
-yyfree	lex.yy.c	/^void yyfree (void * ptr )$/;"	f
-yyget_debug	lex.yy.c	/^int yyget_debug  (void)$/;"	f
-yyget_in	lex.yy.c	/^FILE *yyget_in  (void)$/;"	f
-yyget_leng	lex.yy.c	/^yy_size_t yyget_leng  (void)$/;"	f
-yyget_lineno	lex.yy.c	/^int yyget_lineno  (void)$/;"	f
-yyget_out	lex.yy.c	/^FILE *yyget_out  (void)$/;"	f
-yyget_text	lex.yy.c	/^char *yyget_text  (void)$/;"	f
-yyin	lex.yy.c	/^FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;$/;"	v
-yyinput	lex.yy.c	/^    static int yyinput (void)$/;"	f	file:
-yyleng	lex.yy.c	/^yy_size_t yyleng;$/;"	v
-yyless	lex.yy.c	181;"	d	file:
-yyless	lex.yy.c	1936;"	d	file:
-yyless	lex.yy.c	1937;"	d	file:
-yylex_destroy	lex.yy.c	/^int yylex_destroy  (void)$/;"	f
-yylineno	lex.yy.c	/^int yylineno = 1;$/;"	v
-yylval	y.tab.c	/^YYSTYPE yylval;$/;"	v
-yymore	lex.yy.c	525;"	d	file:
-yynerrs	y.tab.c	/^int yynerrs;$/;"	v
-yyout	lex.yy.c	/^FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;$/;"	v
-yypact	y.tab.c	/^static const yytype_int16 yypact[] =$/;"	v	file:
-yypact_value_is_default	y.tab.c	597;"	d	file:
-yyparse	y.tab.c	/^yyparse (void)$/;"	f
-yypgoto	y.tab.c	/^static const yytype_int8 yypgoto[] =$/;"	v	file:
-yypop_buffer_state	lex.yy.c	/^void yypop_buffer_state (void)$/;"	f
-yypush_buffer_state	lex.yy.c	/^void yypush_buffer_state (YY_BUFFER_STATE new_buffer )$/;"	f
-yyr1	y.tab.c	/^static const yytype_uint8 yyr1[] =$/;"	v	file:
-yyr2	y.tab.c	/^static const yytype_uint8 yyr2[] =$/;"	v	file:
-yyrealloc	lex.yy.c	/^void *yyrealloc  (void * ptr, yy_size_t  size )$/;"	f
-yyrestart	lex.yy.c	/^    void yyrestart  (FILE * input_file )$/;"	f
-yyrline	y.tab.c	/^static const yytype_uint8 yyrline[] =$/;"	v	file:
-yyset_debug	lex.yy.c	/^void yyset_debug (int  _bdebug )$/;"	f
-yyset_in	lex.yy.c	/^void yyset_in (FILE *  _in_str )$/;"	f
-yyset_lineno	lex.yy.c	/^void yyset_lineno (int  _line_number )$/;"	f
-yyset_out	lex.yy.c	/^void yyset_out (FILE *  _out_str )$/;"	f
-yyss_alloc	y.tab.c	/^  yytype_int16 yyss_alloc;$/;"	m	union:yyalloc	file:
-yystos	y.tab.c	/^static const yytype_uint8 yystos[] =$/;"	v	file:
-yystpcpy	y.tab.c	/^yystpcpy (char *yydest, const char *yysrc)$/;"	f	file:
-yystpcpy	y.tab.c	978;"	d	file:
-yystrlen	y.tab.c	/^yystrlen (const char *yystr)$/;"	f	file:
-yystrlen	y.tab.c	962;"	d	file:
-yysyntax_error	y.tab.c	/^yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,$/;"	f	file:
-yytable	y.tab.c	/^static const yytype_int16 yytable[] =$/;"	v	file:
-yytable_value_is_error	y.tab.c	602;"	d	file:
-yyterminate	lex.yy.c	750;"	d	file:
-yytext	lex.yy.c	/^char *yytext;$/;"	v
-yytext_ptr	lex.yy.c	354;"	d	file:
-yytext_ptr	lex.yy.c	356;"	d	file:
-yytname	y.tab.c	/^static const char *const yytname[] =$/;"	v	file:
-yytnamerr	y.tab.c	/^yytnamerr (char *yyres, const char *yystr)$/;"	f	file:
-yytokentype	y.tab.c	/^  enum yytokentype$/;"	g	file:
-yytokentype	y.tab.h	/^  enum yytokentype$/;"	g
-yytoknum	y.tab.c	/^static const yytype_uint16 yytoknum[] =$/;"	v	file:
-yytranslate	y.tab.c	/^static const yytype_uint8 yytranslate[] =$/;"	v	file:
-yytype_int16	y.tab.c	/^typedef YYTYPE_INT16 yytype_int16;$/;"	t	file:
-yytype_int16	y.tab.c	/^typedef short int yytype_int16;$/;"	t	file:
-yytype_int8	y.tab.c	/^typedef YYTYPE_INT8 yytype_int8;$/;"	t	file:
-yytype_int8	y.tab.c	/^typedef signed char yytype_int8;$/;"	t	file:
-yytype_uint16	y.tab.c	/^typedef YYTYPE_UINT16 yytype_uint16;$/;"	t	file:
-yytype_uint16	y.tab.c	/^typedef unsigned short int yytype_uint16;$/;"	t	file:
-yytype_uint8	y.tab.c	/^typedef YYTYPE_UINT8 yytype_uint8;$/;"	t	file:
-yytype_uint8	y.tab.c	/^typedef unsigned char yytype_uint8;$/;"	t	file:
-yyunput	lex.yy.c	/^    static void yyunput (int c, char * yy_bp )$/;"	f	file:
-yyvs_alloc	y.tab.c	/^  YYSTYPE yyvs_alloc;$/;"	m	union:yyalloc	file:
-yywrap	lex.yy.c	/^int yywrap(void)$/;"	f
+var	absyn.h	/^	       struct {A_var var;$/;"	m	struct:A_var_::__anon3::__anon4
+var	absyn.h	/^	       struct {A_var var;$/;"	m	struct:A_var_::__anon3::__anon5
+var	absyn.h	/^	      struct {A_var var; A_exp exp;} assign;$/;"	m	struct:A_exp_::__anon7::__anon11
+var	absyn.h	/^	      struct {S_symbol var; A_exp lo,hi,body; bool escape;} forr;$/;"	m	struct:A_exp_::__anon7::__anon14
+var	absyn.h	/^	    struct {S_symbol var; S_symbol typ; A_exp init; bool escape;} var;$/;"	m	struct:A_dec_::__anon18::__anon19
+var	absyn.h	/^	    struct {S_symbol var; S_symbol typ; A_exp init; bool escape;} var;$/;"	m	union:A_dec_::__anon18	typeref:struct:A_dec_::__anon18::__anon19
+var	absyn.h	/^       union {A_var var;$/;"	m	union:A_exp_::__anon7
+var	env.h	/^		struct {Tr_access access; Ty_ty ty;} var;$/;"	m	union:E_enventry_::__anon41	typeref:struct:E_enventry_::__anon41::__anon42
+whilee	absyn.h	/^	      struct {A_exp test, body;} whilee;$/;"	m	union:A_exp_::__anon7	typeref:struct:A_exp_::__anon7::__anon13

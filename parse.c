@@ -9,7 +9,10 @@
 #include "absyn.h"
 #include "types.h"
 #include "errormsg.h"
+#include "temp.h"
+#include "tree.h"
 #include "parse.h"
+#include "frame.h"
 #include "semant.h"
 
 extern int yyparse(void);
@@ -33,8 +36,11 @@ int main(int argc, char **argv){
   parse(argv[1]);
   //pr_exp(stderr,absyn_root,0);
   if (absyn_root){
-  	SEM_transProg(absyn_root);
+  	F_fragList flist = SEM_transProg(absyn_root);
+	int k = 0;
+	for (; flist; flist = flist->tail) k++;
+	fprintf(stdout, "%d\n", k);
   } 
-  fprintf(stderr,"\n");
+  //fprintf(stderr,"\n");
   return 0;
 }

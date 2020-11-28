@@ -9,10 +9,11 @@
 #include "helper.h"
 #include "env.h"
 #include "semant.h"
+#include "translate.h"
 
-/*Lab4: Your implementation of lab4*/
+/*Lab5: Your implementation of lab5.*/
 
-
+/*
 typedef void* Tr_exp;
 struct expty 
 {
@@ -496,10 +497,10 @@ bool istypematch(Ty_ty _ty1, Ty_ty _ty2) {
 	else if(ty1->kind == Ty_record && ty2->kind == Ty_nil) return TRUE;
 	return FALSE;
 }
+*/
+F_fragList SEM_transProg(A_exp exp){
 
-void SEM_transProg(A_exp exp)
-{
-	S_table venv = E_base_venv();
-	S_table tenv = E_base_tenv();
-	transExp(venv, tenv, exp);
+	//TODO LAB5: do not forget to add the main frame
+	return NULL;
 }
+
