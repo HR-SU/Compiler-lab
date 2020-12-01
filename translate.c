@@ -67,9 +67,90 @@ Tr_accessList Tr_AccessList(Tr_access head, Tr_accessList tail) {
 	return accessList;
 }
 
+static patchList PatchList(Temp_label *head, patchList tail)
+{
+	patchList list;
+
+	list = (patchList)checked_malloc(sizeof(struct patchList_));
+	list->head = head;
+	list->tail = tail;
+	return list;
+}
+
+void doPatch(patchList tList, Temp_label label)
+{
+	for(; tList; tList = tList->tail)
+		*(tList->head) = label;
+}
+
+patchList joinPatch(patchList first, patchList second)
+{
+	if(!first) return second;
+	for(; first->tail; first = first->tail);
+	first->tail = second;
+	return first;
+}
+
+static T_exp unEx(Tr_exp e) {
+	switch(e->kind) {
+		case Tr_ex:
+			return e->u.ex;
+		case Tr_cx: {
+			Temp_temp r = Temp_newtemp();
+			Temp_label t = Temp_newlabel();
+			Temp_label f = Temp_newlabel();
+			doPatch(e->u.cx.trues, t);
+			doPatch(e->u.cx.falses, f);
+			return T_Eseq(T_Move(T_Temp(r), T_Const(1)),
+				T_Eseq(e->u.cx.stm,
+				T_Eseq(T_Label(f),
+				T_Eseq(T_Move(T_Temp(r), T_Const(0)),
+				T_Eseq(T_Label(t), T_Temp(r))))));
+		}
+		case Tr_nx:
+			return T_Eseq(e->u.nx, T_Const(0));
+		default: assert(0);
+	}
+}
+
+static T_stm unNx(Tr_exp e) {
+	switch(e->kind) {
+		case Tr_nx:
+			return e->u.nx;
+		case Tr_ex:
+			return T_Exp(e->u.ex);
+		case Tr_cx:
+			return T_Exp(unEx(e));
+		default: assert(0);
+	}
+}
+
+static struct Cx unCx(Tr_exp e) {
+	switch(e->kind) {
+		case Tr_cx:
+			return e->u.cx;
+		case Tr_ex: {
+			T_stm cjump = T_Cjump(T_ne, e->u.ex, T_Const(0), NULL, NULL);
+			patchList trues = PatchList(&cjump->u.CJUMP.true, NULL);
+			patchList falses = PatchList(&cjump->u.CJUMP.false, NULL);
+			struct Cx cx;
+			cx.stm = cjump;
+			cx.trues = trues;
+			cx.falses = falses;
+			return cx;
+		}
+		default: assert(0);
+	}
+}
+
 static struct Tr_level_ outermostLevel = {NULL, NULL};
 
 Tr_level Tr_outermost(void) {
+	if(outermostLevel.frame == NULL) {
+		Temp_label name = Temp_namedlabel("main");
+		F_frame frame = F_newFrame(name, NULL);
+		outermostLevel.frame = frame;
+	}
 	return &outermostLevel;
 }
 
@@ -82,19 +163,19 @@ Tr_level Tr_newLevel(Tr_level parent, Temp_label name, U_boolList formals) {
 	return level;
 }
 
-Tr_accessList Tr_formals(Tr_level level) {
-	F_accessList flist = F_formals(level->frame);
-	Tr_accessList accessList = makeAccessList(flist->tail, level);
-	return accessList;
-}
-
-Tr_accessList makeAccessList(F_accessList flist, Tr_level level) {
+Tr_accessList Tr_makeAccessList(F_accessList flist, Tr_level level) {
 	if(flist == NULL) return NULL;
-	Tr_accessList tail = makeAccessList(flist->tail, level);
+	Tr_accessList tail = Tr_makeAccessList(flist->tail, level);
 	Tr_access access = checked_malloc(sizeof(*access));
 	access->level = level;
 	access->access = flist->head;
 	return Tr_AccessList(access, tail);
+}
+
+Tr_accessList Tr_formals(Tr_level level) {
+	F_accessList flist = F_formals(level->frame);
+	Tr_accessList accessList = Tr_makeAccessList(flist->tail, level);
+	return accessList;
 }
 
 Tr_access Tr_allocLocal(Tr_level level, bool escape) {
@@ -129,16 +210,16 @@ Tr_exp Tr_simpleVar(Tr_access access, Tr_level level) {
 	return exp;
 }
 
-Tr_exp Tr_fieldVar(Tr_exp exp, int num) {
-	T_exp exp = T_Mem(T_Binop(T_plus, unEx(exp), T_Const(num*8)));
+Tr_exp Tr_fieldVar(Tr_exp var, int num) {
+	T_exp exp = T_Mem(T_Binop(T_plus, unEx(var), T_Const(num*8)));
 	Tr_exp ret = checked_malloc(sizeof(*ret));
 	ret->kind = Tr_ex;
 	ret->u.ex = exp;
 	return ret;
 }
 
-Tr_exp Tr_subscriptVar(Tr_exp exp, Tr_exp offset) {
-	T_exp exp = T_Mem(T_Binop(T_plus, unEx(exp), T_Binop(T_mul, unEx(offset), T_Const(8))));
+Tr_exp Tr_subscriptVar(Tr_exp var, Tr_exp offset) {
+	T_exp exp = T_Mem(T_Binop(T_plus, unEx(var), T_Binop(T_mul, unEx(offset), T_Const(8))));
 	Tr_exp ret = checked_malloc(sizeof(*ret));
 	ret->kind = Tr_ex;
 	ret->u.ex = exp;
@@ -155,10 +236,12 @@ Tr_exp Tr_intExp(int val) {
 
 Tr_exp Tr_stringExp(string str) {
 	Temp_label label = Temp_newlabel();
-	Tr_exp exp = T_Name(label);
+	T_exp exp = T_Name(label);
 	Tr_exp ret = checked_malloc(sizeof(*ret));
 	ret->kind = Tr_ex;
 	ret->u.ex = exp;
+	F_frag frag = F_StringFrag(label, str);
+	fragList = F_FragList(frag, fragList);
 	return ret;
 }
 
@@ -176,10 +259,10 @@ Tr_exp Tr_callExp(Tr_level crtLevel, Tr_level level, Temp_label label, Tr_expLis
 		sl = T_Mem(T_Binop(T_plus, sl, T_Const(16)));
 		crtLevel = crtLevel->parent;
 	}
-	T_stm stm = T_Call(T_Label(label), T_ExpList(sl, makeArgList(args)));
+	T_exp exp = T_Call(T_Name(label), T_ExpList(sl, makeArgList(args)));
 	Tr_exp ret = checked_malloc(sizeof(*ret));
-	ret->kind = Tr_nx;
-	ret->u.nx = stm;
+	ret->kind = Tr_ex;
+	ret->u.ex = exp;
 	return ret;
 }
 
@@ -307,7 +390,7 @@ Tr_exp Tr_whileExp(Tr_exp test, Tr_exp body, Temp_label done) {
 }
 
 Tr_exp Tr_breakExp(Temp_label done) {
-	T_stm stm = T_Jump(T_Label(done), Temp_LabelList(done, NULL));
+	T_stm stm = T_Jump(T_Name(done), Temp_LabelList(done, NULL));
 	Tr_exp ret = checked_malloc(sizeof(*ret));
 	ret->kind = Tr_nx;
 	ret->u.nx = stm;
@@ -358,7 +441,7 @@ Tr_exp Tr_arrayExp(Tr_exp size, Tr_exp init) {
 }
 
 Tr_exp Tr_varDec(Tr_access access, Tr_exp init) {
-	T_exp var = F_Exp(access->access, F_FP());
+	T_exp var = F_Exp(access->access, T_Temp(F_FP()));
 	T_stm stm = T_Move(var, unEx(init));
 	Tr_exp ret = checked_malloc(sizeof(*ret));
 	ret->kind = Tr_nx;
@@ -367,7 +450,7 @@ Tr_exp Tr_varDec(Tr_access access, Tr_exp init) {
 }
 
 void Tr_procEntryExit(Tr_exp body, Tr_level level) {
-	T_stm newBody = T_Move(F_RV(), unEx(body));
+	T_stm newBody = T_Move(T_Temp(F_RV()), unEx(body));
 	T_stm stm1 = F_procEntryExit1(level->frame, newBody);
 	F_frag frag = F_ProcFrag(stm1, level->frame);
 	fragList = F_FragList(frag, fragList);
@@ -375,80 +458,4 @@ void Tr_procEntryExit(Tr_exp body, Tr_level level) {
 
 F_fragList Tr_getResult(void) {
 	return fragList;
-}
-
-static patchList PatchList(Temp_label *head, patchList tail)
-{
-	patchList list;
-
-	list = (patchList)checked_malloc(sizeof(struct patchList_));
-	list->head = head;
-	list->tail = tail;
-	return list;
-}
-
-void doPatch(patchList tList, Temp_label label)
-{
-	for(; tList; tList = tList->tail)
-		*(tList->head) = label;
-}
-
-patchList joinPatch(patchList first, patchList second)
-{
-	if(!first) return second;
-	for(; first->tail; first = first->tail);
-	first->tail = second;
-	return first;
-}
-
-static T_exp unEx(Tr_exp e) {
-	switch(e->kind) {
-		case Tr_ex:
-			return e->u.ex;
-		case Tr_cx: {
-			Temp_temp r = Temp_newtemp();
-			Temp_label t = Temp_newlabel();
-			Temp_label f = Temp_newlabel();
-			doPatch(e->u.cx.trues, t);
-			doPatch(e->u.cx.falses, f);
-			return T_Eseq(T_Move(T_Temp(r), T_Const(1)),
-				T_Eseq(e->u.cx.stm,
-				T_Eseq(T_Label(f),
-				T_Eseq(T_Move(T_Temp(r), T_Const(0)),
-				T_Eseq(T_Label(t), T_Temp(r))))));
-		}
-		case Tr_nx:
-			return T_Eseq(e->u.nx, T_Const(0));
-		default: assert(0);
-	}
-}
-
-static T_stm unNx(Tr_exp e) {
-	switch(e->kind) {
-		case Tr_nx:
-			return e->u.nx;
-		case Tr_ex:
-			return T_Exp(e->u.ex);
-		case Tr_cx:
-			return T_Exp(unEx(e));
-		default: assert(0);
-	}
-}
-
-static struct Cx unCx(Tr_exp e) {
-	switch(e->kind) {
-		case Tr_cx:
-			return e->u.cx;
-		case Tr_ex: {
-			T_stm cjump = T_Cjump(T_ne, e->u.ex, T_Const(0), NULL, NULL);
-			patchList trues = PatchList(&cjump->u.CJUMP.true, NULL);
-			patchList falses = PatchList(&cjump->u.CJUMP.false, NULL);
-			struct Cx cx;
-			cx.stm = cjump;
-			cx.trues = trues;
-			cx.falses = falses;
-			return cx;
-		}
-		default: assert(0);
-	}
 }

@@ -12,9 +12,6 @@
 #include "translate.h"
 
 /*Lab5: Your implementation of lab5.*/
-
-
-typedef void* Tr_exp;
 struct expty 
 {
 	Tr_exp exp; 
@@ -529,7 +526,8 @@ F_fragList SEM_transProg(A_exp exp){
 
 	//TODO LAB5: do not forget to add the main frame
 	S_table tenv = E_base_tenv(), venv = E_base_venv();
-	transExp(venv, tenv, exp, Tr_outermost(), Temp_newlabel());
+	struct expty main = transExp(venv, tenv, exp, Tr_outermost(), Temp_newlabel());
+	Tr_procEntryExit(main.exp, Tr_outermost());
 	return Tr_getResult();
 }
 

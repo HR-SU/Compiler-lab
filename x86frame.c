@@ -39,21 +39,21 @@ Temp_temp F_RV(void) {
 	return rv;
 }
 
+F_accessList makeAccessList(U_boolList boolList) {
+	if(boolList == NULL) return NULL;
+	F_accessList accesslist = makeAccessList(boolList->tail);
+	F_access access = checked_malloc(sizeof(*access));
+	if(boolList->head) access->kind = inFrame;
+	else access->kind = inReg;
+	return F_AccessList(access, accesslist);
+}
+
 F_frame F_newFrame(Temp_label name, U_boolList formals) {
 	F_frame f = checked_malloc(sizeof(*f));
 	f->name = name;
 	F_accessList formalAccessList = makeAccessList(formals);
 	f->formals = formalAccessList;
 	return f;
-}
-
-F_accessList makeAccessList(U_boolList boolList) {
-	if(boolList = NULL) return NULL;
-	F_accessList accesslist = makeAccessList(boolList->tail);
-	F_access access = checked_malloc(sizeof(*access));
-	if(boolList->head) access->kind = inFrame;
-	else access->kind = inReg;
-	return F_AccessList(access, accesslist);
 }
 
 Temp_label F_name(F_frame f) {
@@ -65,6 +65,7 @@ F_accessList F_formals(F_frame f) {
 }
 
 F_access F_allocLocal(F_frame f, bool escape) {
+if(f == NULL) printf("null\n");
 	F_access access = checked_malloc(sizeof(*access));
 	if(escape) {
 		access->kind = inFrame;
