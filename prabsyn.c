@@ -244,7 +244,7 @@ static void pr_decList(FILE *out, A_decList v, int d) {
 
 static void pr_namety(FILE *out, A_namety v, int d) {
  indent(out, d);
- fprintf(out, "namety(%s,\n", S_name(v->name));
+ fprintf(out, "namety(%s,\n", S_name(v->name)); 
  pr_ty(out, v->ty, d+1); fprintf(out, ")");
 }
 

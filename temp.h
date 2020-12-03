@@ -6,10 +6,9 @@
 #ifndef TEMP_H
 #define TEMP_H
 
-#include "symbol.h"
-
 typedef struct Temp_temp_ *Temp_temp;
 Temp_temp Temp_newtemp(void);
+int Temp_int(Temp_temp);
 
 typedef struct Temp_tempList_ *Temp_tempList;
 struct Temp_tempList_ { Temp_temp head; Temp_tempList tail;};

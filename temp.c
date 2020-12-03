@@ -15,6 +15,11 @@
 
 struct Temp_temp_ {int num;};
 
+int Temp_int(Temp_temp t)
+{
+	return t->num;
+}
+
 string Temp_labelstring(Temp_label s)
 {return S_name(s);
 }
