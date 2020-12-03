@@ -376,7 +376,7 @@ Tr_exp Tr_ifExp(Tr_exp test, Tr_exp then, Tr_exp elsee) {
 
 Tr_exp Tr_whileExp(Tr_exp test, Tr_exp body, Temp_label done) {
 	Temp_label t = Temp_newlabel(), b = Temp_newlabel();
-	T_stm cjump = T_Cjump(T_eq, 0, unEx(test), done, b);
+	T_stm cjump = T_Cjump(T_eq, T_Const(0), unEx(test), done, b);
 	T_stm jump = T_Jump(T_Name(t), Temp_LabelList(t, NULL));
 	T_stm stm = T_Seq(T_Label(t),
 		T_Seq(cjump,

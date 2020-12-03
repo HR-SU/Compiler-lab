@@ -87,7 +87,7 @@ F_accessList F_AccessList(F_access head, F_accessList tail) {
 }
 
 T_exp F_Exp(F_access access, T_exp framePtr) {
-	if(access->kind = inFrame) {
+	if(access->kind == inFrame) {
 		return T_Mem(T_Binop(T_plus, T_Const(access->u.offset), framePtr));
 	}
 	else {
