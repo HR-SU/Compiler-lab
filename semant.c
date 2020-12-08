@@ -30,6 +30,7 @@ struct expty expTy(Tr_exp exp, Ty_ty ty)
 }
 
 Ty_tyList maketylist(S_table tenv, A_fieldList flist);
+U_boolList makeEscapeList(A_fieldList params);
 Ty_ty actual_ty(Ty_ty ty);
 bool istypematch(Ty_ty ty1, Ty_ty ty2);
 
@@ -425,21 +426,26 @@ Tr_exp transDec(S_table venv, S_table tenv, A_dec d, Tr_level l, Temp_label labe
 					formalTys = maketylist(tenv, f->params);
 				}
 				Temp_label funLabel = Temp_newlabel();
-				Tr_level newLevel = Tr_newLevel(l, funLabel, NULL);
+				A_fieldList params = f->params;
+				U_boolList escape = makeEscapeList(params);
+				Tr_level newLevel = Tr_newLevel(l, funLabel, escape);
 				S_enter(venv, f->name, E_FunEntry(newLevel, funLabel, formalTys, resultTy));
 			}
 			for(A_fundecList funList = d->u.function; funList; 
 			funList = funList->tail) {
 				A_fundec f = funList->head;
+				E_enventry funEntry = S_look(venv, f->name);
 				S_beginScope(venv);
 				A_fieldList params = f->params;
 				if(params != NULL) {
 					Ty_tyList paramTys = maketylist(tenv, f->params);
-					for(; params; params = params->tail, paramTys = paramTys->tail) {
-						S_enter(venv, params->head->name, E_VarEntry(Tr_allocLocal(l, TRUE), paramTys->head));
+					Tr_accessList accessList = Tr_formals(funEntry->u.fun.level);
+					for(; params; params = params->tail, paramTys = paramTys->tail,
+					accessList = accessList->tail) {
+						S_enter(venv, params->head->name,
+							E_VarEntry(accessList->head, paramTys->head));
 					}
 				}
-				E_enventry funEntry = S_look(venv, f->name);
 				struct expty body = transExp(venv, tenv, f->body, funEntry->u.fun.level, label);
 				if(f->result == NULL && body.ty->kind != Ty_void) {
 					EM_error(f->body->pos, "procedure returns value");
@@ -499,6 +505,13 @@ Ty_tyList maketylist(S_table tenv, A_fieldList flist) {
 		ty = Ty_Void();
 	}
 	return Ty_TyList(ty, tlist);
+}
+
+U_boolList makeEscapeList(A_fieldList params) {
+	if(params == NULL) return NULL;
+	U_boolList escapeList = makeEscapeList(params->tail);
+	if(params->head->escape) return U_BoolList(TRUE, escapeList);
+	else return U_BoolList(FALSE, escapeList);
 }
 
 Ty_ty actual_ty(Ty_ty ty) {

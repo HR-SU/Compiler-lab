@@ -24,6 +24,7 @@ struct F_frame_ {
 	Temp_label name;
 	F_accessList formals;
 	F_accessList locals;
+	int size;
 };
 
 static Temp_temp fp = NULL;
@@ -39,20 +40,29 @@ Temp_temp F_RV(void) {
 	return rv;
 }
 
-F_accessList makeAccessList(U_boolList boolList) {
+F_accessList makeAccessList(U_boolList boolList, int offset) {
 	if(boolList == NULL) return NULL;
-	F_accessList accesslist = makeAccessList(boolList->tail);
+	F_accessList accesslist;
 	F_access access = checked_malloc(sizeof(*access));
-	if(boolList->head) access->kind = inFrame;
-	else access->kind = inReg;
+	if(boolList->head) {
+		accesslist = makeAccessList(boolList->tail, offset+8);
+		access->kind = inFrame;
+		access->u.offset = offset;
+	}
+	else {
+		accesslist = makeAccessList(boolList->tail, offset);
+		access->kind = inReg;
+		access->u.reg = Temp_newtemp();
+	}
 	return F_AccessList(access, accesslist);
 }
 
 F_frame F_newFrame(Temp_label name, U_boolList formals) {
 	F_frame f = checked_malloc(sizeof(*f));
 	f->name = name;
-	F_accessList formalAccessList = makeAccessList(formals);
+	F_accessList formalAccessList = makeAccessList(formals, 16);
 	f->formals = formalAccessList;
+	f->size = 0;
 	return f;
 }
 
@@ -65,11 +75,11 @@ F_accessList F_formals(F_frame f) {
 }
 
 F_access F_allocLocal(F_frame f, bool escape) {
-if(f == NULL) printf("null\n");
 	F_access access = checked_malloc(sizeof(*access));
 	if(escape) {
 		access->kind = inFrame;
-		access->u.offset = 0;
+		access->u.offset = -f->size;
+		f->size = f->size + 8;
 	}
 	else {
 		access->kind = inReg;
