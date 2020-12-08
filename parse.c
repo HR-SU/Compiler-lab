@@ -14,6 +14,7 @@
 #include "parse.h"
 #include "frame.h"
 #include "semant.h"
+// #include "printtree.h"
 
 extern int yyparse(void);
 extern A_exp absyn_root;
@@ -39,6 +40,12 @@ int main(int argc, char **argv){
   	F_fragList flist = SEM_transProg(absyn_root);
 	int k = 0;
 	for (; flist; flist = flist->tail) k++;
+/*
+	for (; flist; flist = flist->tail) {
+    if(flist->head->kind == F_procFrag) printStmList(stdout, T_StmList(flist->head->u.proc.body, NULL));
+    k++;
+  }
+*/
 	fprintf(stdout, "%d\n", k);
   } 
   //fprintf(stderr,"\n");

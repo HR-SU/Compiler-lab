@@ -30,6 +30,7 @@ struct expty expTy(Tr_exp exp, Ty_ty ty)
 }
 
 Ty_tyList maketylist(S_table tenv, A_fieldList flist);
+U_boolList makeEscapeList(A_fieldList params);
 Ty_ty actual_ty(Ty_ty ty);
 bool istypematch(Ty_ty ty1, Ty_ty ty2);
 
