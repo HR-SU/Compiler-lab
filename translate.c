@@ -19,10 +19,10 @@ struct Tr_access_ {
 };
 
 
-struct Tr_accessList_ {
-	Tr_access head;
-	Tr_accessList tail;	
-};
+// struct Tr_accessList_ {
+// 	Tr_access head;
+// 	Tr_accessList tail;	
+// };
 
 struct Tr_level_ {
 	F_frame frame;
