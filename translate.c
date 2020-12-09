@@ -405,11 +405,12 @@ Tr_exp Tr_forExp(Tr_exp lo, Tr_exp hi, Tr_exp body, Temp_label done) {
 	T_stm cjump = T_Cjump(T_gt, T_Temp(i), T_Temp(limit), done, b);
 	T_stm jump = T_Jump(T_Name(test), Temp_LabelList(test, NULL));
 	T_stm realBody = T_Seq(unNx(body), T_Exp(T_Binop(T_plus, T_Temp(i), T_Const(1))));
-	T_stm stm = T_Seq(T_Label(test),
+	T_stm stm = T_Seq(init,
+		T_Seq(T_Label(test),
 		T_Seq(cjump,
 		T_Seq(T_Label(b),
 		T_Seq(realBody,
-		T_Seq(jump, T_Label(done))))));
+		T_Seq(jump, T_Label(done)))))));
 	Tr_exp ret = checked_malloc(sizeof(*ret));
 	ret->kind = Tr_nx;
 	ret->u.nx = stm;

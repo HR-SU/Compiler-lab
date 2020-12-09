@@ -60,7 +60,7 @@ Temp_temp F_ARG(int i) {
 			return di;
 		}
 		case 1: {
-			if(si == NULL) di = Temp_newtemp();
+			if(si == NULL) si = Temp_newtemp();
 			return si;
 		}
 		case 2: {
@@ -157,7 +157,7 @@ T_exp F_Exp(F_access access, T_exp framePtr) {
 }
 
 T_stm F_procEntryExit1(F_frame frame, T_stm stm) {
-	return stm;
+	return T_Seq(T_Label(frame->name), stm);
 }
 
 F_frag F_StringFrag(Temp_label label, string str) {   

@@ -35,7 +35,7 @@ AS_instrList F_codegen(F_frame f, T_stmList stmList) {
 }
 
 Temp_temp munchExp(T_exp e) {
-    char s[80];
+    char *s = checked_malloc(40);
     switch(e->kind) {
         case T_MEM: {
             if(e->u.MEM->kind == T_BINOP) {
@@ -167,7 +167,7 @@ Temp_temp munchExp(T_exp e) {
 }
 
 void munchStm(T_stm s) {
-    char str[80];
+    char *str = checked_malloc(40);;
     switch(s->kind) {
         case T_MOVE: {
             if(s->u.MOVE.dst->kind == T_MEM) {
@@ -190,6 +190,7 @@ void munchStm(T_stm s) {
                             Temp_temp src = munchExp(s->u.MOVE.src);
                             Temp_temp r1 = munchExp(e->u.MEM->u.BINOP.right);
                             sprintf(str, "movq `s0, %d(`s1)\n", e->u.MEM->u.BINOP.left->u.CONST);
+printf("%s\n", str);
                             emit(AS_Oper(str, NULL, Temp_TempList(src,
                                 Temp_TempList(r1, NULL)), NULL));
                             return;
@@ -210,7 +211,7 @@ void munchStm(T_stm s) {
                             emit(AS_Oper("movq `s0, (`s1, `s2)", NULL,
                                 Temp_TempList(src, Temp_TempList(r1,
                                     Temp_TempList(r2, NULL))), NULL));
-                            return r;
+                            return;
                         }
                     }
                 }
@@ -265,7 +266,7 @@ void munchStm(T_stm s) {
                             emit(AS_Oper("movq (`s0, `s1), `s2", NULL,
                                 Temp_TempList(r1, Temp_TempList(r2,
                                     Temp_TempList(dst, NULL))), NULL));
-                            return r;
+                            return;
                         }
                     }
                 }

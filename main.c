@@ -68,20 +68,20 @@ static void doProc(FILE *out, F_frame frame, T_stm body)
  }*/
 
  stmList = C_traceSchedule(blo);
- /*printStmList(stdout, stmList);
- printf("-------====trace=====-----\n");*/
+ printStmList(stdout, stmList);
+ printf("-------====trace=====-----\n");
  iList  = F_codegen(frame, stmList); /* 9 */
 
  AS_printInstrList(stdout, iList, Temp_layerMap(F_tempMap, Temp_name()));
  printf("----======before RA=======-----\n");
 
  //G_graph fg = FG_AssemFlowGraph(iList);  /* 10.1 */
- struct RA_result ra = RA_regAlloc(frame, iList);  /* 11 */
+ //struct RA_result ra = RA_regAlloc(frame, iList);  /* 11 */
 
- fprintf(out, "BEGIN function\n");
- AS_printInstrList (out, proc->body,
-                       Temp_layerMap(F_tempMap, ra.coloring));
- fprintf(out, "END function\n");
+ //fprintf(out, "BEGIN function\n");
+ //AS_printInstrList (out, proc->body,
+                       //Temp_layerMap(F_tempMap, ra.coloring));
+ //fprintf(out, "END function\n");
 
  //Part of TA's implementation. Just for reference.
  /*
