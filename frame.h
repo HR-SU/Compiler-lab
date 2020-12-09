@@ -13,8 +13,13 @@ typedef struct F_accessList_ *F_accessList;
 
 struct F_accessList_ {F_access head; F_accessList tail;};
 
+Temp_map F_tempMap;
+
 Temp_temp F_FP(void);
 Temp_temp F_RV(void);
+Temp_temp F_DX(void);
+Temp_temp F_ARG(int i);
+Temp_tempList F_calldefs();
 F_frame F_newFrame(Temp_label name, U_boolList formals);
 
 Temp_label F_name(F_frame f);

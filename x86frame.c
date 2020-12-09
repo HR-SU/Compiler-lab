@@ -29,6 +29,14 @@ struct F_frame_ {
 
 static Temp_temp fp = NULL;
 static Temp_temp rv = NULL;
+static Temp_temp di = NULL;
+static Temp_temp si = NULL;
+static Temp_temp dx = NULL;
+static Temp_temp cx = NULL;
+static Temp_temp r8 = NULL;
+static Temp_temp r9 = NULL;
+static Temp_temp r10 = NULL;
+static Temp_temp r11 = NULL;
 
 Temp_temp F_FP(void) {
 	if(fp == NULL) fp = Temp_newtemp();
@@ -38,6 +46,49 @@ Temp_temp F_FP(void) {
 Temp_temp F_RV(void) {
 	if(rv == NULL) rv = Temp_newtemp();
 	return rv;
+}
+
+Temp_temp F_DX(void) {
+	if(dx == NULL) dx = Temp_newtemp();
+	return dx;
+}
+
+Temp_temp F_ARG(int i) {
+	switch(i) {
+		case 0: {
+			if(di == NULL) di = Temp_newtemp();
+			return di;
+		}
+		case 1: {
+			if(si == NULL) di = Temp_newtemp();
+			return si;
+		}
+		case 2: {
+			if(dx == NULL) dx = Temp_newtemp();
+			return dx;
+		}
+		case 3: {
+			if(cx == NULL) cx = Temp_newtemp();
+			return cx;
+		}
+		case 4: {
+			if(r8 == NULL) r8 = Temp_newtemp();
+			return r8;
+		}
+		case 5: {
+			if(r9 == NULL) r9 = Temp_newtemp();
+			return r9;
+		}
+		default: {
+			return Temp_newtemp();
+		}
+	}
+}
+
+Temp_tempList F_calldefs() {
+	if(r10 == NULL) r10 = Temp_newtemp();
+	if(r11 == NULL) r11 = Temp_newtemp();
+	return Temp_TempList(F_RV(), Temp_TempList(r10, Temp_TempList(r11, NULL)));
 }
 
 F_accessList makeAccessList(U_boolList boolList, int offset) {

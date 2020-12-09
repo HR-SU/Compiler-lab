@@ -43,6 +43,14 @@ static void doProc(FILE *out, F_frame frame, T_stm body)
  struct C_block blo;
 
  F_tempMap = Temp_empty();
+ Temp_enter(F_tempMap, F_FP(), "\%rbp");
+ Temp_enter(F_tempMap, F_RV(), "\%rax");
+ Temp_enter(F_tempMap, F_ARG(0), "\%rdi");
+ Temp_enter(F_tempMap, F_ARG(1), "\%rsi");
+ Temp_enter(F_tempMap, F_ARG(2), "\%rdx");
+ Temp_enter(F_tempMap, F_ARG(3), "\%rcx");
+ Temp_enter(F_tempMap, F_ARG(4), "\%r8");
+ Temp_enter(F_tempMap, F_ARG(5), "\%r9");
 
  //printf("doProc for function %s:\n", S_name(F_name(frame)));
  /*printStmList(stdout, T_StmList(body, NULL));
