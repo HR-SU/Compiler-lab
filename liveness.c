@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "util.h"
 #include "symbol.h"
 #include "temp.h"
@@ -162,15 +163,15 @@ struct Live_graph Live_liveness(G_graph flow) {
 		Temp_tempList def = FG_def(nodes->head);
 		Temp_tempList out = G_look(outTable, nodes->head);
 		for(; def; def = def->tail) {
-			G_node d = findNodeByTemp(conflict, def);
+			G_node d = findNodeByTemp(conflict, def->head);
 			if(FG_isMove(nodes->head)) {
 				G_node s = findNodeByTemp(conflict, FG_use(nodes->head)->head);
 				moveList = Live_MoveList(s, d, moveList);
 			}
 			for(; out; out = out->tail) {
-				G_node o = findNodeByTemp(conflict, out);
+				G_node o = findNodeByTemp(conflict, out->head);
 				if(FG_isMove(nodes->head)) {
-					if(FG_use(nodes->head)->head == out) continue;
+					if(FG_use(nodes->head)->head == out->head) continue;
 				}
 				if(G_goesTo(d, o) || G_goesTo(o, d)) continue;
 				else G_addEdge(d, o);

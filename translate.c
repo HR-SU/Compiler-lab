@@ -398,7 +398,7 @@ Tr_exp Tr_breakExp(Temp_label done) {
 }
 
 Tr_exp Tr_forExp(Tr_exp lo, Tr_exp hi, Tr_exp body, Temp_label done, Tr_access loop) {
-	T_exp i = F_Exp(loop, F_FP());
+	T_exp i = F_Exp(loop->access, T_Temp(F_FP()));
 	Temp_temp limit = Temp_newtemp();
 	T_stm init = T_Seq(T_Move(i, unEx(lo)), T_Move(T_Temp(limit), unEx(hi)));
 	Temp_label test = Temp_newlabel(), b = Temp_newlabel();
