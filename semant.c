@@ -281,7 +281,8 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a, Tr_level l, Temp_labe
 		case A_forExp: {
 			Temp_label done = Temp_newlabel();
             S_beginScope(venv);
-            S_enter(venv, a->u.forr.var, E_ROVarEntry(Tr_allocLocal(l, TRUE), Ty_Int()));
+			Tr_access loopVar = Tr_allocLocal(l, FALSE);
+            S_enter(venv, a->u.forr.var, E_ROVarEntry(loopVar, Ty_Int()));
 			struct expty lo = transExp(venv, tenv, a->u.forr.lo, l, label);
 			if(lo.ty->kind != Ty_int) {
 				EM_error(a->u.forr.lo->pos, "for exp's range type is not integer");
@@ -295,7 +296,7 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a, Tr_level l, Temp_labe
 				EM_error(a->u.forr.body->pos, "for body must produce no value");
 			}
             S_endScope(venv);
-			return expTy(Tr_forExp(lo.exp, hi.exp, body.exp, done), Ty_Void());
+			return expTy(Tr_forExp(lo.exp, hi.exp, body.exp, done, loopVar), Ty_Void());
 		}
 		case A_breakExp: {
 			return expTy(Tr_breakExp(label), Ty_Void());

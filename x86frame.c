@@ -25,6 +25,7 @@ struct F_frame_ {
 	F_accessList formals;
 	F_accessList locals;
 	int size;
+	T_stm init;
 };
 
 static Temp_temp fp = NULL;
@@ -91,29 +92,54 @@ Temp_tempList F_calldefs() {
 	return Temp_TempList(F_RV(), Temp_TempList(r10, Temp_TempList(r11, NULL)));
 }
 
-F_accessList makeAccessList(U_boolList boolList, int offset) {
+F_accessList makeAccessList(F_frame f, U_boolList boolList, int num) {
 	if(boolList == NULL) return NULL;
 	F_accessList accesslist;
 	F_access access = checked_malloc(sizeof(*access));
-	if(boolList->head) {
-		accesslist = makeAccessList(boolList->tail, offset+8);
-		access->kind = inFrame;
-		access->u.offset = offset;
+	if(num < 6) {
+		if(boolList->head) {
+			access->kind = inFrame;
+			access->u.offset = -(f->size + 8);
+			f->size = f->size + 8;
+			accesslist = makeAccessList(f, boolList->tail, num+1);
+		}
+		else {
+			access->kind = inReg;
+			access->u.reg = Temp_newtemp();
+			accesslist = makeAccessList(f, boolList->tail, num+1);
+		}
 	}
 	else {
-		accesslist = makeAccessList(boolList->tail, offset);
-		access->kind = inReg;
-		access->u.reg = Temp_newtemp();
+		access->kind = inFrame;
+		access->u.offset = (num-6)*8+16;
+		accesslist = makeAccessList(f, boolList->tail, num+1);
 	}
 	return F_AccessList(access, accesslist);
+}
+
+T_stm initFormals(F_accessList fl, int num) {
+	if(fl == NULL) return T_Exp(T_Const(0));
+	T_stm stm;
+	if(num < 6) {
+		if(fl->head->kind == inFrame) {
+			stm = T_Move(T_Mem(T_Binop(T_plus,
+				T_Const(fl->head->u.offset), T_Temp(F_FP()))), T_Temp(F_ARG(num)));
+		}
+		else {
+			stm = T_Move(T_Temp(fl->head->u.reg), T_Temp(F_ARG(num)));
+		}
+	}
+	if(fl->tail == NULL) return stm;
+	else return T_Seq(stm, initFormals(fl->tail, num+1));
 }
 
 F_frame F_newFrame(Temp_label name, U_boolList formals) {
 	F_frame f = checked_malloc(sizeof(*f));
 	f->name = name;
-	F_accessList formalAccessList = makeAccessList(formals, 16);
-	f->formals = formalAccessList;
 	f->size = 0;
+	F_accessList formalAccessList = makeAccessList(f, formals, 0);
+	f->formals = formalAccessList;
+	f->init = initFormals(formalAccessList, 0);
 	return f;
 }
 
@@ -129,7 +155,7 @@ F_access F_allocLocal(F_frame f, bool escape) {
 	F_access access = checked_malloc(sizeof(*access));
 	if(escape) {
 		access->kind = inFrame;
-		access->u.offset = -f->size;
+		access->u.offset = -(f->size + 8);
 		f->size = f->size + 8;
 	}
 	else {
@@ -157,7 +183,7 @@ T_exp F_Exp(F_access access, T_exp framePtr) {
 }
 
 T_stm F_procEntryExit1(F_frame frame, T_stm stm) {
-	return T_Seq(T_Label(frame->name), stm);
+	return T_Seq(T_Label(frame->name), T_Seq(frame->init, stm));
 }
 
 F_frag F_StringFrag(Temp_label label, string str) {   

@@ -397,14 +397,14 @@ Tr_exp Tr_breakExp(Temp_label done) {
 	return ret;
 }
 
-Tr_exp Tr_forExp(Tr_exp lo, Tr_exp hi, Tr_exp body, Temp_label done) {
-	Temp_temp i = Temp_newtemp();
+Tr_exp Tr_forExp(Tr_exp lo, Tr_exp hi, Tr_exp body, Temp_label done, Tr_access loop) {
+	T_exp i = F_Exp(loop, F_FP());
 	Temp_temp limit = Temp_newtemp();
-	T_stm init = T_Seq(T_Move(T_Temp(i), unEx(lo)), T_Move(T_Temp(limit), unEx(hi)));
+	T_stm init = T_Seq(T_Move(i, unEx(lo)), T_Move(T_Temp(limit), unEx(hi)));
 	Temp_label test = Temp_newlabel(), b = Temp_newlabel();
-	T_stm cjump = T_Cjump(T_gt, T_Temp(i), T_Temp(limit), done, b);
+	T_stm cjump = T_Cjump(T_gt, i, T_Temp(limit), done, b);
 	T_stm jump = T_Jump(T_Name(test), Temp_LabelList(test, NULL));
-	T_stm realBody = T_Seq(unNx(body), T_Exp(T_Binop(T_plus, T_Temp(i), T_Const(1))));
+	T_stm realBody = T_Seq(unNx(body), T_Exp(T_Binop(T_plus, i, T_Const(1))));
 	T_stm stm = T_Seq(init,
 		T_Seq(T_Label(test),
 		T_Seq(cjump,

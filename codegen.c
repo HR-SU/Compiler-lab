@@ -348,7 +348,9 @@ printf("%s\n", str);
                     sprintf(str, "jmp %s", Temp_labelstring(s->u.CJUMP.true));
                     break;
             }
-            emit(AS_Oper(str, NULL, NULL, NULL));
+            
+            emit(AS_Oper(str, NULL, NULL, AS_Targets(Temp_LabelList(s->u.CJUMP.true,
+                Temp_LabelList(s->u.CJUMP.false, NULL)))));
             return;
         }
         case T_JUMP: {
@@ -358,7 +360,8 @@ printf("%s\n", str);
                 return;
             }
             Temp_temp r = munchExp(s->u.JUMP.exp);
-            emit(AS_Oper("jum `s0", NULL, Temp_TempList(r, NULL), NULL));
+            emit(AS_Oper("jum `s0", NULL, Temp_TempList(r, NULL),
+                AS_Targets(s->u.JUMP.jumps)));
             return;
         }
         case T_LABEL: {

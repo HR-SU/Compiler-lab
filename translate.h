@@ -50,7 +50,7 @@ Tr_exp Tr_assignExp(Tr_exp var, Tr_exp val);
 Tr_exp Tr_ifExp(Tr_exp test, Tr_exp then, Tr_exp elsee);
 Tr_exp Tr_whileExp(Tr_exp test, Tr_exp body, Temp_label done);
 Tr_exp Tr_breakExp(Temp_label done);
-Tr_exp Tr_forExp(Tr_exp lo, Tr_exp hi, Tr_exp body, Temp_label done);
+Tr_exp Tr_forExp(Tr_exp lo, Tr_exp hi, Tr_exp body, Temp_label done, Tr_access loop);
 Tr_exp Tr_letExp(Tr_expList decs, Tr_exp body);
 Tr_exp Tr_arrayExp(Tr_exp size, Tr_exp init);
 Tr_exp Tr_varDec(Tr_access access, Tr_exp init);
