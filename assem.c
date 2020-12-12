@@ -170,7 +170,8 @@ AS_instrList AS_rewrite(AS_instrList iList, Temp_map m) {
     AS_instr ins = il->head;
     if(ins->kind == I_MOVE) {
       Temp_temp src = ins->u.MOVE.src->head, dst = ins->u.MOVE.dst->head;
-      if(strcmp(Temp_look(m, src), Temp_look(m, dst)) == 0) {
+      string srcStr = Temp_look(m, src), dstStr = Temp_look(m, dst);
+      if(srcStr && dstStr && strcmp(srcStr, dstStr) == 0) {
         if(il->tail) {
           il->head = il->tail->head;
           il->tail = il->tail->tail;
@@ -203,13 +204,14 @@ AS_instrList AS_rewriteSpill(F_frame f, AS_instrList il, Temp_tempList spills) {
       }
       for(; src; src = src->tail) {
         if(src->head == temp) {
-          char str[20];
-          sprintf(str, "movq %d(`s0), `d0\n", 0);
+          char str[40];
+          sprintf(str, "movq %d(`s0), `d0", access->u.offset);
           Temp_temp newTemp = Temp_newtemp();
-          AS_instr newIns = AS_Oper(str, Temp_TempList(newTemp, NULL), 
+          AS_instr newIns = AS_Oper(String(str), Temp_TempList(newTemp, NULL), 
             Temp_TempList(F_FP(), NULL), NULL);
           ilist->tail = AS_InstrList(ilist->head, ilist->tail);
           ilist->head = newIns;
+          ilist = ilist->tail;
           for(; src; src = src->tail) {
             if(src->head == temp) src->head = newTemp;
           }
@@ -218,10 +220,10 @@ AS_instrList AS_rewriteSpill(F_frame f, AS_instrList il, Temp_tempList spills) {
       }
       for(; dst; dst = dst->tail) {
         if(dst->head == temp) {
-          char str[20];
-          sprintf(str, "movq `s0, %d(`s1)\n", 0);
+          char str[40];
+          sprintf(str, "movq `s0, %d(`s1)", access->u.offset);
           Temp_temp newTemp = Temp_newtemp();
-          AS_instr newIns = AS_Oper(str, NULL,
+          AS_instr newIns = AS_Oper(String(str), NULL,
             Temp_TempList(newTemp, Temp_TempList(F_FP(), NULL)), NULL);
           ilist->tail = AS_InstrList(newIns, ilist->tail);
           for(; dst; dst = dst->tail) {
@@ -232,4 +234,5 @@ AS_instrList AS_rewriteSpill(F_frame f, AS_instrList il, Temp_tempList spills) {
       }
     }
   }
+  return il;
 }

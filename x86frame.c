@@ -12,13 +12,6 @@
 /*Lab5: Your implementation here.*/
 
 //varibales
-struct F_access_ {
-	enum {inFrame, inReg} kind;
-	union {
-		int offset; //inFrame
-		Temp_temp reg; //inReg
-	} u;
-};
 
 struct F_frame_ {
 	Temp_label name;

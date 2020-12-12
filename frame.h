@@ -10,6 +10,15 @@
 typedef struct F_frame_ *F_frame;
 
 typedef struct F_access_ *F_access;
+
+struct F_access_ {
+	enum {inFrame, inReg} kind;
+	union {
+		int offset; //inFrame
+		Temp_temp reg; //inReg
+	} u;
+};
+
 typedef struct F_accessList_ *F_accessList;
 
 struct F_accessList_ {F_access head; F_accessList tail;};

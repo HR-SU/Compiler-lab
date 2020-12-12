@@ -225,10 +225,10 @@ struct Live_graph Live_liveness(G_graph flow) {
 				ml = G_look(tempToMove, d);
 				G_enter(tempToMove, d, Live_MoveList(s, d, ml));
 			}
-			for(; out; out = out->tail) {
-				G_node o = findNodeByTemp(conflict, out->head);
+			for(Temp_tempList outlist = out; outlist; outlist = outlist->tail) {
+				G_node o = findNodeByTemp(conflict, outlist->head);
 				if(FG_isMove(nodes->head)) {
-					if(FG_use(nodes->head)->head == out->head) continue;
+					if(FG_use(nodes->head)->head == outlist->head) continue;
 				}
 				if(G_goesTo(d, o) || G_goesTo(o, d)) continue;
 				else G_addEdge(d, o);
