@@ -44,6 +44,7 @@ Tr_exp Tr_stringExp(string str);
 Tr_exp Tr_callExp(Tr_level crtLevel, Tr_level level, Temp_label label, Tr_expList args);
 Tr_exp Tr_opExp(Tr_exp left, Tr_exp right, A_oper op);
 Tr_exp Tr_bicmpExp(Tr_exp left, Tr_exp right, A_oper op);
+Tr_exp Tr_strcmpExp(Tr_exp left, Tr_exp right, A_oper op);
 Tr_exp Tr_recordExp(Tr_expList expList, int size);
 Tr_exp Tr_seqExp(Tr_exp first, Tr_exp second);
 Tr_exp Tr_assignExp(Tr_exp var, Tr_exp val);

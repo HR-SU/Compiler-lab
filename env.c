@@ -80,6 +80,8 @@ S_table E_base_venv(void)
 
 	S_enter(venv,S_Symbol("not"),E_FunEntry(level,Temp_namedlabel("not"),formals,result));
 
+	S_enter(venv,S_Symbol("printi"),E_FunEntry(level,Temp_namedlabel("printi"),formals,NULL));
+
 	result = Ty_String();
 	
 	S_enter(venv,S_Symbol("chr"),E_FunEntry(level,Temp_namedlabel("chr"),formals,result));

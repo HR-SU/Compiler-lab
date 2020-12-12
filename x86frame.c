@@ -28,68 +28,150 @@ struct F_frame_ {
 	T_stm init;
 };
 
-static Temp_temp fp = NULL;
 static Temp_temp rv = NULL;
-static Temp_temp di = NULL;
-static Temp_temp si = NULL;
-static Temp_temp dx = NULL;
+static Temp_temp bx = NULL;
 static Temp_temp cx = NULL;
+static Temp_temp dx = NULL;
+static Temp_temp si = NULL;
+static Temp_temp di = NULL;
+static Temp_temp fp = NULL;
+static Temp_temp sp = NULL;
 static Temp_temp r8 = NULL;
 static Temp_temp r9 = NULL;
 static Temp_temp r10 = NULL;
 static Temp_temp r11 = NULL;
+static Temp_temp r12 = NULL;
+static Temp_temp r13 = NULL;
+static Temp_temp r14 = NULL;
+static Temp_temp r15 = NULL;
+
+static Temp_tempList callerSaved = NULL;
+static Temp_tempList calleeSaved = NULL;
+static Temp_tempList registers = NULL;
+static Temp_tempList returnSink = NULL;
+
+void F_init() {
+	if(rv == NULL) rv = Temp_newtemp();
+	if(bx == NULL) bx = Temp_newtemp();
+	if(cx == NULL) cx = Temp_newtemp();
+	if(dx == NULL) dx = Temp_newtemp();
+	if(si == NULL) si = Temp_newtemp();
+	if(di == NULL) di = Temp_newtemp();
+	if(fp == NULL) fp = Temp_newtemp();
+	if(sp == NULL) sp = Temp_newtemp();
+	if(r8 == NULL) r8 = Temp_newtemp();
+	if(r9 == NULL) r9 = Temp_newtemp();
+	if(r10 == NULL) r10 = Temp_newtemp();
+	if(r11 == NULL) r11 = Temp_newtemp();
+	if(r12 == NULL) r12 = Temp_newtemp();
+	if(r13 == NULL) r13 = Temp_newtemp();
+	if(r14 == NULL) r14 = Temp_newtemp();
+	if(r15 == NULL) r15 = Temp_newtemp();
+	if(callerSaved == NULL) {
+		Temp_tempList result = Temp_TempList(r11, NULL);
+		result = Temp_TempList(r10, result);
+		result = Temp_TempList(r9, result);
+		result = Temp_TempList(r8, result);
+		result = Temp_TempList(di, result);
+		result = Temp_TempList(si, result);
+		result = Temp_TempList(dx, result);
+		result = Temp_TempList(cx, result);
+		result = Temp_TempList(rv, result);
+		callerSaved = result;
+	}
+	if(calleeSaved == NULL) {
+		Temp_tempList result = Temp_TempList(r15, NULL);
+		result = Temp_TempList(r14, result);
+		result = Temp_TempList(r13, result);
+		result = Temp_TempList(r12, result);
+		result = Temp_TempList(fp, result);
+		result = Temp_TempList(bx, result);
+		calleeSaved = result;
+	}
+	if(registers == NULL) {
+		Temp_tempList result = Temp_TempList(r15, NULL);
+		result = Temp_TempList(r14, result);
+		result = Temp_TempList(r13, result);
+		result = Temp_TempList(r12, result);
+		result = Temp_TempList(r11, result);
+		result = Temp_TempList(r10, result);
+		result = Temp_TempList(r9, result);
+		result = Temp_TempList(r8, result);
+		result = Temp_TempList(sp, result);
+		result = Temp_TempList(fp, result);
+		result = Temp_TempList(bx, result);
+		result = Temp_TempList(di, result);
+		result = Temp_TempList(si, result);
+		result = Temp_TempList(dx, result);
+		result = Temp_TempList(cx, result);
+		result = Temp_TempList(rv, result);
+		registers = result;
+	}
+	if(returnSink == NULL) {
+		returnSink = Temp_TempList(rv, Temp_TempList(sp, calleeSaved));
+	}
+}
 
 Temp_temp F_FP(void) {
-	if(fp == NULL) fp = Temp_newtemp();
 	return fp;
 }
 
 Temp_temp F_RV(void) {
-	if(rv == NULL) rv = Temp_newtemp();
 	return rv;
 }
 
 Temp_temp F_DX(void) {
-	if(dx == NULL) dx = Temp_newtemp();
 	return dx;
+}
+
+Temp_temp F_SP(void) {
+	return sp;
 }
 
 Temp_temp F_ARG(int i) {
 	switch(i) {
-		case 0: {
-			if(di == NULL) di = Temp_newtemp();
-			return di;
-		}
-		case 1: {
-			if(si == NULL) si = Temp_newtemp();
-			return si;
-		}
-		case 2: {
-			if(dx == NULL) dx = Temp_newtemp();
-			return dx;
-		}
-		case 3: {
-			if(cx == NULL) cx = Temp_newtemp();
-			return cx;
-		}
-		case 4: {
-			if(r8 == NULL) r8 = Temp_newtemp();
-			return r8;
-		}
-		case 5: {
-			if(r9 == NULL) r9 = Temp_newtemp();
-			return r9;
-		}
-		default: {
-			return Temp_newtemp();
-		}
+		case 0: return di;
+		case 1: return si;
+		case 2: return dx;
+		case 3: return cx;
+		case 4: return r8;
+		case 5: return r9;
+		default: return Temp_newtemp();
 	}
 }
 
 Temp_tempList F_calldefs() {
-	if(r10 == NULL) r10 = Temp_newtemp();
-	if(r11 == NULL) r11 = Temp_newtemp();
-	return Temp_TempList(F_RV(), Temp_TempList(r10, Temp_TempList(r11, NULL)));
+	return callerSaved;
+}
+
+Temp_tempList F_registers() {
+	return registers;
+}
+
+static Temp_map tempMap = NULL;
+
+Temp_map F_TempMap() {
+	if(tempMap == NULL) {
+		Temp_map map = Temp_empty();
+		Temp_enter(map, rv, "%rax");
+		Temp_enter(map, bx, "%rbx");
+		Temp_enter(map, cx, "%rcx");
+		Temp_enter(map, dx, "%rdx");
+		Temp_enter(map, si, "%rsi");
+		Temp_enter(map, di, "%rdi");
+		Temp_enter(map, fp, "%rbp");
+		Temp_enter(map, sp, "%rsp");
+		Temp_enter(map, r8, "%r8");
+		Temp_enter(map, r9, "%r9");
+		Temp_enter(map, r10, "%r10");
+		Temp_enter(map, r11, "%r11");
+		Temp_enter(map, r12, "%r12");
+		Temp_enter(map, r13, "%r13");
+		Temp_enter(map, r14, "%r14");
+		Temp_enter(map, r15, "%r15");
+		tempMap = map;
+	}
+	return tempMap;
 }
 
 F_accessList makeAccessList(F_frame f, U_boolList boolList, int num) {
@@ -182,8 +264,32 @@ T_exp F_Exp(F_access access, T_exp framePtr) {
 	}
 }
 
+T_exp F_externalCall(Temp_label name, T_expList args) {
+	return T_Call(T_Name(name), args);
+}
+
 T_stm F_procEntryExit1(F_frame frame, T_stm stm) {
-	return T_Seq(T_Label(frame->name), T_Seq(frame->init, stm));
+	T_stm entry = T_Exp(T_Const(0)), exit = T_Exp(T_Const(0));
+	for(Temp_tempList tl = calleeSaved; tl; tl = tl->tail) {
+		if(tl->head == fp) continue;
+		Temp_temp tmp = Temp_newtemp();
+		entry = T_Seq(entry, T_Move(T_Temp(tmp), T_Temp(tl->head)));
+		exit = T_Seq(T_Move(T_Temp(tl->head), T_Temp(tmp)), exit);
+	}
+	return T_Seq(frame->init,
+		T_Seq(entry, T_Seq(stm, exit)));
+}
+
+AS_instrList F_procEntryExit2(AS_instrList body) {
+	return AS_splice(body, AS_InstrList(AS_Oper("", NULL, returnSink, NULL), NULL));
+}
+
+AS_proc F_procEntryExit3(F_frame frame, AS_instrList body) {
+	char entry[80];
+	sprintf(entry, "push %%rbp\nmovq %%rsp, %%rbp\nsubq $%d, %%rsp\n", frame->size);
+	char exit[80];
+	sprintf(exit, "addq $%d, %%rsp\npopq %%rbp\nret\n", frame->size);
+	return AS_Proc(String(entry), body, String(exit));
 }
 
 F_frag F_StringFrag(Temp_label label, string str) {   

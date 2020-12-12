@@ -42,15 +42,7 @@ static void doProc(FILE *out, F_frame frame, T_stm body)
  AS_instrList iList;
  struct C_block blo;
 
- F_tempMap = Temp_empty();
- Temp_enter(F_tempMap, F_FP(), "\%rbp");
- Temp_enter(F_tempMap, F_RV(), "\%rax");
- Temp_enter(F_tempMap, F_ARG(0), "\%rdi");
- Temp_enter(F_tempMap, F_ARG(1), "\%rsi");
- Temp_enter(F_tempMap, F_ARG(2), "\%rdx");
- Temp_enter(F_tempMap, F_ARG(3), "\%rcx");
- Temp_enter(F_tempMap, F_ARG(4), "\%r8");
- Temp_enter(F_tempMap, F_ARG(5), "\%r9");
+ F_tempMap = F_TempMap();
 
  //printf("doProc for function %s:\n", S_name(F_name(frame)));
  /*printStmList(stdout, T_StmList(body, NULL));
@@ -68,30 +60,26 @@ static void doProc(FILE *out, F_frame frame, T_stm body)
  }*/
 
  stmList = C_traceSchedule(blo);
- printStmList(stdout, stmList);
- printf("-------====trace=====-----\n");
+ /* printStmList(stdout, stmList);
+ printf("-------====trace=====-----\n"); */
  iList  = F_codegen(frame, stmList); /* 9 */
 
- AS_printInstrList(stdout, iList, Temp_layerMap(F_tempMap, Temp_name()));
- printf("----======before RA=======-----\n");
+ // AS_printInstrList(stdout, iList, Temp_layerMap(F_tempMap, Temp_name()));
+ // printf("----======before RA=======-----\n");
 
  //G_graph fg = FG_AssemFlowGraph(iList);  /* 10.1 */
- //struct RA_result ra = RA_regAlloc(frame, iList);  /* 11 */
-
- //fprintf(out, "BEGIN function\n");
- //AS_printInstrList (out, proc->body,
-                       //Temp_layerMap(F_tempMap, ra.coloring));
- //fprintf(out, "END function\n");
+ struct RA_result ra = RA_regAlloc(frame, iList);  /* 11 */
+ proc = F_procEntryExit3(frame, ra.il);
+ /* fprintf(stdout, "BEGIN function\n");
+ AS_printInstrList (stdout, proc->body, Temp_layerMap(F_tempMap, ra.coloring));
+ fprintf(stdout, "END function\n"); */
 
  //Part of TA's implementation. Just for reference.
- /*
- AS_rewrite(ra.il, Temp_layerMap(F_tempMap, ra.coloring));
- proc =	F_procEntryExit3(frame, ra.il);
 
  string procName = S_name(F_name(frame));
  fprintf(out, ".text\n");
  fprintf(out, ".globl %s\n", procName);
- fprintf(out, ".type %s, @function\n", procName);
+ fprintf(out, ".def %s;\t.scl 2;\t.type 64;\t.endef\n", procName);
  fprintf(out, "%s:\n", procName);
 
  
@@ -102,24 +90,27 @@ static void doProc(FILE *out, F_frame frame, T_stm body)
                        Temp_layerMap(F_tempMap, ra.coloring));
  fprintf(out, "%s", proc->epilog);
  //fprintf(out, "END %s\n\n", Temp_labelstring(F_name(frame)));
- */
+
 }
 
 void doStr(FILE *out, Temp_label label, string str) {
 	fprintf(out, ".section .rodata\n");
-	fprintf(out, ".%s:\n", S_name(label));
+	fprintf(out, "%s:\n", S_name(label));
 
 	int length = *(int *)str;
-	length = length + 4;
+  fprintf(out, ".int %d\n", length);
+	str = str + 4;
 	//it may contains zeros in the middle of string. To keep this work, we need to print all the charactors instead of using fprintf(str)
 	fprintf(out, ".string \"");
 	int i = 0;
 	for (; i < length; i++) {
-		fprintf(out, "%c", str[i]);
+    if(str[i] == '\n') fprintf(out, "%s", "\\n");
+    else if(str[i] == '\t') fprintf(out, "%s", "\\t");
+		else fprintf(out, "%c", str[i]);
 	}
 	fprintf(out, "\"\n");
 
-	//fprintf(out, ".string \"%s\"\n", str);
+	// fprintf(out, ".string \"%s\"\n", str);
 }
 
 int main(int argc, string *argv)
@@ -143,7 +134,7 @@ int main(int argc, string *argv)
    //Lab 6: escape analysis
    //If you have implemented escape analysis, uncomment this
    //Esc_findEscape(absyn_root); /* set varDec's escape field */
-
+   F_init();
    frags = SEM_transProg(absyn_root);
    if (anyErrors) return 1; /* don't continue */
 

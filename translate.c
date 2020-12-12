@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "util.h"
 #include "table.h"
 #include "symbol.h"
@@ -147,7 +148,7 @@ static struct Tr_level_ outermostLevel = {NULL, NULL};
 
 Tr_level Tr_outermost(void) {
 	if(outermostLevel.frame == NULL) {
-		Temp_label name = Temp_namedlabel("main");
+		Temp_label name = Temp_namedlabel("tigermain");
 		F_frame frame = F_newFrame(name, NULL);
 		outermostLevel.frame = frame;
 	}
@@ -196,7 +197,7 @@ Tr_exp Tr_simpleVar(Tr_access access, Tr_level level) {
 	exp->kind = Tr_ex;
 	T_exp texp;
 	if(access->level != level) {
-		texp = T_Mem(T_Binop(T_plus, T_Const(16), T_Temp(F_FP())));
+		texp = T_Mem(T_Binop(T_plus, T_Const(-8), T_Temp(F_FP())));
 		level = level->parent;
 		while(access->level != level) {
 			texp = T_Mem(T_Binop(T_plus, T_Const(16), texp));
@@ -240,7 +241,12 @@ Tr_exp Tr_stringExp(string str) {
 	Tr_exp ret = checked_malloc(sizeof(*ret));
 	ret->kind = Tr_ex;
 	ret->u.ex = exp;
-	F_frag frag = F_StringFrag(label, str);
+	int len = strlen(str);
+	string newStr = checked_malloc(sizeof(int) + len);
+	int *l = (int *)newStr;
+	*l = len;
+	strcpy((char *)(newStr + sizeof(int)), str);
+	F_frag frag = F_StringFrag(label, newStr);
 	fragList = F_FragList(frag, fragList);
 	return ret;
 }
@@ -254,12 +260,18 @@ T_expList makeArgList(Tr_expList args) {
 }
 
 Tr_exp Tr_callExp(Tr_level crtLevel, Tr_level level, Temp_label label, Tr_expList args) {
-	T_exp sl = T_Temp(F_FP());
-	while(level->parent != crtLevel) {
-		sl = T_Mem(T_Binop(T_plus, sl, T_Const(16)));
-		crtLevel = crtLevel->parent;
+	T_exp exp;
+	if(level == Tr_outermost()) {
+		exp = F_externalCall(label, makeArgList(args));
 	}
-	T_exp exp = T_Call(T_Name(label), T_ExpList(sl, makeArgList(args)));
+	else {
+		T_exp sl = T_Temp(F_FP());
+		while(level->parent != crtLevel) {
+			sl = T_Mem(T_Binop(T_plus, sl, T_Const(-8)));
+			crtLevel = crtLevel->parent;
+		}
+		exp = T_Call(T_Name(label), T_ExpList(sl, makeArgList(args)));
+	}
 	Tr_exp ret = checked_malloc(sizeof(*ret));
 	ret->kind = Tr_ex;
 	ret->u.ex = exp;
@@ -292,6 +304,25 @@ Tr_exp Tr_bicmpExp(Tr_exp left, Tr_exp right, A_oper op) {
 		case A_neqOp: relop = T_ne; break;
 	}
 	T_stm cmp = T_Cjump(relop, unEx(left), unEx(right), NULL, NULL);
+	patchList trues = PatchList(&cmp->u.CJUMP.true, NULL);
+	patchList falses = PatchList(&cmp->u.CJUMP.false, NULL);
+	Tr_exp ret = checked_malloc(sizeof(*ret));
+	ret->kind = Tr_cx;
+	ret->u.cx.stm = cmp;
+	ret->u.cx.trues = trues;
+	ret->u.cx.falses =falses;
+	return ret;
+}
+
+Tr_exp Tr_strcmpExp(Tr_exp left, Tr_exp right, A_oper op) {
+	T_relOp relop;
+	switch(op) {
+		case A_eqOp: relop = T_eq; break;
+		case A_neqOp: relop = T_ne; break;
+	}
+	T_expList args = T_ExpList(unEx(left), T_ExpList(unEx(right), NULL));
+	T_exp strCmp = F_externalCall(Temp_namedlabel("stringEqual"), args);
+	T_stm cmp = T_Cjump(relop, T_Const(1), strCmp, NULL, NULL);
 	patchList trues = PatchList(&cmp->u.CJUMP.true, NULL);
 	patchList falses = PatchList(&cmp->u.CJUMP.false, NULL);
 	Tr_exp ret = checked_malloc(sizeof(*ret));
@@ -404,7 +435,7 @@ Tr_exp Tr_forExp(Tr_exp lo, Tr_exp hi, Tr_exp body, Temp_label done, Tr_access l
 	Temp_label test = Temp_newlabel(), b = Temp_newlabel();
 	T_stm cjump = T_Cjump(T_gt, i, T_Temp(limit), done, b);
 	T_stm jump = T_Jump(T_Name(test), Temp_LabelList(test, NULL));
-	T_stm realBody = T_Seq(unNx(body), T_Exp(T_Binop(T_plus, i, T_Const(1))));
+	T_stm realBody = T_Seq(unNx(body), T_Move(i, T_Binop(T_plus, i, T_Const(1))));
 	T_stm stm = T_Seq(init,
 		T_Seq(T_Label(test),
 		T_Seq(cjump,

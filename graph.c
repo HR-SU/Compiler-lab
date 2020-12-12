@@ -42,6 +42,18 @@ G_nodeList G_NodeList(G_node head, G_nodeList tail)
  return n;
 }
 
+G_nodeList G_removeFromList(G_node node, G_nodeList list) {
+  if(list == NULL) return NULL;
+	if(list->head == node) return list->tail;
+	G_nodeList tmp = list;
+	for(; tmp && tmp->tail; tmp = tmp->tail) {
+		if(tmp->tail->head == node) {
+			tmp->tail = tmp->tail->tail;
+		}
+	}
+	return list;
+}
+
 /* generic creation of G_node */
 G_node G_Node(G_graph g, void *info)
 {G_node n = (G_node)checked_malloc(sizeof *n);

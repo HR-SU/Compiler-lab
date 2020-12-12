@@ -31,7 +31,7 @@ AS_instrList F_codegen(F_frame f, T_stmList stmList) {
     for(sl = stmList; sl; sl = sl->tail) munchStm(sl->head);
 
     list = iList; iList = last = NULL;
-    return list;
+    return F_procEntryExit2(list);
 }
 
 Temp_temp munchExp(T_exp e) {
@@ -46,7 +46,7 @@ Temp_temp munchExp(T_exp e) {
                         Temp_temp r = Temp_newtemp();
                         Temp_temp r1 = munchExp(e->u.MEM->u.BINOP.left);
                         Temp_temp r2 = munchExp(e->u.MEM->u.BINOP.right->u.BINOP.left);
-                        sprintf(s, "movq (`s0, `s1, %d), `d0\n",
+                        sprintf(s, "movq (`s0, `s1, %d), `d0",
                             e->u.MEM->u.BINOP.right->u.BINOP.right->u.CONST);
                         emit(AS_Oper(s, Temp_TempList(r, NULL),
                             Temp_TempList(r1, Temp_TempList(r2, NULL)), NULL));
@@ -54,14 +54,14 @@ Temp_temp munchExp(T_exp e) {
                     }
                     else if(e->u.MEM->u.BINOP.left->kind == T_CONST) {
                         Temp_temp r = Temp_newtemp();
-                        sprintf(s, "movq %d(`s0), `d0\n", e->u.MEM->u.BINOP.left->u.CONST);
+                        sprintf(s, "movq %d(`s0), `d0", e->u.MEM->u.BINOP.left->u.CONST);
                         emit(AS_Oper(s, Temp_TempList(r, NULL),
                             Temp_TempList(munchExp(e->u.MEM->u.BINOP.right), NULL), NULL));
                         return r;
                     }
                     else if(e->u.MEM->u.BINOP.right->kind == T_CONST) {
                         Temp_temp r = Temp_newtemp();
-                        sprintf(s, "movq %d(`s0), `d0\n", e->u.MEM->u.BINOP.right->u.CONST);
+                        sprintf(s, "movq %d(`s0), `d0", e->u.MEM->u.BINOP.right->u.CONST);
                         emit(AS_Oper(s, Temp_TempList(r, NULL),
                             Temp_TempList(munchExp(e->u.MEM->u.BINOP.left), NULL), NULL));
                         return r;
@@ -77,13 +77,13 @@ Temp_temp munchExp(T_exp e) {
             }
             else if(e->u.MEM->kind == T_CONST) {
                 Temp_temp r = Temp_newtemp();
-                sprintf(s, "movq %d, `d0\n", e->u.MEM->u.CONST);
+                sprintf(s, "movq %d, `d0", e->u.MEM->u.CONST);
                 emit(AS_Oper(s, Temp_TempList(r, NULL), NULL, NULL));
                 return r;
             }
             else {
                 Temp_temp r = Temp_newtemp();
-                emit(AS_Oper("movq (`s0), `d0\n", Temp_TempList(r, NULL),
+                emit(AS_Oper("movq (`s0), `d0", Temp_TempList(r, NULL),
                     Temp_TempList(munchExp(e->u.MEM), NULL), NULL));
                 return r;
             }
@@ -93,14 +93,14 @@ Temp_temp munchExp(T_exp e) {
                 case T_plus: {
                     if(e->u.BINOP.left->kind == T_CONST) {
                         Temp_temp r = Temp_newtemp();
-                        sprintf(s, "leaq %d(`s0), `d0\n", e->u.BINOP.left->u.CONST);
+                        sprintf(s, "leaq %d(`s0), `d0", e->u.BINOP.left->u.CONST);
                         emit(AS_Oper(s, Temp_TempList(r, NULL),
                             Temp_TempList(munchExp(e->u.BINOP.right), NULL), NULL));
                         return r;
                     }
                     else if(e->u.BINOP.right->kind == T_CONST) {
                         Temp_temp r = Temp_newtemp();
-                        sprintf(s, "leaq %d(`s0), `d0\n", e->u.BINOP.right->u.CONST);
+                        sprintf(s, "leaq %d(`s0), `d0", e->u.BINOP.right->u.CONST);
                         emit(AS_Oper(s, Temp_TempList(r, NULL),
                             Temp_TempList(munchExp(e->u.BINOP.left), NULL), NULL));
                         return r;
@@ -108,7 +108,7 @@ Temp_temp munchExp(T_exp e) {
                     else {
                         Temp_temp r1 = munchExp(e->u.BINOP.left),
                             r2 = munchExp(e->u.BINOP.right);
-                        sprintf(s, "addq `s1, `d0\n");
+                        sprintf(s, "addq `s1, `d0");
                         emit(AS_Oper(s, Temp_TempList(r1, NULL),
                             Temp_TempList(r1, Temp_TempList(r2, NULL)), NULL));
                         return r1;
@@ -117,7 +117,7 @@ Temp_temp munchExp(T_exp e) {
                 case T_minus: {
                     Temp_temp r1 = munchExp(e->u.BINOP.left),
                         r2 = munchExp(e->u.BINOP.right);
-                    sprintf(s, "subq `s1, `d0\n");
+                    sprintf(s, "subq `s1, `d0");
                     emit(AS_Oper(s, Temp_TempList(r1, NULL),
                         Temp_TempList(r1, Temp_TempList(r2, NULL)), NULL));
                     return r1;
@@ -125,7 +125,7 @@ Temp_temp munchExp(T_exp e) {
                 case T_mul: {
                     Temp_temp r1 = munchExp(e->u.BINOP.left),
                         r2 = munchExp(e->u.BINOP.right);
-                    sprintf(s, "imulq `s1, `d0\n");
+                    sprintf(s, "imulq `s1, `d0");
                     emit(AS_Oper(s, Temp_TempList(r1, NULL),
                         Temp_TempList(r1, Temp_TempList(r2, NULL)), NULL));
                     return r1;
@@ -135,11 +135,11 @@ Temp_temp munchExp(T_exp e) {
                     Temp_temp rdx = F_DX();
                     Temp_temp r1 = munchExp(e->u.BINOP.left),
                         r2 = munchExp(e->u.BINOP.right);
-                    emit(AS_Oper("movq `s0, `d0\n", Temp_TempList(rax, NULL),
+                    emit(AS_Oper("movq `s0, `d0", Temp_TempList(rax, NULL),
                         Temp_TempList(r1, NULL), NULL));
-                    emit(AS_Oper("cqto\n", Temp_TempList(rax, Temp_TempList(rdx, NULL)),
+                    emit(AS_Oper("cqto", Temp_TempList(rax, Temp_TempList(rdx, NULL)),
                         NULL, NULL));
-                    emit(AS_Oper("idivq `s0\n", Temp_TempList(rax, Temp_TempList(rdx, NULL)),
+                    emit(AS_Oper("idivq `s0", Temp_TempList(rax, Temp_TempList(rdx, NULL)),
                         Temp_TempList(r2, NULL), NULL));
                     return rax;
                 }
@@ -147,7 +147,7 @@ Temp_temp munchExp(T_exp e) {
         }
         case T_CONST: {
             Temp_temp r = Temp_newtemp();
-            sprintf(s, "movq $%d, `d0\n", e->u.CONST);
+            sprintf(s, "movq $%d, `d0", e->u.CONST);
             emit(AS_Oper(s, Temp_TempList(r, NULL), NULL, NULL));
             return r;
         }
@@ -156,7 +156,7 @@ Temp_temp munchExp(T_exp e) {
         }
         case T_NAME: {
             Temp_temp r = Temp_newtemp();
-            sprintf(s, "movq %s, `d0\n", Temp_labelstring(e->u.NAME));
+            sprintf(s, "movq $%s, `d0", Temp_labelstring(e->u.NAME));
             emit(AS_Oper(s, Temp_TempList(r, NULL), NULL, NULL));
             return r;
         }
@@ -180,7 +180,7 @@ void munchStm(T_stm s) {
                             Temp_temp src = munchExp(s->u.MOVE.src);
                             Temp_temp r1 = munchExp(e->u.MEM->u.BINOP.left);
                             Temp_temp r2 = munchExp(e->u.MEM->u.BINOP.right->u.BINOP.left);
-                            sprintf(str, "movq `s0, (`s1, `s2, %d)\n",
+                            sprintf(str, "movq `s0, (`s1, `s2, %d)",
                                 e->u.MEM->u.BINOP.right->u.BINOP.right->u.CONST);
                             emit(AS_Oper(str, NULL, Temp_TempList(src,
                                 Temp_TempList(r1, Temp_TempList(r2, NULL))), NULL));
@@ -189,8 +189,7 @@ void munchStm(T_stm s) {
                         else if(e->u.MEM->u.BINOP.left->kind == T_CONST) {
                             Temp_temp src = munchExp(s->u.MOVE.src);
                             Temp_temp r1 = munchExp(e->u.MEM->u.BINOP.right);
-                            sprintf(str, "movq `s0, %d(`s1)\n", e->u.MEM->u.BINOP.left->u.CONST);
-printf("%s\n", str);
+                            sprintf(str, "movq `s0, %d(`s1)", e->u.MEM->u.BINOP.left->u.CONST);
                             emit(AS_Oper(str, NULL, Temp_TempList(src,
                                 Temp_TempList(r1, NULL)), NULL));
                             return;
@@ -198,7 +197,7 @@ printf("%s\n", str);
                         else if(e->u.MEM->u.BINOP.right->kind == T_CONST) {
                             Temp_temp src = munchExp(s->u.MOVE.src);
                             Temp_temp r1 = munchExp(e->u.MEM->u.BINOP.left);
-                            sprintf(str, "movq `s0, %d(`s1)\n", e->u.MEM->u.BINOP.right->u.CONST);
+                            sprintf(str, "movq `s0, %d(`s1)", e->u.MEM->u.BINOP.right->u.CONST);
                             emit(AS_Oper(str, NULL, Temp_TempList(src,
                                 Temp_TempList(r1, NULL)), NULL));
                             return;
@@ -217,12 +216,12 @@ printf("%s\n", str);
                 }
                 else if(e->u.MEM->kind == T_CONST) {
                     Temp_temp src = munchExp(s->u.MOVE.src);
-                    sprintf(str, "movq `s0, %d\n", e->u.MEM->u.CONST);
+                    sprintf(str, "movq `s0, %d", e->u.MEM->u.CONST);
                     emit(AS_Oper(str, NULL, Temp_TempList(src, NULL), NULL));
                     return;
                 }
                 Temp_temp src = munchExp(s->u.MOVE.src);
-                emit(AS_Oper("movq `s0, (`s1)\n", NULL,
+                emit(AS_Oper("movq `s0, (`s1)", NULL,
                     Temp_TempList(src, Temp_TempList(munchExp(e->u.MEM), NULL)), NULL));
                 return;
             }
@@ -236,7 +235,7 @@ printf("%s\n", str);
                             Temp_temp dst = munchExp(s->u.MOVE.dst);
                             Temp_temp r1 = munchExp(e->u.MEM->u.BINOP.left);
                             Temp_temp r2 = munchExp(e->u.MEM->u.BINOP.right->u.BINOP.left);
-                            sprintf(str, "movq (`s0, `s1, %d), `s2\n",
+                            sprintf(str, "movq (`s0, `s1, %d), `s2",
                                 e->u.MEM->u.BINOP.right->u.BINOP.right->u.CONST);
                             emit(AS_Oper(str, NULL, Temp_TempList(r1,
                                 Temp_TempList(r2, Temp_TempList(dst, NULL))), NULL));
@@ -245,7 +244,7 @@ printf("%s\n", str);
                         else if(e->u.MEM->u.BINOP.left->kind == T_CONST) {
                             Temp_temp dst = munchExp(s->u.MOVE.dst);
                             Temp_temp r1 = munchExp(e->u.MEM->u.BINOP.right);
-                            sprintf(str, "movq %d(`s0), `s1\n", e->u.MEM->u.BINOP.left->u.CONST);
+                            sprintf(str, "movq %d(`s0), `s1", e->u.MEM->u.BINOP.left->u.CONST);
                             emit(AS_Oper(str, NULL, Temp_TempList(r1,
                                 Temp_TempList(dst, NULL)), NULL));
                             return;
@@ -253,7 +252,7 @@ printf("%s\n", str);
                         else if(e->u.MEM->u.BINOP.right->kind == T_CONST) {
                             Temp_temp dst = munchExp(s->u.MOVE.dst);
                             Temp_temp r1 = munchExp(e->u.MEM->u.BINOP.left);
-                            sprintf(str, "movq %d(`s0), `s1\n", e->u.MEM->u.BINOP.right->u.CONST);
+                            sprintf(str, "movq %d(`s0), `s1", e->u.MEM->u.BINOP.right->u.CONST);
                             emit(AS_Oper(str, NULL, Temp_TempList(r1,
                                 Temp_TempList(dst, NULL)), NULL));
                             return;
@@ -272,26 +271,26 @@ printf("%s\n", str);
                 }
                 else if(e->u.MEM->kind == T_CONST) {
                     Temp_temp dst = munchExp(s->u.MOVE.dst);
-                    sprintf(str, "movq %d, `s0\n", e->u.MEM->u.CONST);
+                    sprintf(str, "movq %d, `s0", e->u.MEM->u.CONST);
                     emit(AS_Oper(str, NULL, Temp_TempList(dst, NULL), NULL));
                     return;
                 }
                 Temp_temp dst = munchExp(s->u.MOVE.dst);
-                emit(AS_Oper("movq (`s0), `s1\n", NULL,
+                emit(AS_Oper("movq (`s0), `s1", NULL,
                     Temp_TempList(munchExp(e->u.MEM), Temp_TempList(dst, NULL)), NULL));
                 return;
             }
             else if(s->u.MOVE.src->kind == T_CALL) {
                 if(s->u.MOVE.src->u.CALL.fun->kind == T_NAME) {
                     Temp_tempList l = munchArgs(0, s->u.MOVE.src->u.CALL.args);
-                    sprintf(str, "callq %s\n",
+                    sprintf(str, "callq %s",
                         Temp_labelstring(s->u.MOVE.src->u.CALL.fun->u.NAME));
                     emit(AS_Oper(str, F_calldefs(), l, NULL));
                     return;
                 }
                 Temp_temp r = munchExp(s->u.MOVE.src->u.CALL.fun);
                 Temp_tempList l = munchArgs(0, s->u.MOVE.src->u.CALL.args);
-                emit(AS_Oper("callq `s0\n", F_calldefs(), Temp_TempList(r, l), NULL));
+                emit(AS_Oper("callq `s0", F_calldefs(), Temp_TempList(r, l), NULL));
                 return;
             }
             else {
@@ -305,14 +304,14 @@ printf("%s\n", str);
             if(s->u.EXP->kind == T_CALL) {
                 if(s->u.EXP->u.CALL.fun->kind == T_NAME) {
                     Temp_tempList l = munchArgs(0, s->u.EXP->u.CALL.args);
-                    sprintf(str, "callq %s\n",
+                    sprintf(str, "callq %s",
                         Temp_labelstring(s->u.EXP->u.CALL.fun->u.NAME));
                     emit(AS_Oper(str, F_calldefs(), l, NULL));
                     return;
                 }
                 Temp_temp r = munchExp(s->u.EXP->u.CALL.fun);
                 Temp_tempList l = munchArgs(0, s->u.EXP->u.CALL.args);
-                emit(AS_Oper("callq `s0\n", F_calldefs(), Temp_TempList(r, l), NULL));
+                emit(AS_Oper("callq `s0", F_calldefs(), Temp_TempList(r, l), NULL));
                 return;
             }
             else {
@@ -356,7 +355,7 @@ printf("%s\n", str);
         case T_JUMP: {
             if(s->u.JUMP.exp->kind == T_NAME) {
                 sprintf(str, "jmp %s", Temp_labelstring(s->u.JUMP.exp->u.NAME));
-                emit(AS_Oper(str, NULL, NULL, NULL));
+                emit(AS_Oper(str, NULL, NULL, AS_Targets(s->u.JUMP.jumps)));
                 return;
             }
             Temp_temp r = munchExp(s->u.JUMP.exp);
@@ -365,7 +364,7 @@ printf("%s\n", str);
             return;
         }
         case T_LABEL: {
-            sprintf(str, "%s: \n", Temp_labelstring(s->u.LABEL));
+            sprintf(str, "%s", Temp_labelstring(s->u.LABEL));
             emit(AS_Label(str, s->u.LABEL));
             return;
         }
@@ -384,7 +383,8 @@ static Temp_tempList munchArgs(int num, T_expList args) {
         emit(AS_Move("movq `s0, `d0", Temp_TempList(dst, NULL), Temp_TempList(arg, NULL)));
     }
     else {
-        emit(AS_Oper("pushq `s0", NULL, Temp_TempList(arg, NULL), NULL));
+        emit(AS_Oper("pushq `s0", Temp_TempList(F_SP(), NULL), 
+            Temp_TempList(arg, NULL), NULL));
     }
     return Temp_TempList(arg, l);
 }

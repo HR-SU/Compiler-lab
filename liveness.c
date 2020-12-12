@@ -14,10 +14,62 @@
 
 Live_moveList Live_MoveList(G_node src, G_node dst, Live_moveList tail) {
 	Live_moveList lm = (Live_moveList) checked_malloc(sizeof(*lm));
-	lm->src = src;
-	lm->dst = dst;
+	Live_move move = (Live_move) checked_malloc(sizeof(*move));
+	move->src = src; move->dst = dst;
+	lm->head = move;
 	lm->tail = tail;
 	return lm;
+}
+
+Live_moveList Live_MoveAppend(Live_move head, Live_moveList tail) {
+	Live_moveList lm = (Live_moveList) checked_malloc(sizeof(*lm));
+	lm->head = head;
+	lm->tail = tail;
+	return lm;
+}
+
+bool Live_moveIn(Live_move a, Live_moveList b) {
+	for(; b; b = b->tail)
+		if(b->head == a) return TRUE;
+	return FALSE;
+}
+
+Live_moveList Live_moveUnion(Live_moveList a, Live_moveList b) {
+	if(a == NULL) return b;
+	if(b == NULL) return a;
+	Live_moveList result = NULL;
+	for(; a; a = a->tail) {
+		result = Live_MoveAppend(a->head, result);
+	}
+	for(; b; b = b->tail) {
+		if(!Live_moveIn(b->head, a)) {
+			result = Live_MoveAppend(b->head, result);
+		}
+	}
+	return result;
+}
+
+Live_moveList Live_moveIntersection(Live_moveList a, Live_moveList b) {
+	if(b == NULL) return a;
+	Live_moveList result = NULL;
+	for(; a; a = a->tail) {
+		if(Live_moveIn(a->head, b)) {
+			result = Live_MoveAppend(a->head, result);
+		}
+	}
+	return result;
+}
+
+Live_moveList Live_moveRemove(Live_move a, Live_moveList b) {
+	if(b == NULL) return NULL;
+	if(b->head == a) return b->tail;
+	Live_moveList tmp = b;
+	for(; tmp && tmp->tail; tmp = tmp->tail) {
+		if(tmp->tail->head == a) {
+			tmp->tail = tmp->tail->tail;
+		}
+	}
+	return b;
 }
 
 Temp_tempList tempUnion(Temp_tempList l1, Temp_tempList l2) {
@@ -158,6 +210,7 @@ struct Live_graph Live_liveness(G_graph flow) {
 	}
 
 	G_graph conflict = G_Graph();
+	G_table tempToMove = G_empty();
 	Live_moveList moveList = NULL;
 	for(G_nodeList nodes = G_nodes(flow); nodes; nodes = nodes->tail) {
 		Temp_tempList def = FG_def(nodes->head);
@@ -167,6 +220,10 @@ struct Live_graph Live_liveness(G_graph flow) {
 			if(FG_isMove(nodes->head)) {
 				G_node s = findNodeByTemp(conflict, FG_use(nodes->head)->head);
 				moveList = Live_MoveList(s, d, moveList);
+				Live_moveList ml = G_look(tempToMove, s);
+				G_enter(tempToMove, s, Live_MoveList(s, d, ml));
+				ml = G_look(tempToMove, d);
+				G_enter(tempToMove, d, Live_MoveList(s, d, ml));
 			}
 			for(; out; out = out->tail) {
 				G_node o = findNodeByTemp(conflict, out->head);
@@ -181,6 +238,7 @@ struct Live_graph Live_liveness(G_graph flow) {
 
 	lg.graph = conflict;
 	lg.moves = moveList;
+	lg.tempToMove = tempToMove;
 	return lg;
 }
 

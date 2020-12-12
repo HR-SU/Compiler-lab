@@ -181,6 +181,9 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a, Tr_level l, Temp_labe
 					if(!istypematch(left.ty, right.ty)) {
 						EM_error(a->u.op.right->pos, "same type required");
 					}
+					if(left.ty->kind == Ty_string) {
+						return expTy(Tr_strcmpExp(left.exp, right.exp, a->u.op.oper), Ty_Int());
+					}
 					return expTy(Tr_bicmpExp(left.exp, right.exp, a->u.op.oper), Ty_Int());
 				}
 				default: {

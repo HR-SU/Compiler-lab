@@ -19,6 +19,8 @@ G_node G_Node(G_graph g, void *info);
 /* Make a NodeList cell */
 G_nodeList G_NodeList(G_node head, G_nodeList tail);
 
+G_nodeList G_removeFromList(G_node node, G_nodeList list);
+
 /* Get the list of nodes belonging to "g" */
 G_nodeList G_nodes(G_graph g);
 

@@ -5,6 +5,7 @@
 #define FRAME_H
 
 #include "tree.h"
+#include "assem.h"
 
 typedef struct F_frame_ *F_frame;
 
@@ -15,11 +16,15 @@ struct F_accessList_ {F_access head; F_accessList tail;};
 
 Temp_map F_tempMap;
 
+void F_init();
 Temp_temp F_FP(void);
+Temp_temp F_SP(void);
 Temp_temp F_RV(void);
 Temp_temp F_DX(void);
 Temp_temp F_ARG(int i);
 Temp_tempList F_calldefs();
+Temp_tempList F_registers();
+Temp_map F_TempMap();
 F_frame F_newFrame(Temp_label name, U_boolList formals);
 
 Temp_label F_name(F_frame f);
@@ -27,8 +32,11 @@ F_accessList F_formals(F_frame f);
 F_access F_allocLocal(F_frame f, bool escape);
 F_accessList F_AccessList(F_access head, F_accessList tail);
 T_exp F_Exp(F_access access, T_exp framePtr);
+T_exp F_externalCall(Temp_label name, T_expList args);
 
 T_stm F_procEntryExit1(F_frame frame, T_stm stm);
+AS_instrList F_procEntryExit2(AS_instrList body);
+AS_proc F_procEntryExit3(F_frame frame, AS_instrList body);
 
 /* declaration for fragments */
 typedef struct F_frag_ *F_frag;

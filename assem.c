@@ -163,3 +163,73 @@ AS_proc AS_Proc(string p, AS_instrList b, string e)
  proc->prolog=p; proc->body=b; proc->epilog=e;
  return proc;
 }
+
+AS_instrList AS_rewrite(AS_instrList iList, Temp_map m) {
+  AS_instrList il = iList;
+  while(il) {
+    AS_instr ins = il->head;
+    if(ins->kind == I_MOVE) {
+      Temp_temp src = ins->u.MOVE.src->head, dst = ins->u.MOVE.dst->head;
+      if(strcmp(Temp_look(m, src), Temp_look(m, dst)) == 0) {
+        if(il->tail) {
+          il->head = il->tail->head;
+          il->tail = il->tail->tail;
+          continue;
+        }
+        else {
+          il->head = AS_Oper("", NULL, NULL, NULL);
+          break;
+        }
+      }
+    }
+    il = il->tail;
+  }
+  return iList;
+}
+
+AS_instrList AS_rewriteSpill(F_frame f, AS_instrList il, Temp_tempList spills) {
+  for(; spills; spills = spills->tail) {
+    Temp_temp temp = spills->head;
+    F_access access = F_allocLocal(f, TRUE);
+    for(AS_instrList ilist = il; ilist; ilist = ilist->tail) {
+      AS_instr ins = ilist->head;
+      if(ins->kind == I_LABEL) continue;
+      Temp_tempList dst, src;
+      if(ins->kind == I_OPER) {
+        dst = ins->u.OPER.dst; src = ins->u.OPER.src;
+      }
+      else {
+        dst = ins->u.MOVE.dst; src = ins->u.MOVE.src;
+      }
+      for(; src; src = src->tail) {
+        if(src->head == temp) {
+          char str[20];
+          sprintf(str, "movq %d(`s0), `d0\n", 0);
+          Temp_temp newTemp = Temp_newtemp();
+          AS_instr newIns = AS_Oper(str, Temp_TempList(newTemp, NULL), 
+            Temp_TempList(F_FP(), NULL), NULL);
+          ilist->tail = AS_InstrList(ilist->head, ilist->tail);
+          ilist->head = newIns;
+          for(; src; src = src->tail) {
+            if(src->head == temp) src->head = newTemp;
+          }
+          break;
+        }
+      }
+      for(; dst; dst = dst->tail) {
+        if(dst->head == temp) {
+          char str[20];
+          sprintf(str, "movq `s0, %d(`s1)\n", 0);
+          Temp_temp newTemp = Temp_newtemp();
+          AS_instr newIns = AS_Oper(str, NULL,
+            Temp_TempList(newTemp, Temp_TempList(F_FP(), NULL)), NULL);
+          ilist->tail = AS_InstrList(newIns, ilist->tail);
+          for(; dst; dst = dst->tail) {
+            if(dst->head == temp) dst->head = newTemp;
+          }
+          break;
+        }
+      }
+    }
+  }
+}
