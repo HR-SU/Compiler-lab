@@ -464,8 +464,8 @@ Tr_exp Tr_arrayExp(Tr_exp size, Tr_exp init) {
 	Temp_temp tmp = Temp_newtemp();
 	T_exp exp = T_Eseq(T_Move(T_Temp(tmp),
 		T_Call(T_Name(Temp_namedlabel("initArray")), 
-			T_ExpList(unEx(init), 
-			T_ExpList(unEx(size), NULL)))), T_Temp(tmp));
+			T_ExpList(unEx(size), 
+			T_ExpList(unEx(init), NULL)))), T_Temp(tmp));
 	Tr_exp ret = checked_malloc(sizeof(*ret));
 	ret->kind = Tr_ex;
 	ret->u.ex = exp;
