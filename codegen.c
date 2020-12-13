@@ -167,6 +167,25 @@ Temp_temp munchExp(T_exp e) {
             emit(AS_Oper(s, Temp_TempList(r, NULL), NULL, NULL));
             return r;
         }
+        case T_CALL: {
+            Temp_temp newTemp = Temp_newtemp();
+            if(e->u.CALL.fun->kind == T_NAME) {
+                Temp_tempList l = munchArgs(0, e->u.CALL.args);
+                sprintf(s, "callq %s",
+                    Temp_labelstring(e->u.CALL.fun->u.NAME));
+                emit(AS_Oper(s, F_calldefs(), Temp_TempList(F_FP(), l), NULL));
+                emit(AS_Move("movq `s0, `d0", Temp_TempList(newTemp, NULL),
+                    Temp_TempList(F_RV(), NULL)));
+                return newTemp;
+            }
+            Temp_temp r = munchExp(e->u.CALL.fun);
+            Temp_tempList l = munchArgs(0, e->u.CALL.args);
+            emit(AS_Oper("callq `s0", F_calldefs(),
+                Temp_TempList(F_FP(), Temp_TempList(r, l)), NULL));
+            emit(AS_Move("movq `s0, `d0", Temp_TempList(newTemp, NULL),
+                    Temp_TempList(F_RV(), NULL)));
+            return newTemp;
+        }
         default: {
             fprintf(stderr, "Error!\n");
         }

@@ -11,6 +11,7 @@ E_enventry E_VarEntry(Tr_access access, Ty_ty ty)
 	entry->kind = E_varEntry;
 	entry->u.var.access = access;
 	entry->u.var.ty = ty;
+	entry->readonly = 0;
 	return entry;
 }
 
