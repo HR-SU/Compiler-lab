@@ -283,9 +283,6 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a, Tr_level l, Temp_labe
 		}
 		case A_forExp: {
 			Temp_label done = Temp_newlabel();
-            S_beginScope(venv);
-			Tr_access loopVar = Tr_allocLocal(l, FALSE);
-            S_enter(venv, a->u.forr.var, E_ROVarEntry(loopVar, Ty_Int()));
 			struct expty lo = transExp(venv, tenv, a->u.forr.lo, l, label);
 			if(lo.ty->kind != Ty_int) {
 				EM_error(a->u.forr.lo->pos, "for exp's range type is not integer");
@@ -294,6 +291,9 @@ struct expty transExp(S_table venv, S_table tenv, A_exp a, Tr_level l, Temp_labe
 			if(hi.ty->kind != Ty_int) {
 				EM_error(a->u.forr.hi->pos, "for exp's range type is not integer");
 			}
+            S_beginScope(venv);
+			Tr_access loopVar = Tr_allocLocal(l, a->u.forr.escape);
+            S_enter(venv, a->u.forr.var, E_ROVarEntry(loopVar, Ty_Int()));
 			struct expty body = transExp(venv, tenv, a->u.forr.body, l, done);
 			if(body.ty->kind != Ty_void) {
 				EM_error(a->u.forr.body->pos, "for body must produce no value");
@@ -355,14 +355,14 @@ Tr_exp transDec(S_table venv, S_table tenv, A_dec d, Tr_level l, Temp_label labe
 				if(!istypematch(init.ty, ty)) {
 					EM_error(d->pos, "type mismatch");
 				}
-				access = Tr_allocLocal(l, TRUE);
+				access = Tr_allocLocal(l, d->u.var.escape);
 				S_enter(venv, d->u.var.var, E_VarEntry(access, ty));
 			}
 			else {
 				if(init.ty->kind == Ty_nil) {
 					EM_error(d->pos, "init should not be nil without type specified");
 				}
-				access = Tr_allocLocal(l, TRUE);
+				access = Tr_allocLocal(l, d->u.var.escape);
 				S_enter(venv, d->u.var.var, E_VarEntry(access, init.ty));
 			}
 			return Tr_varDec(access, init.exp);
@@ -515,7 +515,7 @@ U_boolList makeEscapeList(A_fieldList params) {
 	if(params == NULL) return NULL;
 	U_boolList escapeList = makeEscapeList(params->tail);
 	if(params->head->escape) return U_BoolList(TRUE, escapeList);
-	else return U_BoolList(FALSE, escapeList);
+	else return U_BoolList(params->head->escape, escapeList);
 }
 
 Ty_ty actual_ty(Ty_ty ty) {
@@ -542,6 +542,7 @@ bool istypematch(Ty_ty _ty1, Ty_ty _ty2) {
 F_fragList SEM_transProg(A_exp exp){
 
 	//TODO LAB5: do not forget to add the main frame
+	Esc_findEscape(exp);
 	S_table tenv = E_base_tenv(), venv = E_base_venv();
 	struct expty main = transExp(venv, tenv, exp, Tr_outermost(), Temp_newlabel());
 	Tr_procEntryExit(main.exp, Tr_outermost());

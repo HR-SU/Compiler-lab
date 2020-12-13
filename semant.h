@@ -6,6 +6,7 @@
 #include "temp.h"
 #include "frame.h"
 #include "translate.h"
+#include "escape.h"
 
 struct expty;
 
