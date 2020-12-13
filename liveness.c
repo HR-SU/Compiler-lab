@@ -13,6 +13,10 @@
 #include "table.h"
 
 Live_moveList Live_MoveList(G_node src, G_node dst, Live_moveList tail) {
+	for(Live_moveList t = tail; t; t = t->tail) {
+		Live_move m = t->head;
+		if(m->src == src && m->dst == dst) return tail;
+	}
 	Live_moveList lm = (Live_moveList) checked_malloc(sizeof(*lm));
 	Live_move move = (Live_move) checked_malloc(sizeof(*move));
 	move->src = src; move->dst = dst;
