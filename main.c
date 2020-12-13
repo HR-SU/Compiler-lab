@@ -79,7 +79,7 @@ static void doProc(FILE *out, F_frame frame, T_stm body)
  string procName = S_name(F_name(frame));
  fprintf(out, ".text\n");
  fprintf(out, ".globl %s\n", procName);
- fprintf(out, ".def %s;\t.scl 2;\t.type 64;\t.endef\n", procName);
+ fprintf(out, ".type %s, @function\n", procName);
  fprintf(out, "%s:\n", procName);
 
  
