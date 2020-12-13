@@ -106,41 +106,48 @@ Temp_temp munchExp(T_exp e) {
                         return r;
                     }
                     else {
+                        Temp_temp newTemp = Temp_newtemp();
                         Temp_temp r1 = munchExp(e->u.BINOP.left),
                             r2 = munchExp(e->u.BINOP.right);
-                        sprintf(s, "addq `s1, `d0");
-                        emit(AS_Oper(s, Temp_TempList(r1, NULL),
-                            Temp_TempList(r1, Temp_TempList(r2, NULL)), NULL));
-                        return r1;
+                        emit(AS_Move("movq `s0, `d0", Temp_TempList(newTemp, NULL),
+                            Temp_TempList(r1, NULL)));
+                        emit(AS_Oper("addq `s1, `d0", Temp_TempList(newTemp, NULL),
+                            Temp_TempList(newTemp, Temp_TempList(r2, NULL)), NULL));
+                        return newTemp;
                     }
                 }
                 case T_minus: {
+                    Temp_temp newTemp = Temp_newtemp();
                     Temp_temp r1 = munchExp(e->u.BINOP.left),
                         r2 = munchExp(e->u.BINOP.right);
-                    sprintf(s, "subq `s1, `d0");
-                    emit(AS_Oper(s, Temp_TempList(r1, NULL),
-                        Temp_TempList(r1, Temp_TempList(r2, NULL)), NULL));
-                    return r1;
+                    emit(AS_Move("movq `s0, `d0", Temp_TempList(newTemp, NULL),
+                        Temp_TempList(r1, NULL)));
+                    emit(AS_Oper("subq `s1, `d0", Temp_TempList(newTemp, NULL),
+                        Temp_TempList(newTemp, Temp_TempList(r2, NULL)), NULL));
+                    return newTemp;
                 }
                 case T_mul: {
+                    Temp_temp newTemp = Temp_newtemp();
                     Temp_temp r1 = munchExp(e->u.BINOP.left),
                         r2 = munchExp(e->u.BINOP.right);
-                    sprintf(s, "imulq `s1, `d0");
-                    emit(AS_Oper(s, Temp_TempList(r1, NULL),
-                        Temp_TempList(r1, Temp_TempList(r2, NULL)), NULL));
-                    return r1;
+                    emit(AS_Move("movq `s0, `d0", Temp_TempList(newTemp, NULL),
+                        Temp_TempList(r1, NULL)));
+                    emit(AS_Oper("imulq `s1, `d0", Temp_TempList(newTemp, NULL),
+                        Temp_TempList(newTemp, Temp_TempList(r2, NULL)), NULL));
+                    return newTemp;
                 }
                 case T_div: {
                     Temp_temp rax = F_RV();
                     Temp_temp rdx = F_DX();
                     Temp_temp r1 = munchExp(e->u.BINOP.left),
                         r2 = munchExp(e->u.BINOP.right);
-                    emit(AS_Oper("movq `s0, `d0", Temp_TempList(rax, NULL),
-                        Temp_TempList(r1, NULL), NULL));
+                    emit(AS_Move("movq `s0, `d0", Temp_TempList(rax, NULL),
+                        Temp_TempList(r1, NULL)));
                     emit(AS_Oper("cqto", Temp_TempList(rax, Temp_TempList(rdx, NULL)),
                         NULL, NULL));
                     emit(AS_Oper("idivq `s0", Temp_TempList(rax, Temp_TempList(rdx, NULL)),
-                        Temp_TempList(r2, NULL), NULL));
+                        Temp_TempList(r2, Temp_TempList(rax, Temp_TempList(rdx, NULL))),
+                            NULL));
                     return rax;
                 }
             }
