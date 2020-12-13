@@ -286,11 +286,15 @@ void munchStm(T_stm s) {
                     sprintf(str, "callq %s",
                         Temp_labelstring(s->u.MOVE.src->u.CALL.fun->u.NAME));
                     emit(AS_Oper(str, F_calldefs(), l, NULL));
+                    emit(AS_Move("movq `s0, `d0", Temp_TempList(munchExp(s->u.MOVE.dst),
+                        NULL), Temp_TempList(F_RV(), NULL)));
                     return;
                 }
                 Temp_temp r = munchExp(s->u.MOVE.src->u.CALL.fun);
                 Temp_tempList l = munchArgs(0, s->u.MOVE.src->u.CALL.args);
                 emit(AS_Oper("callq `s0", F_calldefs(), Temp_TempList(r, l), NULL));
+                emit(AS_Move("movq `s0, `d0", Temp_TempList(munchExp(s->u.MOVE.dst),
+                        NULL), Temp_TempList(F_RV(), NULL)));
                 return;
             }
             else {
