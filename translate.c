@@ -200,7 +200,7 @@ Tr_exp Tr_simpleVar(Tr_access access, Tr_level level) {
 		texp = T_Mem(T_Binop(T_plus, T_Const(-8), T_Temp(F_FP())));
 		level = level->parent;
 		while(access->level != level) {
-			texp = T_Mem(T_Binop(T_plus, T_Const(16), texp));
+			texp = T_Mem(T_Binop(T_plus, T_Const(-8), texp));
 			level = level->parent;
 		}
 	}
@@ -242,7 +242,7 @@ Tr_exp Tr_stringExp(string str) {
 	ret->kind = Tr_ex;
 	ret->u.ex = exp;
 	int len = strlen(str);
-	string newStr = checked_malloc(sizeof(int) + len);
+	string newStr = checked_malloc(sizeof(int) + len + 1);
 	int *l = (int *)newStr;
 	*l = len;
 	strcpy((char *)(newStr + sizeof(int)), str);
