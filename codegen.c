@@ -163,7 +163,7 @@ Temp_temp munchExp(T_exp e) {
         }
         case T_NAME: {
             Temp_temp r = Temp_newtemp();
-            sprintf(s, "movq $%s, `d0", Temp_labelstring(e->u.NAME));
+            sprintf(s, "leaq %s(%rip), `d0", Temp_labelstring(e->u.NAME));
             emit(AS_Oper(s, Temp_TempList(r, NULL), NULL, NULL));
             return r;
         }
