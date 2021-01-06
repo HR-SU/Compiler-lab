@@ -88,7 +88,7 @@ void traverseExp(S_table env, int depth, A_exp e) {
 			S_beginScope(env);
 			for(A_decList decs = e->u.let.decs; decs; decs = decs->tail)
 				traverseDec(env, depth, decs->head);
-			traverseExp(env, depth+1, e->u.let.body);
+			traverseExp(env, depth, e->u.let.body);
 			S_endScope(env);
 			return;
 		}
